@@ -56,12 +56,8 @@
 
         <TextView
             android:id="@+id/category_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/category_background"
-            android:padding="8dp"
-            android:textColor="#e6ffffff"
-            tools:text="T"/>
+            tools:text="T"
+            style="@style/CategoryLabel"/>
 
         <LinearLayout
             android:layout_width="wrap_content"

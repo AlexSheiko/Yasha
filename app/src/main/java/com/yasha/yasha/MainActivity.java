@@ -1,16 +1,18 @@
 package com.yasha.yasha;
 
-import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 public class MainActivity extends AppCompatActivity {
 
     private static final String[] AUTHORS = new String[]{
-            "Marcelle", "Liman", "Katai", "Cambridge"
+            "Marcelle", "Sydney", "Katai", "Cambridge"
     };
 
     @Override
@@ -18,11 +20,20 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
                 R.layout.message_list_item, R.id.author_textview, AUTHORS);
 
         ListView messagesList = (ListView) findViewById(R.id.messages_list);
         messagesList.setAdapter(adapter);
+
+
+        View postButton = findViewById(R.id.post_button);
+        postButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, PostActivity.class));
+            }
+        });
     }
 
     @Override

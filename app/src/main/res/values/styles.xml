@@ -12,4 +12,17 @@
         <item name="windowActionBar">false</item>
     </style>
 
+    <style name="CategoryLabel">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@color/category_background</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:textColor">#e6ffffff</item>
+    </style>
+
+    <style name="CategoryToggle" parent="CategoryLabel">
+        <item name="android:background">@drawable/category_toggle</item>
+        <item name="android:layout_width">40dp</item>
+    </style>
+
 </resources>
