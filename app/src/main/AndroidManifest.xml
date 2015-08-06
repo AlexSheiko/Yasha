@@ -42,6 +42,22 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.yasha.yasha.MainActivity" />
         </activity>
+        <activity
+            android:name=".ProfileActivity"
+            android:label="@string/title_activity_profile"
+            android:parentActivityName=".MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.yasha.yasha.MainActivity" />
+        </activity>
+        <activity
+            android:name=".RegisterActivity"
+            android:label="@string/title_activity_register"
+            android:parentActivityName=".WelcomeActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.yasha.yasha.WelcomeActivity" />
+        </activity>
     </application>
 
 </manifest>

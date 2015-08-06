@@ -3,11 +3,22 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <string name="username">Email or Username</string>
+    <string name="username_email">Email or Username</string>
+    <string name="username">Username</string>
+    <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="login">Log In</string>
-    <string name="policy">By clicking “Register” you accept Yasha\'s terms of service and privacy policy</string>
+    <string name="policy_login">By clicking “Log In” you accept Yasha\'s terms of service and privacy policy</string>
+    <string name="policy_register">By clicking “Register” you accept Yasha\'s terms of service and privacy policy</string>
     <string name="title_activity_comment">My comment</string>
-    <string name="comment">Type a message...</string>
+    <string name="comment">Type a message…</string>
     <string name="title_activity_post">My post</string>
+    <string name="title_activity_profile">Profile</string>
+
+    <string name="title_section1">Posts</string>
+    <string name="title_section2">Feedback</string>
+    <string name="title_section3">Comments</string>
+
+    <string name="title_activity_register">New account</string>
+    <string name="register">Register</string>
 </resources>
