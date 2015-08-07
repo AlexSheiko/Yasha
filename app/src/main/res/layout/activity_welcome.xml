@@ -27,6 +27,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Register"
+        android:onClick="onClickRegister"
         android:textAllCaps="false"/>
 
     <TextView
@@ -39,6 +40,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Log In"
+        android:onClick="onClickLogin"
         android:textAllCaps="false"/>
 
     <TextView

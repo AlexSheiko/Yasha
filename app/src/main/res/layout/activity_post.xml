@@ -15,6 +15,7 @@
             android:textOn="F"
             android:textOff="F"
             android:checked="true"
+            android:contentDescription="@string/testimony"
             android:layout_marginLeft="8dp"
             style="@style/CategoryToggle"/>
 
@@ -22,17 +23,20 @@
             android:textOn="C"
             android:textOff="C"
             android:layout_marginLeft="8dp"
+            android:contentDescription="@string/forgiveness"
             style="@style/CategoryToggle"/>
 
         <ToggleButton
             android:textOn="W"
             android:textOff="W"
             android:layout_marginLeft="8dp"
+            android:contentDescription="@string/witness"
             style="@style/CategoryToggle"/>
 
         <ToggleButton
             android:textOn="T"
             android:textOff="T"
+            android:contentDescription="@string/confession"
             android:layout_marginLeft="8dp"
             style="@style/CategoryToggle"/>
 
