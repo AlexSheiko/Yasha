@@ -7,14 +7,16 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-public class MainActivity extends AppCompatActivity {
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 
-    private static final String[] AUTHORS = new String[]{
-            "Marcelle", "Sydney", "Katai", "Cambridge"
-    };
+import java.util.List;
+
+public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,11 +27,18 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
-                R.layout.message_list_item, R.id.author_textview, AUTHORS);
+        final PostAdapter adapter = new PostAdapter(this);
 
         ListView messagesList = (ListView) findViewById(R.id.messages_list);
         messagesList.setAdapter(adapter);
+
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Post");
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> posts, ParseException e) {
+                adapter.addAll(posts);
+            }
+        });
 
 
         View postButton = findViewById(R.id.post_button);

@@ -1,9 +1,15 @@
 package com.yasha.yasha;
 
-import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import com.parse.ParseException;
+import com.parse.ParseUser;
+import com.parse.SignUpCallback;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -13,25 +19,55 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_register, menu);
-        return true;
-    }
+    public void onClickRegister(View view) {
+        EditText usernameField = (EditText) findViewById(R.id.username_field);
+        EditText emailField = (EditText) findViewById(R.id.email_field);
+        EditText passwordField = (EditText) findViewById(R.id.password_field);
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+        String username = usernameField.getText().toString().trim();
+        String email = emailField.getText().toString().trim();
+        String password = passwordField.getText().toString().trim();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        boolean hasEmptyFields = false;
+
+        if (password.isEmpty()) {
+            passwordField.setError("Password cannot be empty");
+            passwordField.requestFocus();
+            hasEmptyFields = true;
         }
+        if (email.isEmpty()) {
+            emailField.setError("Email is required");
+            emailField.requestFocus();
+            hasEmptyFields = true;
+        }
+        if (username.isEmpty()) {
+            usernameField.setError("Username is required");
+            usernameField.requestFocus();
+            hasEmptyFields = true;
+        }
+        if (hasEmptyFields) return;
 
-        return super.onOptionsItemSelected(item);
+        ParseUser user = new ParseUser();
+
+        user.setUsername(usernameField.getText().toString());
+        user.setEmail(emailField.getText().toString());
+        user.setPassword(passwordField.getText().toString());
+
+        user.signUpInBackground(new SignUpCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e == null) {
+                    startActivity(new Intent(RegisterActivity.this, MainActivity.class));
+                } else {
+                    String errorMessage = e.getMessage();
+                    if (e.getMessage().contains(": ")) {
+                        errorMessage = errorMessage.split(": ")[1];
+                    } else if (e.getMessage().equals("i/o failure")) {
+                        errorMessage = "Network lost. Check your connection and try again";
+                    }
+                    Toast.makeText(RegisterActivity.this, errorMessage, Toast.LENGTH_LONG).show();
+                }
+            }
+        });
     }
 }

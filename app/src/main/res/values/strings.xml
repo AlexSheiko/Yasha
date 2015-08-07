@@ -13,7 +13,7 @@
     <string name="title_activity_comment">My comment</string>
     <string name="comment">Type a message…</string>
     <string name="title_activity_post">My post</string>
-    <string name="title_activity_profile">Profile</string>
+    <string name="title_activity_history">My history</string>
 
     <string name="title_section1">Posts</string>
     <string name="title_section2">Feedback</string>
@@ -27,4 +27,6 @@
     <string name="forgiveness">Category forgiveness</string>
     <string name="witness">Category witness</string>
     <string name="confession">Category confession</string>
+    <string name="post">Post</string>
+    <string name="share">Share</string>
 </resources>

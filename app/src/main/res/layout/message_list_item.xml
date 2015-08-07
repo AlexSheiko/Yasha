@@ -28,7 +28,7 @@
             android:paddingBottom="8dp"
             android:textColor="@android:color/primary_text_light"
             android:textSize="16sp"
-            tools:text="Marcelle"/>
+            android:text="Marcelle"/>
 
         <TextView
             android:id="@+id/message_textview"
@@ -43,7 +43,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/date_textview"
-            tools:text="Yesterday"
+            android:paddingBottom="8dp"
+            android:text="Yesterday"
             android:textColor="@android:color/secondary_text_light"/>
 
     </LinearLayout>
@@ -57,7 +58,7 @@
 
         <TextView
             android:id="@+id/category_label"
-            tools:text="T"
+            android:text="T"
             style="@style/CategoryLabel"/>
 
         <LinearLayout
@@ -68,7 +69,7 @@
             <Button
                 android:id="@+id/messages_counter"
                 style="@style/Widget.AppCompat.Button.Borderless"
-                android:layout_width="48dp"
+                android:layout_width="52dp"
                 android:layout_height="48dp"
                 android:drawablePadding="4dp"
                 android:drawableRight="@drawable/ic_message"
@@ -76,7 +77,7 @@
                 android:padding="8dp"
                 android:onClick="onClickComments"
                 android:textSize="24sp"
-                tools:text="1"/>
+                android:text="1"/>
 
             <ImageButton
                 android:id="@+id/button_more"

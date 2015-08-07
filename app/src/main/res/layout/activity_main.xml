@@ -32,7 +32,7 @@
         android:layout_below="@+id/toolbar"
         android:clipToPadding="false"
         android:paddingBottom="8dp"
-        android:paddingTop="8dp"
+        android:paddingTop="24dp"
         tools:listitem="@layout/message_list_item"/>
 
 </RelativeLayout>
