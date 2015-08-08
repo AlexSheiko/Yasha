@@ -17,9 +17,9 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:paddingTop="20dp"
+        android:orientation="vertical"
         android:paddingBottom="20dp"
-        android:orientation="vertical">
+        android:paddingTop="20dp">
 
         <TextView
             android:id="@+id/author_textview"
@@ -28,7 +28,7 @@
             android:paddingBottom="8dp"
             android:textColor="@android:color/primary_text_light"
             android:textSize="16sp"
-            android:text="Marcelle"/>
+            tools:text="Marcelle"/>
 
         <TextView
             android:id="@+id/message_textview"
@@ -40,11 +40,11 @@
             tools:text="Johnny, forgive me for my misbehaviour the other day. You are a dear friend that I would like to keep close."/>
 
         <TextView
+            android:id="@+id/date_textview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/date_textview"
             android:paddingBottom="8dp"
-            android:text="Yesterday"
+            tools:text="Yesterday"
             android:textColor="@android:color/secondary_text_light"/>
 
     </LinearLayout>
@@ -52,18 +52,18 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:paddingTop="20dp"
-        android:paddingBottom="16dp"
         android:gravity="right"
-        android:paddingLeft="16dp">
+        android:orientation="vertical"
+        android:paddingBottom="16dp"
+        android:paddingLeft="16dp"
+        android:paddingTop="20dp">
 
         <TextView
-            android:id="@+id/category_label"
+            android:id="@+id/category_textview"
+            style="@style/CategoryLabel"
             android:layout_marginRight="8dp"
-            android:text="T"
             android:background="@color/category_background_light"
-            style="@style/CategoryLabel"/>
+            tools:text="T"/>
 
         <Space
             android:layout_width="match_parent"
@@ -82,11 +82,11 @@
                 android:layout_height="48dp"
                 android:drawableRight="@drawable/ic_message"
                 android:gravity="center"
-                android:padding="8dp"
                 android:onClick="onClickComments"
+                android:padding="8dp"
+                android:text="1"
                 android:textColor="#90000000"
-                android:textSize="20sp"
-                android:text="1"/>
+                android:textSize="18sp"/>
 
             <ImageButton
                 android:id="@+id/button_more"
