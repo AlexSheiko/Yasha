@@ -29,7 +29,7 @@
         </activity>
         <activity
             android:name=".CommentActivity"
-            android:windowSoftInputMode="stateAlwaysVisible"
+            android:windowSoftInputMode="stateAlwaysVisible|adjustResize"
             android:label="@string/title_activity_comment"
             android:parentActivityName=".MainActivity" >
             <meta-data
@@ -39,7 +39,7 @@
         <activity
             android:name=".PostActivity"
             android:label="@string/title_activity_post"
-            android:windowSoftInputMode="stateAlwaysVisible"
+            android:windowSoftInputMode="stateAlwaysVisible|adjustResize"
             android:parentActivityName=".MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

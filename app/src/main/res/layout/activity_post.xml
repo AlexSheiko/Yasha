@@ -70,11 +70,11 @@
         <EditText
             android:id="@+id/message_field"
             android:inputType="textCapSentences|textMultiLine"
-            android:imeOptions="actionDone"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:paddingTop="16dp"
             android:paddingBottom="20dp"
+            android:paddingRight="8dp"
             android:layout_weight="1"
             android:hint="@string/comment"/>
 

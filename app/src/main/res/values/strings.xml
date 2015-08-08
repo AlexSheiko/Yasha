@@ -27,6 +27,6 @@
     <string name="forgiveness">Category forgiveness</string>
     <string name="witness">Category witness</string>
     <string name="confession">Category confession</string>
+    <string name="send">Send</string>
     <string name="post">Post</string>
-    <string name="share">Share</string>
 </resources>
