@@ -48,10 +48,10 @@
         <activity
             android:name=".HistoryActivity"
             android:label="@string/title_activity_history"
-            android:parentActivityName=".MainActivity" >
+            android:parentActivityName=".PostActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.yasha.yasha.MainActivity" />
+                android:value="com.yasha.yasha.PostActivity" />
         </activity>
         <activity
             android:name=".RegisterActivity"
