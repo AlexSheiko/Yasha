@@ -36,7 +36,9 @@ public class MainActivity extends AppCompatActivity {
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> posts, ParseException e) {
-                adapter.addAll(posts);
+                if (e == null) {
+                    adapter.addAll(posts);
+                }
             }
         });
 

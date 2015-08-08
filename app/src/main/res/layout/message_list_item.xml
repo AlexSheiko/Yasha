@@ -53,13 +53,22 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        android:paddingTop="20dp"
+        android:paddingBottom="16dp"
         android:gravity="right"
         android:paddingLeft="16dp">
 
         <TextView
             android:id="@+id/category_label"
+            android:layout_marginRight="8dp"
             android:text="T"
+            android:background="@color/category_background_light"
             style="@style/CategoryLabel"/>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -71,17 +80,17 @@
                 style="@style/Widget.AppCompat.Button.Borderless"
                 android:layout_width="52dp"
                 android:layout_height="48dp"
-                android:drawablePadding="4dp"
                 android:drawableRight="@drawable/ic_message"
                 android:gravity="center"
                 android:padding="8dp"
                 android:onClick="onClickComments"
-                android:textSize="24sp"
+                android:textColor="#90000000"
+                android:textSize="20sp"
                 android:text="1"/>
 
             <ImageButton
                 android:id="@+id/button_more"
-                android:layout_width="48dp"
+                android:layout_width="32dp"
                 android:layout_height="48dp"
                 android:background="@null"
                 android:src="@drawable/ic_more"/>
