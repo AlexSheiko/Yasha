@@ -1,91 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.yasha.yasha" >
+<manifest package="com.yasha.yasha"
+          xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
 
     <application
+        android:name=".YashaApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme"
-        android:name=".YashaApplication">
+        android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar" >
+            android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
             android:name=".WelcomeActivity"
-            android:theme="@style/AppTheme.NoActionBar" >
+            android:theme="@style/AppTheme.NoActionBar.Dark">
         </activity>
         <activity
             android:name=".LoginActivity"
             android:label="@string/login"
-            android:parentActivityName=".WelcomeActivity" >
+            android:parentActivityName=".WelcomeActivity"
+            android:theme="@style/AppTheme.LightActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.yasha.yasha.WelcomeActivity" />
+                android:value="com.yasha.yasha.WelcomeActivity"/>
         </activity>
         <activity
             android:name=".CommentActivity"
-            android:windowSoftInputMode="stateAlwaysVisible|adjustResize"
             android:label="@string/title_activity_comment"
-            android:parentActivityName=".MainActivity" >
+            android:parentActivityName=".MainActivity"
+            android:windowSoftInputMode="stateAlwaysVisible|adjustResize">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.yasha.yasha.MainActivity" />
+                android:value="com.yasha.yasha.MainActivity"/>
         </activity>
         <activity
             android:name=".PostActivity"
             android:label="@string/title_activity_post"
-            android:windowSoftInputMode="stateAlwaysVisible|adjustResize"
-            android:parentActivityName=".MainActivity" >
+            android:parentActivityName=".MainActivity"
+            android:windowSoftInputMode="stateAlwaysVisible|adjustResize">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.yasha.yasha.MainActivity" />
+                android:value="com.yasha.yasha.MainActivity"/>
         </activity>
         <activity
             android:name=".HistoryActivity"
             android:label="@string/title_activity_history"
-            android:parentActivityName=".PostActivity" >
+            android:parentActivityName=".PostActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.yasha.yasha.PostActivity" />
+                android:value="com.yasha.yasha.PostActivity"/>
         </activity>
         <activity
             android:name=".RegisterActivity"
             android:label="@string/title_activity_register"
-            android:parentActivityName=".WelcomeActivity" >
+            android:parentActivityName=".WelcomeActivity"
+            android:theme="@style/AppTheme.LightActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.yasha.yasha.WelcomeActivity" />
+                android:value="com.yasha.yasha.WelcomeActivity"/>
         </activity>
         <activity
             android:name=".SearchActivity"
             android:label="@string/title_activity_search"
-            android:parentActivityName=".MainActivity" >
+            android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.yasha.yasha.MainActivity" />
+                android:value="com.yasha.yasha.MainActivity"/>
         </activity>
         <activity
             android:name=".SettingsActivity"
             android:label="@string/title_activity_settings"
-            android:parentActivityName=".MainActivity" >
+            android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.yasha.yasha.MainActivity" />
+                android:value="com.yasha.yasha.MainActivity"/>
         </activity>
         <activity
             android:name=".DispatchActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:noHistory="true">
+            android:noHistory="true"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter android:label="@string/app_name">
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
 

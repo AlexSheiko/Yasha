@@ -95,8 +95,4 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
-    public void onClickComments(View view) {
-        startActivity(new Intent(this, CommentActivity.class));
-    }
 }

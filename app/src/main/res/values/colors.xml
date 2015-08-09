@@ -5,4 +5,5 @@
     <color name="accent">#B2E422</color>
     <color name="category_background">#b4500095</color>
     <color name="category_background_light">#50500095</color>
+    <color name="window_background">#FAFAFA</color>
 </resources>

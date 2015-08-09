@@ -4,8 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -18,6 +20,29 @@ public class PostActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post);
+
+        final ToggleButton toggleF = (ToggleButton) findViewById(R.id.toggle_forgiveness);
+        final ToggleButton toggleC = (ToggleButton) findViewById(R.id.toggle_confession);
+        final ToggleButton toggleW = (ToggleButton) findViewById(R.id.toggle_witness);
+        final ToggleButton toggleT = (ToggleButton) findViewById(R.id.toggle_testimony);
+
+        CompoundButton.OnCheckedChangeListener categoryListener =
+                new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton toggleView, boolean isChecked) {
+                toggleF.setChecked(false);
+                toggleC.setChecked(false);
+                toggleW.setChecked(false);
+                toggleT.setChecked(false);
+
+                toggleView.setChecked(true);
+            }
+        };
+
+        toggleF.setOnCheckedChangeListener(categoryListener);
+        toggleC.setOnCheckedChangeListener(categoryListener);
+        toggleW.setOnCheckedChangeListener(categoryListener);
+        toggleT.setOnCheckedChangeListener(categoryListener);
     }
 
     public void onClickHistory(View view) {

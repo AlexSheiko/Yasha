@@ -1,6 +1,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
+              style="@style/Container"
               android:layout_height="match_parent"
               android:orientation="vertical"
               android:paddingBottom="@dimen/activity_vertical_margin"
@@ -56,8 +56,12 @@
 
     <Button
         android:layout_width="match_parent"
-        android:layout_height="56dp"
+        android:layout_height="48dp"
         android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="#1C6CCB"
+        android:textSize="16sp"
+        android:textColor="@android:color/primary_text_dark"
         android:onClick="onClickRegister"
         android:text="@string/register"
         android:textAllCaps="false"/>
@@ -65,7 +69,8 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:lineSpacingMultiplier="1.1"
+        android:layout_marginTop="12dp"
         android:gravity="center_horizontal"
         android:text="@string/policy_register"/>
 

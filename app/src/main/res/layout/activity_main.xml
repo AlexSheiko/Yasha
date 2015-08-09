@@ -11,25 +11,26 @@
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
-        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/post_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/toolbar"
-        android:layout_marginBottom="-18dp"
         android:layout_centerHorizontal="true"
+        android:layout_marginBottom="-18dp"
         android:src="@drawable/ic_menu_create"
         app:elevation="6dp"
         app:fabSize="mini"/>
 
     <ListView
         android:id="@+id/messages_list"
-        android:layout_width="match_parent"
+        style="@style/Container"
         android:layout_height="match_parent"
         android:layout_below="@+id/toolbar"
+        android:layout_centerHorizontal="true"
         android:clipToPadding="false"
         android:paddingBottom="8dp"
         android:paddingTop="24dp"

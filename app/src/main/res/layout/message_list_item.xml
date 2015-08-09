@@ -61,9 +61,11 @@
         <TextView
             android:id="@+id/category_textview"
             style="@style/CategoryLabel"
+            android:layout_width="28dp"
             android:layout_marginRight="8dp"
+            android:gravity="center"
             android:background="@color/category_background_light"
-            tools:text="T"/>
+            tools:text="W"/>
 
         <Space
             android:layout_width="match_parent"
@@ -82,7 +84,6 @@
                 android:layout_height="48dp"
                 android:drawableRight="@drawable/ic_message"
                 android:gravity="center"
-                android:onClick="onClickComments"
                 android:padding="8dp"
                 android:text="1"
                 android:textColor="#90000000"

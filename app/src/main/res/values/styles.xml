@@ -9,9 +9,22 @@
         <item name="android:windowBackground">@color/window_background</item>
     </style>
 
+    <style name="AppTheme.LightActionBar" parent="Theme.AppCompat.Light">
+        <item name="colorAccent">@color/accent</item>
+        <item name="android:windowBackground">@color/window_background_gray</item>
+        <item name="android:statusBarColor">#1E1E1E</item>
+        <item name="colorPrimary">#FFFFFF</item>
+    </style>
+
     <style name="AppTheme.NoActionBar" parent="AppTheme">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar.Dark" parent="Theme.AppCompat">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowBackground">@color/window_background_dark</item>
     </style>
 
     <style name="CategoryLabel">
@@ -27,5 +40,10 @@
         <item name="android:layout_width">40dp</item>
     </style>
 
-    <color name="window_background">#FAFAFA</color>
+    <style name="Container">
+        <item name="android:layout_width">match_parent</item>
+    </style>
+
+    <color name="window_background_dark">#0C1417</color>
+    <color name="window_background_gray">#EDEDED</color>
 </resources>
