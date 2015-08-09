@@ -13,6 +13,7 @@ import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 import com.yasha.yasha.adapter.PostAdapter;
 
 import java.util.List;
@@ -52,6 +53,16 @@ public class MainActivity extends AppCompatActivity {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Post");
         query.orderByDescending("createdAt");
         query.include("author");
+
+        try {
+            ParseUser user = ParseUser.getCurrentUser();
+            user.fetch();
+            query.whereEqualTo("city", user.getString("city"));
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return;
+        }
+
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> posts, ParseException e) {
