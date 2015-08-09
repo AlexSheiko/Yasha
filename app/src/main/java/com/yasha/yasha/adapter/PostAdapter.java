@@ -1,4 +1,4 @@
-package com.yasha.yasha.adapters;
+package com.yasha.yasha.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -7,8 +7,10 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.parse.CountCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.yasha.yasha.R;
 
@@ -27,37 +29,36 @@ public class PostAdapter extends ArrayAdapter<ParseObject> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        View rootView;
 
-        if (convertView != null) {
-            rootView = convertView;
-        } else {
-            rootView = LayoutInflater.from(getContext())
+        if (convertView == null) {
+            convertView = LayoutInflater.from(getContext())
                     .inflate(R.layout.message_list_item, parent, false);
         }
 
-        TextView authorView = (TextView) rootView.findViewById(R.id.author_textview);
-        TextView messageView = (TextView) rootView.findViewById(R.id.message_textview);
-        TextView dateView = (TextView) rootView.findViewById(R.id.date_textview);
-        TextView categoryView = (TextView) rootView.findViewById(R.id.category_textview);
+        final TextView authorView = (TextView) convertView.findViewById(R.id.author_textview);
+        final TextView messageView = (TextView) convertView.findViewById(R.id.message_textview);
+        final TextView dateView = (TextView) convertView.findViewById(R.id.date_textview);
+        final TextView categoryView = (TextView) convertView.findViewById(R.id.category_textview);
+        final TextView counterView = (TextView) convertView.findViewById(R.id.messages_counter);
 
         ParseObject post = getItem(position);
         messageView.setText(post.getString("message"));
         dateView.setText(formatDate(post.getCreatedAt()));
         categoryView.setText(post.getString("category"));
 
-        ParseUser author;
-        try {
-            author = post.getParseUser("author").fetchIfNeeded();
-            authorView.setText(author.getUsername());
+        ParseUser author = post.getParseUser("author");
+        authorView.setText(author.getUsername());
 
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Comment");
+        query.whereEqualTo("post", post);
+        query.countInBackground(new CountCallback() {
+            @Override
+            public void done(int count, ParseException e) {
+                counterView.setText(String.valueOf(count));
+            }
+        });
 
-
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        return rootView;
+        return convertView;
     }
 
     private String formatDate(Date date) {

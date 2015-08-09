@@ -22,6 +22,7 @@ android {
 dependencies {
     compile 'com.android.support:appcompat-v7:22.2.1'
     compile 'com.android.support:design:22.2.1'
-    compile 'com.parse.bolts:bolts-android:1.+'
+    compile 'com.parse.bolts:bolts-android:1.2.0'
     compile files('libs/Parse-1.9.4.jar')
+    compile 'com.google.android.gms:play-services-location:6.5.87'
 }

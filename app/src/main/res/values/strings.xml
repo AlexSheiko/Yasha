@@ -29,4 +29,8 @@
     <string name="confession">Category confession</string>
     <string name="send">Send</string>
     <string name="post">Post</string>
+    <string name="no_geocoder_available">Geocoder service not available</string>
+    <string name="invalid_lat_long_used">Invalid lat long used</string>
+    <string name="no_address_found">No address found</string>
+    <string name="address_found">Address found</string>
 </resources>

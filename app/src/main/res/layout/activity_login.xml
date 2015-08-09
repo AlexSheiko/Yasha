@@ -13,6 +13,8 @@
         android:id="@+id/username_field"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingTop="16dp"
+        android:paddingBottom="20dp"
         android:imeOptions="actionNext"
         android:hint="@string/username_email"/>
 
@@ -20,6 +22,8 @@
         android:id="@+id/password_field"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingTop="16dp"
+        android:paddingBottom="20dp"
         android:imeOptions="actionGo"
         android:hint="@string/password"
         android:inputType="textPassword"/>
@@ -42,7 +46,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="@string/policy_register"
+        android:text="@string/policy_login"
         android:gravity="center_horizontal"/>
 
 </LinearLayout>
