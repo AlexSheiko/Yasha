@@ -13,40 +13,47 @@
         android:id="@+id/username_field"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="16dp"
-        android:paddingBottom="20dp"
-        android:imeOptions="actionNext"
-        android:hint="@string/username_email"/>
+        android:layout_marginBottom="8dp"
+        android:hint="@string/username_email"
+        android:paddingBottom="16dp"
+        android:layout_marginTop="16dp"
+        android:inputType="textEmailAddress"
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp"
+        android:paddingTop="16dp"/>
 
     <EditText
         android:id="@+id/password_field"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="16dp"
-        android:paddingBottom="20dp"
-        android:imeOptions="actionGo"
+        android:layout_marginBottom="8dp"
         android:hint="@string/password"
-        android:inputType="textPassword"/>
+        android:imeOptions="actionGo"
+        android:inputType="textPassword"
+        android:paddingBottom="16dp"
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp"
+        android:paddingTop="16dp"/>
 
     <Button
+        style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Forgot password?"
-        android:textAllCaps="false"
-        style="@style/Widget.AppCompat.Button.Borderless"/>
+        android:textAllCaps="false"/>
 
     <Button
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/login"
+        android:layout_height="56dp"
         android:onClick="onClickLogin"
+        android:text="@string/login"
         android:textAllCaps="false"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="@string/policy_login"
-        android:gravity="center_horizontal"/>
+        android:gravity="center_horizontal"
+        android:text="@string/policy_login"/>
 
 </LinearLayout>

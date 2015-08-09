@@ -28,18 +28,26 @@ public class PostActivity extends AppCompatActivity {
         EditText messageField = (EditText) findViewById(R.id.message_field);
         String message = messageField.getText().toString().trim();
 
-        message = "Johnny, forgive me for my misbehaviour the other day. You are a dear friend that I would like to keep close.";
-
         if (message.isEmpty()) {
             messageField.setError("Enter your message");
             return;
         }
 
+        ParseUser user = ParseUser.getCurrentUser();
         ParseObject post = new ParseObject("Post");
+
         post.put("category", "T");
-        post.put("author", ParseUser.getCurrentUser());
+        post.put("author", user);
         post.put("message", message);
-        post.put("city", "New York");
+
+        try {
+            user.fetch();
+            post.put("city", user.getString("city"));
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return;
+        }
+
         post.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {

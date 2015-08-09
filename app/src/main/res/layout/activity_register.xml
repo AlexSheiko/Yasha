@@ -13,32 +13,51 @@
         android:id="@+id/image_picker"
         android:layout_width="104dp"
         android:layout_height="104dp"
-        android:background="@android:color/darker_gray"/>
+        android:scaleType="centerCrop"
+        android:src="@drawable/avatar_placeholder"/>
 
     <EditText
         android:id="@+id/username_field"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="textCapWords"
-        android:hint="@string/username"/>
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="16dp"
+        android:hint="@string/username"
+        android:inputType="textPersonName|textCapWords"
+        android:paddingBottom="16dp"
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp"
+        android:paddingTop="16dp"/>
 
     <EditText
         android:id="@+id/email_field"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         android:hint="@string/email"
-        android:inputType="textEmailAddress"/>
+        android:inputType="textEmailAddress"
+        android:paddingBottom="16dp"
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp"
+        android:paddingTop="16dp"/>
 
     <EditText
         android:id="@+id/password_field"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         android:hint="@string/password"
-        android:inputType="textPassword"/>
+        android:inputType="textPassword"
+        android:imeOptions="actionGo"
+        android:paddingBottom="16dp"
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp"
+        android:paddingTop="16dp"/>
 
     <Button
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="56dp"
+        android:layout_marginTop="8dp"
         android:onClick="onClickRegister"
         android:text="@string/register"
         android:textAllCaps="false"/>

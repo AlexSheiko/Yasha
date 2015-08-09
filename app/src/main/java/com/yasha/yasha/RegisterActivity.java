@@ -32,7 +32,6 @@ public class RegisterActivity extends AppCompatActivity
         implements ConnectionCallbacks, OnConnectionFailedListener {
 
     private GoogleApiClient mGoogleApiClient;
-    private String mLocationCity;
     private AddressResultReceiver mResultReceiver;
 
     private boolean mResolvingError = false;
@@ -59,17 +58,9 @@ public class RegisterActivity extends AppCompatActivity
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-        if (!mResolvingError) {
-            mGoogleApiClient.connect();
-        }
-    }
-
-    @Override
-    protected void onStop() {
+    protected void onDestroy() {
         mGoogleApiClient.disconnect();
-        super.onStop();
+        super.onDestroy();
     }
 
     public void onClickRegister(View view) {
@@ -106,17 +97,12 @@ public class RegisterActivity extends AppCompatActivity
         user.setEmail(emailField.getText().toString());
         user.setPassword(passwordField.getText().toString());
 
-        if (!mLocationCity.isEmpty()) {
-            user.put("city", mLocationCity);
-        }
-
         user.signUpInBackground(new SignUpCallback() {
             @Override
             public void done(ParseException e) {
                 if (e == null) {
                     // connect to location services and get user location
                     mGoogleApiClient.connect();
-                    // startActivity(new Intent(RegisterActivity.this, MainActivity.class));
                 } else {
                     String errorMessage = e.getMessage();
                     if (e.getMessage().contains(": ")) {
@@ -134,18 +120,17 @@ public class RegisterActivity extends AppCompatActivity
     public void onConnected(Bundle bundle) {
         Location lastLocation = LocationServices.FusedLocationApi.getLastLocation(
                 mGoogleApiClient);
-        // todo remove below line
-//        lastLocation = new Location();
         if (lastLocation != null) {
             // Determine whether a Geocoder is available.
             if (!Geocoder.isPresent()) {
                 Toast.makeText(this, R.string.no_geocoder_available,
-                    Toast.LENGTH_LONG).show();
+                        Toast.LENGTH_LONG).show();
                 return;
             }
 
             startIntentService(lastLocation);
         } else {
+            // TODO: Request location updates
             Log.w(TAG, "Last location is null");
         }
     }
@@ -249,13 +234,13 @@ public class RegisterActivity extends AppCompatActivity
             String addressOutput = resultData.getString(Constants.RESULT_DATA_KEY);
 
             if (resultCode == Constants.SUCCESS_RESULT) {
-                mLocationCity = addressOutput;
-                Log.d(TAG, "Geocoded address: " + mLocationCity);
-                /*
+                Log.d(TAG, "Geocoded address: " + addressOutput);
+
                 ParseUser user = ParseUser.getCurrentUser();
-                user.put("city", mLocationCity);
+                user.put("city", addressOutput);
                 user.saveEventually();
-                */
+
+                startActivity(new Intent(RegisterActivity.this, MainActivity.class));
             }
         }
     }

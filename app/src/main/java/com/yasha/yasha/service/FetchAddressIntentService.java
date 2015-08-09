@@ -72,14 +72,21 @@ public class FetchAddressIntentService extends IntentService {
             Address address = addresses.get(0);
             ArrayList<String> addressFragments = new ArrayList<>();
 
-            // Fetch the address lines using getAddressLine,
+            String city = address.getAddressLine(1);
+            String country = address.getAddressLine(3);
+
+            // Fetch city and country lines using getAddressLine,
             // join them, and send them to the thread.
-            for (int i = 0; i < address.getMaxAddressLineIndex(); i++) {
-                addressFragments.add(address.getAddressLine(i));
+            if (city != null) {
+                addressFragments.add(city);
+            }
+            if (country != null) {
+                addressFragments.add(country);
             }
             Log.i(TAG, getString(R.string.address_found));
+
             deliverResultToReceiver(Constants.SUCCESS_RESULT,
-                    TextUtils.join(System.getProperty("line.separator"),
+                    TextUtils.join(", ",
                             addressFragments));
         }
     }

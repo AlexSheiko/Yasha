@@ -21,11 +21,12 @@
         style="@style/TextAppearance.AppCompat.Subhead"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingLeft="4dp"
         android:text="New user?"/>
 
     <Button
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="56dp"
         android:text="Register"
         android:onClick="onClickRegister"
         android:textAllCaps="false"/>
@@ -34,11 +35,13 @@
         style="@style/TextAppearance.AppCompat.Subhead"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:paddingLeft="4dp"
         android:text="Already have an account?"/>
 
     <Button
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="56dp"
         android:text="Log In"
         android:onClick="onClickLogin"
         android:textAllCaps="false"/>

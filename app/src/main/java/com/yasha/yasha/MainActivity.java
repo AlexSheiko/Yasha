@@ -19,6 +19,8 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+    private PostAdapter mPostAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,10 +30,24 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
 
-        final PostAdapter adapter = new PostAdapter(this);
+        mPostAdapter = new PostAdapter(this);
 
         ListView messagesList = (ListView) findViewById(R.id.messages_list);
-        messagesList.setAdapter(adapter);
+        messagesList.setAdapter(mPostAdapter);
+
+
+        View postButton = findViewById(R.id.post_button);
+        postButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, PostActivity.class));
+            }
+        });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
 
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Post");
         query.orderByDescending("createdAt");
@@ -40,17 +56,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void done(List<ParseObject> posts, ParseException e) {
                 if (e == null) {
-                    adapter.addAll(posts);
+                    mPostAdapter.addAll(posts);
                 }
-            }
-        });
-
-
-        View postButton = findViewById(R.id.post_button);
-        postButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, PostActivity.class));
             }
         });
     }
