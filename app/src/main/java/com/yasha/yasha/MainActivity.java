@@ -53,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Post");
         query.orderByDescending("createdAt");
         query.include("author");
+        query.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
 
         try {
             ParseUser user = ParseUser.getCurrentUser();
@@ -67,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void done(List<ParseObject> posts, ParseException e) {
                 if (e == null) {
+                    mPostAdapter.clear();
                     mPostAdapter.addAll(posts);
                 }
             }
