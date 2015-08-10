@@ -2,11 +2,16 @@ package com.yasha.yasha;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -18,6 +23,9 @@ import com.parse.GetDataCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
+
+import java.io.ByteArrayOutputStream;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -92,5 +100,75 @@ public class SettingsActivity extends AppCompatActivity {
         } else {
             Toast.makeText(this, "Install gallery app to choose an image", Toast.LENGTH_LONG).show();
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        ImageButton avatarButton = (ImageButton) findViewById(R.id.avatar_picker);
+
+        Bitmap bitmap = null;
+        Drawable drawable;
+
+        if (resultCode == RESULT_OK) {
+            if (requestCode == REQUEST_IMAGE_CAPTURE) {
+                Bundle extras = data.getExtras();
+                bitmap = (Bitmap) extras.get("data");
+
+                drawable = new BitmapDrawable(getResources(), bitmap);
+                avatarButton.setBackground(drawable);
+
+            } else if (requestCode == REQUEST_FROM_GALLERY) {
+                Uri imageUri = data.getData();
+                String imagePath = getPath(imageUri);
+                drawable = Drawable.createFromPath(imagePath);
+
+                bitmap = ((BitmapDrawable) drawable).getBitmap();
+            }
+
+            RoundedBitmapDrawable roundedDrawable =
+                    RoundedBitmapDrawableFactory.create(getResources(), bitmap);
+            roundedDrawable.setCornerRadius(50.0f);
+            roundedDrawable.setAntiAlias(true);
+
+            avatarButton.setBackground(roundedDrawable);
+            avatarButton.setImageBitmap(null);
+
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            byte[] bitmapdata = stream.toByteArray();
+
+            final ParseFile avatarFile = new ParseFile(bitmapdata, "image/png");
+            avatarFile.saveInBackground(new SaveCallback() {
+                @Override
+                public void done(ParseException e) {
+                    if (e == null) {
+                        ParseUser user = ParseUser.getCurrentUser();
+                        user.put("avatar", avatarFile);
+                        user.saveInBackground();
+                    }
+                }
+            });
+        }
+    }
+
+    public String getPath(Uri uri) {
+        // just some safety built in
+        if (uri == null) {
+            return null;
+        }
+        // try to retrieve the image from the media store first
+        // this will only work for images selected from gallery
+        String[] projection = {MediaStore.Images.Media.DATA};
+        Cursor cursor = managedQuery(uri, projection, null, null, null);
+        if (cursor != null) {
+            int column_index = cursor
+                    .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            cursor.moveToFirst();
+            return cursor.getString(column_index);
+        }
+        // this is our fallback here
+        return uri.getPath();
     }
 }

@@ -317,7 +317,7 @@ public class RegisterActivity extends AppCompatActivity
         ImageButton avatarButton = (ImageButton) findViewById(R.id.avatar_picker);
 
         Bitmap bitmap = null;
-        Drawable drawable = null;
+        Drawable drawable;
         if (resultCode == RESULT_OK) {
             if (requestCode == REQUEST_IMAGE_CAPTURE) {
                 Bundle extras = data.getExtras();
@@ -347,6 +347,7 @@ public class RegisterActivity extends AppCompatActivity
             byte[] bitmapdata = stream.toByteArray();
 
             mAvatarFile = new ParseFile(bitmapdata, "image/png");
+            mAvatarFile.saveInBackground();
         }
     }
 
