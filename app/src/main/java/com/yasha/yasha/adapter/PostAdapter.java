@@ -39,7 +39,7 @@ public class PostAdapter extends ArrayAdapter<ParseObject> {
 
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext())
-                    .inflate(R.layout.message_list_item, parent, false);
+                    .inflate(R.layout.post_list_item, parent, false);
         }
 
         final TextView authorView = (TextView) convertView.findViewById(R.id.author_textview);

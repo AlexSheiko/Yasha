@@ -41,10 +41,13 @@ public class SearchActivity extends AppCompatActivity {
     private void searchUsers(String username) {
         ParseQuery<ParseUser> query = ParseUser.getQuery();
         query.whereContains("username", username);
+        query.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
         query.findInBackground(new FindCallback<ParseUser>() {
             @Override
             public void done(List<ParseUser> users, ParseException e) {
-                mUserAdapter.addAll(users);
+                if (users != null) {
+                    mUserAdapter.addAll(users);
+                }
             }
         });
     }

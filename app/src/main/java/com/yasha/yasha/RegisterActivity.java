@@ -144,8 +144,8 @@ public class RegisterActivity extends AppCompatActivity
         if (lastLocation != null) {
             // Determine whether a Geocoder is available.
             if (!Geocoder.isPresent()) {
-                Toast.makeText(this, R.string.no_geocoder_available,
-                        Toast.LENGTH_LONG).show();
+                Log.w(TAG, getString(R.string.no_geocoder_available));
+                startActivity(new Intent(RegisterActivity.this, MainActivity.class));
                 return;
             }
 

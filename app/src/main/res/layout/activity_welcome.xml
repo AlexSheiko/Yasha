@@ -1,7 +1,7 @@
 <LinearLayout
-    style="@style/Container"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    style="@style/Container"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:paddingBottom="@dimen/activity_vertical_margin"
@@ -24,7 +24,7 @@
             android:paddingTop="64dp"
             android:text="yas"
             android:textColor="#A944A3"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
 
         <TextView
             style="@style/TextAppearance.AppCompat.Display3"
@@ -35,7 +35,7 @@
             android:paddingTop="64dp"
             android:text="ha "
             android:textColor="#B3E422"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
 
     </LinearLayout>
 
@@ -44,7 +44,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="4dp"
-        android:text="New user?"/>
+        android:text="New user?" />
 
     <Button
         android:layout_width="match_parent"
@@ -56,7 +56,7 @@
         android:text="Register"
         android:textAllCaps="false"
         android:textColor="@android:color/white"
-        android:textSize="16sp"/>
+        android:textSize="16sp" />
 
     <TextView
         style="@style/TextAppearance.AppCompat.Subhead"
@@ -64,7 +64,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:paddingLeft="4dp"
-        android:text="Already have an account?"/>
+        android:text="Already have an account?" />
 
     <Button
         android:layout_width="match_parent"
@@ -76,13 +76,26 @@
         android:text="Log In"
         android:textAllCaps="false"
         android:textColor="@android:color/primary_text_light"
-        android:textSize="16sp"/>
+        android:textSize="16sp" />
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="bottom|center_horizontal"
-        android:text="You shall neven walk alone again"
-        android:textColor="#A944A3"/>
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="You shall never "
+            android:textColor="#A944A3" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="walk alone again"
+            android:textColor="#B3E422" />
+
+    </LinearLayout>
 
 </LinearLayout>

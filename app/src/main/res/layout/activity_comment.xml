@@ -1,17 +1,28 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-              style="@style/Container"
-                android:layout_height="match_parent"
-              android:orientation="vertical"
-                tools:context=".CommentActivity">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/Container"
+    android:layout_height="match_parent"
+    tools:context=".CommentActivity">
 
-    <include layout="@layout/message_list_item"/>
+    <include
+        android:id="@+id/cite"
+        layout="@layout/post_list_item" />
+
+    <ListView
+        android:id="@+id/comment_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/cite"
+        android:layout_above="@+id/field_container"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        tools:listitem="@layout/comment_list_item" />
 
     <LinearLayout
+        android:id="@+id/field_container"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:gravity="bottom"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:orientation="horizontal"
         android:padding="8dp">
 
@@ -19,24 +30,24 @@
             android:id="@+id/message_field"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:inputType="textCapSentences|textMultiLine"
+            android:layout_weight="1"
+            android:hint="@string/comment"
             android:imeOptions="actionSend"
-            android:paddingTop="16dp"
+            android:inputType="textCapSentences|textMultiLine"
             android:paddingBottom="20dp"
             android:paddingRight="8dp"
-            android:scrollHorizontally="false"
-            android:layout_weight="1"
-            android:hint="@string/comment"/>
+            android:paddingTop="16dp"
+            android:scrollHorizontally="false" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/category_background"
-            android:text="@string/send"
             android:onClick="onClickSend"
+            android:text="@string/send"
             android:textAllCaps="false"
-            android:textColor="#e6ffffff"/>
+            android:textColor="#e6ffffff" />
 
     </LinearLayout>
 
-</LinearLayout>
+</RelativeLayout>
