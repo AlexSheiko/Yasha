@@ -314,7 +314,7 @@ public class RegisterActivity extends AppCompatActivity
             }
         }
 
-        ImageButton avatarButton = (ImageButton) findViewById(R.id.image_picker);
+        ImageButton avatarButton = (ImageButton) findViewById(R.id.avatar_picker);
 
         Bitmap bitmap = null;
         Drawable drawable = null;

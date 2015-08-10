@@ -10,7 +10,7 @@
               tools:context=".RegisterActivity">
 
     <ImageButton
-        android:id="@+id/image_picker"
+        android:id="@+id/avatar_picker"
         android:layout_width="104dp"
         android:layout_height="104dp"
         android:scaleType="centerCrop"
