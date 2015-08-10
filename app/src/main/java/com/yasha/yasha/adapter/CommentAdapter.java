@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseImageView;
 import com.parse.ParseObject;
@@ -35,6 +36,11 @@ public class CommentAdapter extends ArrayAdapter<ParseObject> {
         messageView.setText(post.getString("message"));
 
         final ParseUser author = post.getParseUser("author");
+        try {
+            author.fetchIfNeeded();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         nameView.setText(author.getUsername());
 
         ParseFile avatarFile = author.getParseFile("avatar");

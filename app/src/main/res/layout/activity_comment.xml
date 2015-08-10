@@ -14,8 +14,6 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:layout_below="@+id/cite"
-        android:layout_above="@+id/field_container"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         tools:listitem="@layout/comment_list_item" />

@@ -8,10 +8,14 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.PopupMenu;
+import android.view.MenuItem;
+import android.widget.Toast;
 
 import java.util.Locale;
 
-public class HistoryActivity extends AppCompatActivity implements ActionBar.TabListener {
+public class HistoryActivity extends AppCompatActivity
+        implements ActionBar.TabListener, PopupMenu.OnMenuItemClickListener {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -128,4 +132,18 @@ public class HistoryActivity extends AppCompatActivity implements ActionBar.TabL
         }
     }
 
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        Toast.makeText(this, "Coming soon", Toast.LENGTH_SHORT).show();
+        switch (item.getItemId()) {
+            case R.id.action_delete:
+                return true;
+            case R.id.action_report:
+                return true;
+            case R.id.action_block:
+                return true;
+            default:
+                return false;
+        }
+    }
 }

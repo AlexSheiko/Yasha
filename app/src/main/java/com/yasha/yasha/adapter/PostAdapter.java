@@ -18,7 +18,6 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.yasha.yasha.CommentActivity;
-import com.yasha.yasha.MainActivity;
 import com.yasha.yasha.R;
 
 import java.text.DateFormat;
@@ -109,7 +108,7 @@ public class PostAdapter extends ArrayAdapter<ParseObject> {
 
         inflater.inflate(menuRes, popup.getMenu());
 
-        popup.setOnMenuItemClickListener((MainActivity) getContext());
+        popup.setOnMenuItemClickListener((PopupMenu.OnMenuItemClickListener) getContext());
         popup.show();
     }
 

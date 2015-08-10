@@ -12,7 +12,7 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
-import com.yasha.yasha.adapter.PostAdapter;
+import com.yasha.yasha.adapter.CommentAdapter;
 
 import java.util.List;
 
@@ -24,33 +24,37 @@ public class MyFeedbackFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_posts, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_feedback, container, false);
 
-        final PostAdapter postAdapter = new PostAdapter(getActivity());
+        final CommentAdapter commentAdapter = new CommentAdapter(getActivity());
 
-        ListView postList = (ListView) rootView.findViewById(R.id.post_list);
-        postList.setAdapter(postAdapter);
+        ListView commentList = (ListView) rootView.findViewById(R.id.comment_list);
+        commentList.setAdapter(commentAdapter);
 
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Post");
-        query.orderByDescending("createdAt");
-        query.include("author");
+        query.whereEqualTo("author", ParseUser.getCurrentUser());
         query.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
-
-        try {
-            ParseUser user = ParseUser.getCurrentUser();
-            user.fetch();
-            query.whereEqualTo("author", user);
-        } catch (ParseException e) {
-            e.printStackTrace();
-            return rootView;
-        }
-
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> posts, ParseException e) {
                 if (e == null) {
-                    postAdapter.clear();
-                    postAdapter.addAll(posts);
+                    commentAdapter.clear();
+                    for (ParseObject post : posts) {
+                        ParseQuery<ParseObject> commentQuery = new ParseQuery<>("Comment");
+                        commentQuery.include("post");
+                        commentQuery.include("author");
+                        commentQuery.whereEqualTo("post", post);
+                        commentQuery.whereNotEqualTo("author", ParseUser.getCurrentUser());
+                        commentQuery.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
+                        commentQuery.findInBackground(new FindCallback<ParseObject>() {
+                            @Override
+                            public void done(List<ParseObject> comments, ParseException e) {
+                                if (e == null) {
+                                    commentAdapter.addAll(comments);
+                                }
+                            }
+                        });
+                    }
                 }
             }
         });
