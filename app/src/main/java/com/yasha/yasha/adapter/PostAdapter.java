@@ -87,7 +87,7 @@ public class PostAdapter extends ArrayAdapter<ParseObject> {
         if (isToday(date)) {
             DateFormat dateFormat = new SimpleDateFormat("hh:mm a", Locale.US);
             return dateFormat.format(date);
-        } else if (isBeforeDay(date)) {
+        } else if (isYesterday(date)) {
             return "Yesterday";
         } else {
             DateFormat dateFormat = new SimpleDateFormat("MMMM d", Locale.US);
@@ -95,8 +95,13 @@ public class PostAdapter extends ArrayAdapter<ParseObject> {
         }
     }
 
-    public static boolean isToday(Date date) {
-        return isSameDay(date, Calendar.getInstance(TimeZone.getTimeZone("UTC")).getTime());
+    public static boolean isToday(Date date1) {
+        return isSameDay(date1, Calendar.getInstance(TimeZone.getTimeZone("UTC")).getTime());
+    }
+
+    public static boolean isYesterday(Date date1) {
+        Date date2 = new Date(System.currentTimeMillis() - 24 * 60 * 60 * 1000L);
+        return isSameDay(date1, date2);
     }
 
     public static boolean isSameDay(Date date1, Date date2) {
@@ -110,18 +115,5 @@ public class PostAdapter extends ArrayAdapter<ParseObject> {
     public static boolean isSameDay(Calendar cal1, Calendar cal2) {
         return (cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) &&
                 cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR));
-    }
-
-    public static boolean isBeforeDay(Date date1) {
-        Calendar cal1 = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-        cal1.setTime(date1);
-        Calendar cal2 = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-        return isBeforeDay(cal1, cal2);
-    }
-
-    public static boolean isBeforeDay(Calendar cal1, Calendar cal2) {
-        if (cal1.get(Calendar.YEAR) < cal2.get(Calendar.YEAR)) return true;
-        if (cal1.get(Calendar.YEAR) > cal2.get(Calendar.YEAR)) return false;
-        return cal1.get(Calendar.DAY_OF_YEAR) < cal2.get(Calendar.DAY_OF_YEAR);
     }
 }
