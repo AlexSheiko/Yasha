@@ -21,7 +21,7 @@ public class PostActivity extends AppCompatActivity {
     private ToggleButton toggleW;
     private ToggleButton toggleT;
 
-    private String category;
+    private String category = "F";
 
     private CompoundButton.OnCheckedChangeListener categoryListener;
 

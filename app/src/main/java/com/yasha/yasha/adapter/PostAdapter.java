@@ -2,7 +2,9 @@ package com.yasha.yasha.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v7.widget.PopupMenu;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -45,13 +47,14 @@ public class PostAdapter extends ArrayAdapter<ParseObject> {
         final TextView dateView = (TextView) convertView.findViewById(R.id.date_textview);
         final TextView categoryView = (TextView) convertView.findViewById(R.id.category_textview);
         final TextView counterView = (TextView) convertView.findViewById(R.id.messages_counter);
+        final View buttonMore = convertView.findViewById(R.id.button_more);
 
         final ParseObject post = getItem(position);
         messageView.setText(post.getString("message"));
         dateView.setText(formatDate(post.getCreatedAt()));
         categoryView.setText(post.getString("category"));
 
-        ParseUser author = post.getParseUser("author");
+        final ParseUser author = post.getParseUser("author");
         authorView.setText(author.getUsername());
 
         ParseFile avatarFile = author.getParseFile("avatar");
@@ -80,7 +83,31 @@ public class PostAdapter extends ArrayAdapter<ParseObject> {
         counterView.setOnClickListener(commentsClickListener);
         convertView.setOnClickListener(commentsClickListener);
 
+        buttonMore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showPopup(v, author);
+            }
+        });
+
         return convertView;
+    }
+
+    private void showPopup(View v, ParseUser author) {
+        PopupMenu popup = new PopupMenu(getContext(), v);
+        MenuInflater inflater = popup.getMenuInflater();
+
+        int menuRes;
+
+        if (ParseUser.getCurrentUser().getUsername().equals(author.getUsername())) {
+            menuRes = R.menu.menu_post_me;
+        } else {
+            menuRes = R.menu.menu_post_others;
+        }
+
+
+        inflater.inflate(menuRes, popup.getMenu());
+        popup.show();
     }
 
     private String formatDate(Date date) {
