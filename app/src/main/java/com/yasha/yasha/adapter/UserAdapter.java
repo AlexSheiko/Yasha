@@ -1,7 +1,6 @@
 package com.yasha.yasha.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.PopupMenu;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
@@ -10,14 +9,9 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.parse.CountCallback;
-import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseImageView;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
 import com.parse.ParseUser;
-import com.yasha.yasha.CommentActivity;
 import com.yasha.yasha.MainActivity;
 import com.yasha.yasha.R;
 
@@ -28,9 +22,9 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 
-public class PostAdapter extends ArrayAdapter<ParseObject> {
+public class UserAdapter extends ArrayAdapter<ParseUser> {
 
-    public PostAdapter(Context context) {
+    public UserAdapter(Context context) {
         super(context, 0);
     }
 
@@ -39,57 +33,39 @@ public class PostAdapter extends ArrayAdapter<ParseObject> {
 
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext())
-                    .inflate(R.layout.message_list_item, parent, false);
+                    .inflate(R.layout.user_list_item, parent, false);
         }
 
-        final TextView authorView = (TextView) convertView.findViewById(R.id.author_textview);
+        final TextView nameView = (TextView) convertView.findViewById(R.id.name_textview);
+        final TextView cityView = (TextView) convertView.findViewById(R.id.city_textview);
         final ParseImageView avatarView = (ParseImageView) convertView.findViewById(R.id.avatar_imageview);
-        final TextView messageView = (TextView) convertView.findViewById(R.id.message_textview);
-        final TextView dateView = (TextView) convertView.findViewById(R.id.date_textview);
-        final TextView categoryView = (TextView) convertView.findViewById(R.id.category_textview);
-        final TextView counterView = (TextView) convertView.findViewById(R.id.messages_counter);
-        final View buttonMore = convertView.findViewById(R.id.button_more);
 
-        final ParseObject post = getItem(position);
-        messageView.setText(post.getString("message"));
-        dateView.setText(formatDate(post.getCreatedAt()));
-        categoryView.setText(post.getString("category"));
+        ParseUser user = getItem(position);
+        nameView.setText(user.getUsername());
+        cityView.setText(user.getString("city"));
 
-        final ParseUser author = post.getParseUser("author");
-        authorView.setText(author.getUsername());
-
-        ParseFile avatarFile = author.getParseFile("avatar");
+        ParseFile avatarFile = user.getParseFile("avatar");
         avatarView.setPlaceholder(getContext().getResources().getDrawable(R.drawable.avatar_placeholder));
         avatarView.setParseFile(avatarFile);
         avatarView.loadInBackground();
 
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("Comment");
-        query.whereEqualTo("post", post);
-        query.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
-        query.countInBackground(new CountCallback() {
-            @Override
-            public void done(int count, ParseException e) {
-                counterView.setText(String.valueOf(count));
-            }
-        });
-
-        View.OnClickListener commentsClickListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getContext(), CommentActivity.class);
-                intent.putExtra("postId", post.getObjectId());
-                getContext().startActivity(intent);
-            }
-        };
-        counterView.setOnClickListener(commentsClickListener);
-        convertView.setOnClickListener(commentsClickListener);
-
-        buttonMore.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showPopup(v, author);
-            }
-        });
+//        View.OnClickListener commentsClickListener = new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(getContext(), CommentActivity.class);
+//                intent.putExtra("postId", post.getObjectId());
+//                getContext().startActivity(intent);
+//            }
+//        };
+//        counterView.setOnClickListener(commentsClickListener);
+//        convertView.setOnClickListener(commentsClickListener);
+//
+//        buttonMore.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                showPopup(v, author);
+//            }
+//        });
 
         return convertView;
     }

@@ -7,7 +7,7 @@
         android:icon="@drawable/ic_menu_search"
         app:showAsAction="always"
         app:actionViewClass="android.support.v7.widget.SearchView"
-        android:title="Search"/>
+        android:title="Search users"/>
     <item
         android:id="@+id/action_settings"
         android:icon="@drawable/ic_menu_settings"

@@ -1,13 +1,20 @@
 package com.yasha.yasha;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.PopupMenu;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -18,7 +25,7 @@ import com.yasha.yasha.adapter.PostAdapter;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuItemClickListener {
 
     private PostAdapter mPostAdapter;
 
@@ -33,8 +40,12 @@ public class MainActivity extends AppCompatActivity {
 
         mPostAdapter = new PostAdapter(this);
 
-        ListView messagesList = (ListView) findViewById(R.id.messages_list);
-        messagesList.setAdapter(mPostAdapter);
+        TextView emptyView = new TextView(this);
+        emptyView.setText("There are currently no posts in " + ParseUser.getCurrentUser().getString("city") + ". Perhaps you want yo add new?");
+
+        ListView postList = (ListView) findViewById(R.id.post_list);
+        postList.setEmptyView(emptyView);
+        postList.setAdapter(mPostAdapter);
 
 
         View postButton = findViewById(R.id.post_button);
@@ -58,11 +69,11 @@ public class MainActivity extends AppCompatActivity {
         try {
             ParseUser user = ParseUser.getCurrentUser();
             user.fetch();
-//            if (user.getString("city") != null) {
-//                query.whereEqualTo("city", user.getString("city"));
-//            } else {
-//                query.whereEqualTo("city", "No city");
-//            }
+            if (user.getString("city") != null) {
+                query.whereEqualTo("city", user.getString("city"));
+            } else {
+                query.whereEqualTo("city", "No city");
+            }
         } catch (ParseException e) {
             e.printStackTrace();
             return;
@@ -81,8 +92,17 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        // Inflate the options menu from XML
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);
+
+        // Get the SearchView and set the searchable configuration
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
+        // Assumes current activity is the searchable activity
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        searchView.setInputType(InputType.TYPE_TEXT_VARIATION_PERSON_NAME|InputType.TYPE_TEXT_FLAG_CAP_WORDS);
+
         return true;
     }
 
@@ -98,5 +118,19 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_delete:
+                return true;
+            case R.id.action_report:
+                return true;
+            case R.id.action_block:
+                return true;
+            default:
+                return false;
+        }
     }
 }

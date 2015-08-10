@@ -33,4 +33,5 @@
     <string name="invalid_lat_long_used">Invalid lat long used</string>
     <string name="no_address_found">No address found</string>
     <string name="address_found">Address found</string>
+    <string name="search_hint">Search users...</string>
 </resources>

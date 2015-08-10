@@ -5,11 +5,12 @@
              tools:context=".SearchActivity">
 
     <ListView
-        android:id="@android:id/list"
+        android:id="@+id/user_listview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
         android:paddingBottom="8dp"
-        android:paddingTop="8dp"/>
+        android:paddingTop="8dp"
+        tools:listitem="@layout/user_list_item"/>
 
 </FrameLayout>

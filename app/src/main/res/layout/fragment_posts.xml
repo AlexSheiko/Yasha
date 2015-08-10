@@ -1,0 +1,11 @@
+<ListView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/post_list"
+    style="@style/Container"
+    android:layout_height="match_parent"
+    android:layout_below="@+id/toolbar"
+    android:layout_centerHorizontal="true"
+    android:clipToPadding="false"
+    android:paddingBottom="8dp"
+    android:paddingTop="24dp"
+    tools:listitem="@layout/message_list_item" />
