@@ -14,6 +14,7 @@
         android:layout_width="104dp"
         android:layout_height="104dp"
         android:scaleType="centerCrop"
+        android:onClick="onAvatarClick"
         android:src="@drawable/avatar_placeholder"/>
 
     <EditText

@@ -16,6 +16,7 @@
         android:padding="8dp">
 
         <EditText
+            android:id="@+id/message_field"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:inputType="textCapSentences|textMultiLine"
@@ -32,6 +33,7 @@
             android:layout_height="wrap_content"
             android:background="@color/category_background"
             android:text="@string/send"
+            android:onClick="onClickSend"
             android:textAllCaps="false"
             android:textColor="#e6ffffff"/>
 

@@ -58,4 +58,8 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
+
+    public void onForgotPasswordClick(View view) {
+        Toast.makeText(this, "Coming soon", Toast.LENGTH_SHORT).show();
+    }
 }

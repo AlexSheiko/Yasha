@@ -16,28 +16,67 @@ import com.parse.SaveCallback;
 
 public class PostActivity extends AppCompatActivity {
 
+    private ToggleButton toggleF;
+    private ToggleButton toggleC;
+    private ToggleButton toggleW;
+    private ToggleButton toggleT;
+
+    private CompoundButton.OnCheckedChangeListener categoryListener;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post);
 
-        final ToggleButton toggleF = (ToggleButton) findViewById(R.id.toggle_forgiveness);
-        final ToggleButton toggleC = (ToggleButton) findViewById(R.id.toggle_confession);
-        final ToggleButton toggleW = (ToggleButton) findViewById(R.id.toggle_witness);
-        final ToggleButton toggleT = (ToggleButton) findViewById(R.id.toggle_testimony);
+        toggleF = (ToggleButton) findViewById(R.id.toggle_forgiveness);
+        toggleC = (ToggleButton) findViewById(R.id.toggle_confession);
+        toggleW = (ToggleButton) findViewById(R.id.toggle_witness);
+        toggleT = (ToggleButton) findViewById(R.id.toggle_testimony);
 
-        CompoundButton.OnCheckedChangeListener categoryListener =
+        categoryListener =
                 new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton toggleView, boolean isChecked) {
-                toggleF.setChecked(false);
-                toggleC.setChecked(false);
-                toggleW.setChecked(false);
-                toggleT.setChecked(false);
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        if (!isChecked) {
+                            buttonView.setOnCheckedChangeListener(null);
+                            buttonView.setChecked(false);
+                            buttonView.setOnCheckedChangeListener(categoryListener);
+                            return;
+                        }
 
-                toggleView.setChecked(true);
-            }
-        };
+
+                        String category = buttonView.getText().toString();
+
+                        if (category.equals("F")) {
+                            toggleF.setChecked(true);
+                        } else {
+                            toggleF.setOnCheckedChangeListener(null);
+                            toggleF.setChecked(false);
+                            toggleF.setOnCheckedChangeListener(categoryListener);
+                        }
+                        if (category.equals("C")) {
+                            toggleC.setChecked(true);
+                        } else {
+                            toggleC.setOnCheckedChangeListener(null);
+                            toggleC.setChecked(false);
+                            toggleC.setOnCheckedChangeListener(categoryListener);
+                        }
+                        if (category.equals("W")) {
+                            toggleW.setChecked(true);
+                        } else {
+                            toggleW.setOnCheckedChangeListener(null);
+                            toggleW.setChecked(false);
+                            toggleW.setOnCheckedChangeListener(categoryListener);
+                        }
+                        if (category.equals("T")) {
+                            toggleT.setChecked(true);
+                        } else {
+                            toggleT.setOnCheckedChangeListener(null);
+                            toggleT.setChecked(false);
+                            toggleT.setOnCheckedChangeListener(categoryListener);
+                        }
+                    }
+                };
 
         toggleF.setOnCheckedChangeListener(categoryListener);
         toggleC.setOnCheckedChangeListener(categoryListener);
@@ -61,6 +100,7 @@ public class PostActivity extends AppCompatActivity {
         ParseUser user = ParseUser.getCurrentUser();
         ParseObject post = new ParseObject("Post");
 
+        // TODO: Put real category
         post.put("category", "T");
         post.put("author", user);
         post.put("message", message);

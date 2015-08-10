@@ -31,6 +31,7 @@
         </activity>
         <activity
             android:name=".CommentActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/title_activity_comment"
             android:parentActivityName=".MainActivity"
             android:windowSoftInputMode="stateAlwaysVisible|adjustResize">
@@ -41,6 +42,7 @@
         <activity
             android:name=".PostActivity"
             android:label="@string/title_activity_post"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:parentActivityName=".MainActivity"
             android:windowSoftInputMode="stateAlwaysVisible|adjustResize">
             <meta-data
@@ -58,6 +60,7 @@
         <activity
             android:name=".RegisterActivity"
             android:label="@string/title_activity_register"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:parentActivityName=".WelcomeActivity"
             android:theme="@style/AppTheme.LightActionBar">
             <meta-data

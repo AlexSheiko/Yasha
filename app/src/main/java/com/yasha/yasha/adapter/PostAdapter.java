@@ -11,6 +11,8 @@ import android.widget.TextView;
 
 import com.parse.CountCallback;
 import com.parse.ParseException;
+import com.parse.ParseFile;
+import com.parse.ParseImageView;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -39,6 +41,7 @@ public class PostAdapter extends ArrayAdapter<ParseObject> {
         }
 
         final TextView authorView = (TextView) convertView.findViewById(R.id.author_textview);
+        final ParseImageView avatarView = (ParseImageView) convertView.findViewById(R.id.avatar_imageview);
         final TextView messageView = (TextView) convertView.findViewById(R.id.message_textview);
         final TextView dateView = (TextView) convertView.findViewById(R.id.date_textview);
         final TextView categoryView = (TextView) convertView.findViewById(R.id.category_textview);
@@ -52,8 +55,14 @@ public class PostAdapter extends ArrayAdapter<ParseObject> {
         ParseUser author = post.getParseUser("author");
         authorView.setText(author.getUsername());
 
+        ParseFile avatarFile = author.getParseFile("avatar");
+        avatarView.setPlaceholder(getContext().getResources().getDrawable(R.drawable.avatar_placeholder));
+        avatarView.setParseFile(avatarFile);
+        avatarView.loadInBackground();
+
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Comment");
         query.whereEqualTo("post", post);
+        query.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
         query.countInBackground(new CountCallback() {
             @Override
             public void done(int count, ParseException e) {

@@ -1,19 +1,25 @@
 package com.yasha.yasha;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 public class CommentActivity extends AppCompatActivity {
+
+    private ParseObject mPost;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,13 +40,49 @@ public class CommentActivity extends AppCompatActivity {
             @Override
             public void done(ParseObject post, ParseException e) {
                 if (e == null) {
-                    ParseUser author = post.getParseUser("author");
+                    mPost = post;
+                    showPostContents();
+                }
+            }
+        });
+    }
 
-                    TextView authorView = (TextView) findViewById(R.id.author_textview);
-                    TextView messageView = (TextView) findViewById(R.id.message_textview);
+    private void showPostContents() {
+        ParseUser author = mPost.getParseUser("author");
 
-                    messageView.setText(post.getString("message"));
-                    authorView.setText(author.getUsername());
+        TextView authorView = (TextView) findViewById(R.id.author_textview);
+        TextView messageView = (TextView) findViewById(R.id.message_textview);
+
+        messageView.setText(mPost.getString("message"));
+        authorView.setText(author.getUsername());
+    }
+
+    public void onClickSend(View view) {
+        EditText messageField = (EditText) findViewById(R.id.message_field);
+        String message = messageField.getText().toString().trim();
+
+        if (message.isEmpty()) {
+            messageField.setError("Enter your message");
+            return;
+        }
+
+        ParseUser user = ParseUser.getCurrentUser();
+        ParseObject comment = new ParseObject("Comment");
+
+        comment.put("author", user);
+        comment.put("message", message);
+        comment.put("post", mPost);
+
+        comment.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e == null) {
+                    // refresh page
+                    Intent intent = getIntent();
+                    finish();
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(CommentActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
                 }
             }
         });

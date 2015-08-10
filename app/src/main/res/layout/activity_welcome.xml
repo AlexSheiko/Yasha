@@ -33,7 +33,7 @@
             android:gravity="center_horizontal"
             android:paddingBottom="40dp"
             android:paddingTop="64dp"
-            android:text="ha"
+            android:text="ha "
             android:textColor="#B3E422"
             android:textStyle="bold"/>
 

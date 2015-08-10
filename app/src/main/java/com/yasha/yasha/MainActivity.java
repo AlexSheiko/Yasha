@@ -58,7 +58,11 @@ public class MainActivity extends AppCompatActivity {
         try {
             ParseUser user = ParseUser.getCurrentUser();
             user.fetch();
-            query.whereEqualTo("city", user.getString("city"));
+            if (user.getString("city") != null) {
+                query.whereEqualTo("city", user.getString("city"));
+            } else {
+                query.whereEqualTo("city", "No city");
+            }
         } catch (ParseException e) {
             e.printStackTrace();
             return;
