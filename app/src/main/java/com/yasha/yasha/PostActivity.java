@@ -21,7 +21,10 @@ public class PostActivity extends AppCompatActivity {
     private ToggleButton toggleW;
     private ToggleButton toggleT;
 
+    private String category;
+
     private CompoundButton.OnCheckedChangeListener categoryListener;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +48,7 @@ public class PostActivity extends AppCompatActivity {
                         }
 
 
-                        String category = buttonView.getText().toString();
+                        category = buttonView.getText().toString();
 
                         if (category.equals("F")) {
                             toggleF.setChecked(true);
@@ -100,8 +103,7 @@ public class PostActivity extends AppCompatActivity {
         ParseUser user = ParseUser.getCurrentUser();
         ParseObject post = new ParseObject("Post");
 
-        // TODO: Put real category
-        post.put("category", "T");
+        post.put("category", category);
         post.put("author", user);
         post.put("message", message);
 

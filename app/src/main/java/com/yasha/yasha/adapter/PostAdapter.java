@@ -2,7 +2,6 @@ package com.yasha.yasha.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,7 +65,6 @@ public class PostAdapter extends ArrayAdapter<ParseObject> {
         query.countInBackground(new CountCallback() {
             @Override
             public void done(int count, ParseException e) {
-                Log.d("PostAdapter", "Count: " + count);
                 counterView.setText(String.valueOf(count));
             }
         });

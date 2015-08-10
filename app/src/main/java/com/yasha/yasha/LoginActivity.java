@@ -7,8 +7,10 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.parse.GetCallback;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 public class LoginActivity extends AppCompatActivity {
@@ -23,8 +25,8 @@ public class LoginActivity extends AppCompatActivity {
         EditText usernameField = (EditText) findViewById(R.id.username_field);
         EditText passwordField = (EditText) findViewById(R.id.password_field);
 
-        String username = usernameField.getText().toString().trim();
-        String password = passwordField.getText().toString().trim();
+        final String username = usernameField.getText().toString().trim();
+        final String password = passwordField.getText().toString().trim();
 
         boolean hasEmptyFields = false;
 
@@ -40,20 +42,42 @@ public class LoginActivity extends AppCompatActivity {
         }
         if (hasEmptyFields) return;
 
-        // TODO: Allow login with email also
         ParseUser.logInInBackground(username, password, new LogInCallback() {
             @Override
             public void done(ParseUser user, ParseException e) {
                 if (user != null) {
                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
                 } else {
-                    String errorMessage = e.getMessage();
-                    if (e.getMessage().contains(": ")) {
-                        errorMessage = errorMessage.split(": ")[1];
-                    } else if (e.getMessage().equals("i/o failure")) {
-                        errorMessage = "Network lost. Check your connection and try again";
-                    }
-                    Toast.makeText(LoginActivity.this, errorMessage, Toast.LENGTH_LONG).show();
+
+                    ParseQuery<ParseUser> query = ParseUser.getQuery();
+                    query.whereEqualTo("email", username);
+                    query.getFirstInBackground(new GetCallback<ParseUser>() {
+                        @Override
+                        public void done(ParseUser user, ParseException e) {
+                            if (e == null) {
+
+                            ParseUser.logInInBackground(user.getUsername(), password, new LogInCallback() {
+                                @Override
+                                public void done(ParseUser parseUser, ParseException e) {
+                                    if (parseUser != null) {
+                                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                                    } else {
+                                        Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                                    }
+                                }
+                            });
+
+                            } else {
+                                String errorMessage = e.getMessage();
+                                if (e.getMessage().contains(": ")) {
+                                    errorMessage = errorMessage.split(": ")[1];
+                                } else if (e.getMessage().equals("i/o failure")) {
+                                    errorMessage = "Network lost. Check your connection and try again";
+                                }
+                                Toast.makeText(LoginActivity.this, errorMessage, Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    });
                 }
             }
         });
