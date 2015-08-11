@@ -4,18 +4,15 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
-import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,8 +21,12 @@ import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
+import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -39,7 +40,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         TextView nameView = (TextView) findViewById(R.id.name_textview);
         TextView cityView = (TextView) findViewById(R.id.city_textview);
-        final ImageButton avatarView = (ImageButton) findViewById(R.id.avatar_picker);
+        final ImageView avatarView = (ImageView) findViewById(R.id.avatar_picker);
 
         ParseUser user = ParseUser.getCurrentUser();
         nameView.setText(user.getUsername());
@@ -50,9 +51,19 @@ public class SettingsActivity extends AppCompatActivity {
             avatarFile.getDataInBackground(new GetDataCallback() {
                 @Override
                 public void done(byte[] bytes, ParseException e) {
-                    Drawable avatar = new BitmapDrawable(BitmapFactory.decodeByteArray(bytes, 0, bytes.length));
-                    avatarView.setImageDrawable(avatar);
-                    avatarView.setBackground(null);
+                    File tempFile = null;
+                    try {
+                        tempFile = File.createTempFile("abc", "cba", null);
+                        FileOutputStream fos = new FileOutputStream(tempFile);
+                        fos.write(bytes);
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
+                    }
+
+                    Picasso.with(SettingsActivity.this)
+                            .load(tempFile)
+                            .transform(new CircleTransform())
+                            .into(avatarView);
                 }
             });
         }
@@ -106,7 +117,7 @@ public class SettingsActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        ImageButton avatarButton = (ImageButton) findViewById(R.id.avatar_picker);
+        ImageView avatarView = (ImageView) findViewById(R.id.avatar_picker);
 
         Bitmap bitmap = null;
         Drawable drawable;
@@ -116,8 +127,8 @@ public class SettingsActivity extends AppCompatActivity {
                 Bundle extras = data.getExtras();
                 bitmap = (Bitmap) extras.get("data");
 
-                drawable = new BitmapDrawable(getResources(), bitmap);
-                avatarButton.setBackground(drawable);
+//                drawable = new BitmapDrawable(getResources(), bitmap);
+//                avatarView.setBackground(drawable);
 
             } else if (requestCode == REQUEST_FROM_GALLERY) {
                 Uri imageUri = data.getData();
@@ -127,13 +138,14 @@ public class SettingsActivity extends AppCompatActivity {
                 bitmap = ((BitmapDrawable) drawable).getBitmap();
             }
 
-            RoundedBitmapDrawable roundedDrawable =
-                    RoundedBitmapDrawableFactory.create(getResources(), bitmap);
-            roundedDrawable.setCornerRadius(50.0f);
-            roundedDrawable.setAntiAlias(true);
+            Uri imageUri = data.getData();
+            Picasso.with(this)
+                    .load(imageUri)
+                    .transform(new CircleTransform())
+                    .into(avatarView);
 
-            avatarButton.setBackground(roundedDrawable);
-            avatarButton.setImageBitmap(null);
+//            avatarView.setBackground(roundedDrawable);
+//            avatarView.setImageBitmap(null);
 
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
