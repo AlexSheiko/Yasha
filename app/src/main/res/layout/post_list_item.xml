@@ -6,7 +6,7 @@
     android:descendantFocusability="blocksDescendants"
     android:orientation="horizontal">
 
-    <com.parse.ParseImageView
+    <ImageView
         android:id="@+id/avatar_imageview"
         android:layout_width="72dp"
         android:layout_height="72dp"
@@ -18,16 +18,16 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:orientation="vertical"
-        android:paddingBottom="20dp"
-        android:paddingTop="20dp">
+        android:paddingBottom="12dp"
+        android:paddingTop="12dp">
 
         <TextView
             android:id="@+id/author_textview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingBottom="8dp"
-            android:textColor="@android:color/primary_text_light"
-            android:textSize="16sp"
+            android:textColor="#363636"
+            android:textSize="17sp"
             tools:text="Marcelle" />
 
         <TextView
@@ -35,7 +35,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingBottom="16dp"
-            android:textColor="@android:color/primary_text_light"
+            android:textColor="#241A23"
             android:textSize="14sp"
             tools:text="Johnny, forgive me for my misbehaviour the other day. You are a dear friend that I would like to keep close." />
 
@@ -44,7 +44,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingBottom="8dp"
-            android:textColor="@android:color/secondary_text_light"
+            android:textColor="#191919"
             tools:text="Yesterday" />
 
     </LinearLayout>
@@ -87,7 +87,6 @@
                 android:padding="8dp"
                 android:text="0"
                 android:textColor="#90000000"
-                android:textSize="18sp"
                 tools:text="1" />
 
             <ImageButton

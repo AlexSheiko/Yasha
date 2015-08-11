@@ -33,7 +33,7 @@
         android:layout_centerHorizontal="true"
         android:clipToPadding="false"
         android:paddingBottom="8dp"
-        android:paddingTop="24dp"
-        tools:listitem="@layout/message_list_item"/>
+        android:paddingTop="16dp"
+        tools:listitem="@layout/post_list_item"/>
 
 </RelativeLayout>

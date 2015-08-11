@@ -2,24 +2,31 @@ package com.yasha.yasha.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.support.v7.widget.PopupMenu;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.parse.CountCallback;
+import com.parse.GetDataCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
-import com.parse.ParseImageView;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.squareup.picasso.Picasso;
+import com.yasha.yasha.CircleTransform;
 import com.yasha.yasha.CommentActivity;
 import com.yasha.yasha.R;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -42,12 +49,15 @@ public class PostAdapter extends ArrayAdapter<ParseObject> {
         }
 
         final TextView authorView = (TextView) convertView.findViewById(R.id.author_textview);
-        final ParseImageView avatarView = (ParseImageView) convertView.findViewById(R.id.avatar_imageview);
+        final ImageView avatarView = (ImageView) convertView.findViewById(R.id.avatar_imageview);
         final TextView messageView = (TextView) convertView.findViewById(R.id.message_textview);
         final TextView dateView = (TextView) convertView.findViewById(R.id.date_textview);
         final TextView categoryView = (TextView) convertView.findViewById(R.id.category_textview);
         final TextView counterView = (TextView) convertView.findViewById(R.id.messages_counter);
         final View buttonMore = convertView.findViewById(R.id.button_more);
+
+        Typeface messageTypeface = Typeface.createFromAsset(getContext().getAssets(), "fonts/Lato-Regular.ttf");
+        messageView.setTypeface(messageTypeface);
 
         final ParseObject post = getItem(position);
         messageView.setText(post.getString("message"));
@@ -58,9 +68,27 @@ public class PostAdapter extends ArrayAdapter<ParseObject> {
         authorView.setText(author.getUsername());
 
         ParseFile avatarFile = author.getParseFile("avatar");
-        avatarView.setPlaceholder(getContext().getResources().getDrawable(R.drawable.avatar_placeholder));
-        avatarView.setParseFile(avatarFile);
-        avatarView.loadInBackground();
+        if (avatarFile != null) {
+            avatarFile.getDataInBackground(new GetDataCallback() {
+                @Override
+                public void done(byte[] bytes, ParseException e) {
+                    File tempFile = null;
+                    try {
+                        tempFile = File.createTempFile("abc", "cba", null);
+                        FileOutputStream fos = new FileOutputStream(tempFile);
+                        fos.write(bytes);
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
+                    }
+
+                    Picasso.with(getContext())
+                            .load(tempFile)
+                            .placeholder(R.drawable.avatar_placeholder)
+                            .transform(new CircleTransform())
+                            .into(avatarView);
+                }
+            });
+        }
 
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Comment");
         query.whereEqualTo("post", post);
