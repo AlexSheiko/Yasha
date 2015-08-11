@@ -84,6 +84,7 @@ public class PostAdapter extends ArrayAdapter<ParseObject> {
                     Picasso.with(getContext())
                             .load(tempFile)
                             .placeholder(R.drawable.avatar_placeholder)
+                            .fit()
                             .transform(new CircleTransform())
                             .into(avatarView);
                 }
