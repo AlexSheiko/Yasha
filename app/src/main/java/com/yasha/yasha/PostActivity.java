@@ -108,7 +108,7 @@ public class PostActivity extends AppCompatActivity {
         post.put("author", user);
         post.put("message", message);
 
-        user.fetchIfNeededInBackground(new GetCallback<ParseObject>() {
+        user.fetchInBackground(new GetCallback<ParseObject>() {
             @Override
             public void done(ParseObject user, ParseException e) {
                 if (e == null) {

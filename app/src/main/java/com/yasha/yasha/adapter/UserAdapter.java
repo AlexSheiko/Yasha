@@ -63,6 +63,7 @@ public class UserAdapter extends ArrayAdapter<ParseUser> {
                             .placeholder(R.drawable.avatar_placeholder)
                             .fit()
                             .transform(new CircleTransform())
+                            .noFade()
                             .into(avatarView);
                 }
             });

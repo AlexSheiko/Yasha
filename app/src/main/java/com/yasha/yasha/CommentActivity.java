@@ -89,6 +89,7 @@ public class CommentActivity extends AppCompatActivity {
                             .placeholder(R.drawable.avatar_placeholder)
                             .fit()
                             .transform(new CircleTransform())
+                            .noFade()
                             .into(avatarView);
                 }
             });

@@ -114,7 +114,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         query.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
 
         ParseUser user = ParseUser.getCurrentUser();
-        user.fetchIfNeededInBackground(new GetCallback<ParseObject>() {
+        user.fetchInBackground(new GetCallback<ParseObject>() {
             @Override
             public void done(ParseObject user, ParseException e) {
                 if (e == null) {

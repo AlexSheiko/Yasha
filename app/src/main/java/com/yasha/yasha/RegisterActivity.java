@@ -325,6 +325,7 @@ public class RegisterActivity extends AppCompatActivity
             Picasso.with(this)
                     .load(imageUri)
                     .transform(new CircleTransform())
+                    .noFade()
                     .into(avatarView);
 
 

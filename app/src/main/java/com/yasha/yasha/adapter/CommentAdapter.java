@@ -44,7 +44,7 @@ public class CommentAdapter extends ArrayAdapter<ParseObject> {
         messageView.setText(post.getString("message"));
 
         final ParseUser author = post.getParseUser("author");
-            author.fetchIfNeededInBackground(new GetCallback<ParseUser>() {
+            author.fetchInBackground(new GetCallback<ParseUser>() {
                 @Override
                 public void done(ParseUser author, ParseException e) {
                     if (e == null) {
@@ -72,6 +72,7 @@ public class CommentAdapter extends ArrayAdapter<ParseObject> {
                             .placeholder(R.drawable.avatar_placeholder)
                             .fit()
                             .transform(new CircleTransform())
+                            .noFade()
                             .into(avatarView);
                 }
             });

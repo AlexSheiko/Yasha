@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.support.v7.widget.PopupMenu;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.View;
@@ -39,6 +40,8 @@ import java.util.TimeZone;
 
 public class PostAdapter extends ArrayAdapter<ParseObject> {
 
+    private ParseObject post;
+
     public PostAdapter(Context context) {
         super(context, 0);
     }
@@ -62,7 +65,7 @@ public class PostAdapter extends ArrayAdapter<ParseObject> {
         Typeface messageTypeface = Typeface.createFromAsset(getContext().getAssets(), "fonts/Lato-Regular.ttf");
         messageView.setTypeface(messageTypeface);
 
-        final ParseObject post = getItem(position);
+        post = getItem(position);
         messageView.setText(post.getString("message"));
         dateView.setText(formatDate(post.getCreatedAt()));
         categoryView.setText(post.getString("category"));
@@ -89,6 +92,7 @@ public class PostAdapter extends ArrayAdapter<ParseObject> {
                             .placeholder(R.drawable.avatar_placeholder)
                             .fit()
                             .transform(new CircleTransform())
+                            .noFade()
                             .into(avatarView);
                 }
             });
@@ -152,8 +156,11 @@ public class PostAdapter extends ArrayAdapter<ParseObject> {
     private boolean hasUnread(List<ParseObject> comments) {
         boolean hasUnread = false;
 
-        for (ParseObject comment: comments) {
+        for (ParseObject comment : comments) {
             boolean read = comment.getBoolean("readByAuthor");
+            if (post.getObjectId().equals("Th6JMqhxoU")) {
+                Log.d("PostAdapter", comment.getString("message") + " is " + read);
+            }
             if (!read) {
                 hasUnread = true;
             }

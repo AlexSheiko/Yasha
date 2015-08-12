@@ -38,7 +38,7 @@ public class MyPostsFragment extends Fragment {
         query.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
 
             ParseUser user = ParseUser.getCurrentUser();
-            user.fetchIfNeededInBackground(new GetCallback<ParseObject>() {
+            user.fetchInBackground(new GetCallback<ParseObject>() {
                 @Override
                 public void done(ParseObject user, ParseException e) {
                     query.whereEqualTo("author", user);
