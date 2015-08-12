@@ -14,11 +14,11 @@ public class WelcomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
 
-        Typeface myTypeface = Typeface.createFromAsset(getAssets(), "fonts/Oxygen-Bold.otf");
+        Typeface headerTypeface = Typeface.createFromAsset(getAssets(), "fonts/Oxygen-Bold.otf");
         TextView titleView1 = (TextView)findViewById(R.id.title_textview_1);
         TextView titleView2 = (TextView)findViewById(R.id.title_textview_2);
-        titleView1.setTypeface(myTypeface);
-        titleView2.setTypeface(myTypeface);
+        titleView1.setTypeface(headerTypeface);
+        titleView2.setTypeface(headerTypeface);
     }
 
     public void onClickRegister(View view) {

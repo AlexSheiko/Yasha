@@ -9,11 +9,12 @@
               android:paddingTop="@dimen/activity_vertical_margin"
               tools:context=".RegisterActivity">
 
-    <ImageButton
+    <ImageView
         android:id="@+id/avatar_picker"
         android:layout_width="104dp"
         android:layout_height="104dp"
         android:scaleType="centerCrop"
+        android:clickable="true"
         android:onClick="onAvatarClick"
         android:src="@drawable/avatar_placeholder"/>
 

@@ -4,10 +4,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender.SendIntentException;
-import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.location.Geocoder;
 import android.location.Location;
 import android.net.Uri;
@@ -16,14 +13,12 @@ import android.os.Handler;
 import android.os.ResultReceiver;
 import android.provider.MediaStore;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
-import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -36,6 +31,7 @@ import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
+import com.squareup.picasso.Picasso;
 import com.yasha.yasha.service.Constants;
 import com.yasha.yasha.service.FetchAddressIntentService;
 
@@ -314,59 +310,37 @@ public class RegisterActivity extends AppCompatActivity
             }
         }
 
-        ImageButton avatarButton = (ImageButton) findViewById(R.id.avatar_picker);
+        ImageView avatarView = (ImageView) findViewById(R.id.avatar_picker);
 
-        Bitmap bitmap = null;
-        Drawable drawable;
+        Uri imageUri = null;
         if (resultCode == RESULT_OK) {
+
             if (requestCode == REQUEST_IMAGE_CAPTURE) {
-                Bundle extras = data.getExtras();
-                bitmap = (Bitmap) extras.get("data");
-
-                drawable = new BitmapDrawable(getResources(), bitmap);
-                avatarButton.setBackground(drawable);
-
+                Bitmap photo = (Bitmap) data.getExtras().get("data");
+                imageUri = getImageUri(photo);
             } else if (requestCode == REQUEST_FROM_GALLERY) {
-                Uri imageUri = data.getData();
-                String imagePath = getPath(imageUri);
-                drawable = Drawable.createFromPath(imagePath);
-
-                bitmap = ((BitmapDrawable)drawable).getBitmap();
+                imageUri = data.getData();
             }
 
-            RoundedBitmapDrawable roundedDrawable=
-                    RoundedBitmapDrawableFactory.create(getResources(), bitmap);
-            roundedDrawable.setCornerRadius(50.0f);
-            roundedDrawable.setAntiAlias(true);
+            Picasso.with(this)
+                    .load(imageUri)
+                    .transform(new CircleTransform())
+                    .into(avatarView);
 
-            avatarButton.setBackground(roundedDrawable);
-            avatarButton.setImageBitmap(null);
 
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-            byte[] bitmapdata = stream.toByteArray();
-
-            mAvatarFile = new ParseFile(bitmapdata, "image/png");
-            mAvatarFile.saveInBackground();
+//            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+//            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+//            byte[] bitmapdata = stream.toByteArray();
+//
+//            mAvatarFile = new ParseFile(bitmapdata, "image/png");
+//            mAvatarFile.saveInBackground();
         }
     }
 
-    public String getPath(Uri uri) {
-        // just some safety built in
-        if (uri == null) {
-            return null;
-        }
-        // try to retrieve the image from the media store first
-        // this will only work for images selected from gallery
-        String[] projection = {MediaStore.Images.Media.DATA};
-        Cursor cursor = managedQuery(uri, projection, null, null, null);
-        if (cursor != null) {
-            int column_index = cursor
-                    .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-            cursor.moveToFirst();
-            return cursor.getString(column_index);
-        }
-        // this is our fallback here
-        return uri.getPath();
+    public Uri getImageUri(Bitmap inImage) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.PNG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(getContentResolver(), inImage, "Title", null);
+        return Uri.parse(path);
     }
 }

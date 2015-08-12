@@ -3,6 +3,7 @@ package com.yasha.yasha;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.PopupMenu;
@@ -18,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.parse.FindCallback;
+import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -29,14 +31,21 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuItemClickListener {
 
     private PostAdapter mPostAdapter;
+    private Toolbar mToolbar;
+    private int mUnreadComments;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        TextView headerView = (TextView) mToolbar.findViewById(R.id.title_textview);
+        Typeface headerTypeface = Typeface.createFromAsset(getAssets(), "fonts/Oxygen-Bold.otf");
+        headerView.setTypeface(headerTypeface);
 
 
         mPostAdapter = new PostAdapter(this);
@@ -56,36 +65,73 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
                 startActivity(new Intent(MainActivity.this, PostActivity.class));
             }
         });
+
+        showUnreadComments();
+    }
+
+    private void showUnreadComments() {
+        ParseQuery<ParseObject> query = new ParseQuery<>("Post");
+        query.whereEqualTo("author", ParseUser.getCurrentUser());
+        query.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> posts, ParseException e) {
+                if (e == null) {
+                    for (ParseObject post : posts) {
+                        ParseQuery<ParseObject> commentsQuery = new ParseQuery<>("Comment");
+                        commentsQuery.whereEqualTo("post", post);
+                        commentsQuery.whereNotEqualTo("author", ParseUser.getCurrentUser());
+                        commentsQuery.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
+                        commentsQuery.findInBackground(new FindCallback<ParseObject>() {
+                            @Override
+                            public void done(List<ParseObject> comments, ParseException e) {
+                                if (e == null) {
+                                    for (ParseObject comment : comments) {
+                                        boolean read = comment.getBoolean("readByAuthor");
+                                        if (!read) {
+                                            mUnreadComments++;
+                                        }
+                                    }
+
+                                    TextView unreadView = (TextView) mToolbar.findViewById(R.id.unread_textview);
+                                    unreadView.setText(mUnreadComments + "");
+                                }
+                            }
+                        });
+                    }
+                }
+            }
+        });
     }
 
     @Override
     protected void onStart() {
         super.onStart();
 
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("Post");
+        final ParseQuery<ParseObject> query = ParseQuery.getQuery("Post");
         query.orderByDescending("createdAt");
         query.include("author");
         query.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
 
-        try {
-            ParseUser user = ParseUser.getCurrentUser();
-            user.fetch();
-            if (user.getString("city") != null) {
-                query.whereEqualTo("city", user.getString("city"));
-            } else {
-                query.whereEqualTo("city", "No city");
-            }
-        } catch (ParseException e) {
-            e.printStackTrace();
-            return;
-        }
-
-        query.findInBackground(new FindCallback<ParseObject>() {
+        ParseUser user = ParseUser.getCurrentUser();
+        user.fetchIfNeededInBackground(new GetCallback<ParseObject>() {
             @Override
-            public void done(List<ParseObject> posts, ParseException e) {
+            public void done(ParseObject user, ParseException e) {
                 if (e == null) {
-                    mPostAdapter.clear();
-                    mPostAdapter.addAll(posts);
+                    if (user.getString("city") != null) {
+                        query.whereEqualTo("city", user.getString("city"));
+                    } else {
+                        query.whereEqualTo("city", "No city");
+                    }
+                    query.findInBackground(new FindCallback<ParseObject>() {
+                        @Override
+                        public void done(List<ParseObject> posts, ParseException e) {
+                            if (e == null) {
+                                mPostAdapter.clear();
+                                mPostAdapter.addAll(posts);
+                            }
+                        }
+                    });
                 }
             }
         });
@@ -102,7 +148,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
         // Assumes current activity is the searchable activity
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-        searchView.setInputType(InputType.TYPE_TEXT_VARIATION_PERSON_NAME|InputType.TYPE_TEXT_FLAG_CAP_WORDS);
+        searchView.setInputType(InputType.TYPE_TEXT_VARIATION_PERSON_NAME | InputType.TYPE_TEXT_FLAG_CAP_WORDS);
 
         return true;
     }

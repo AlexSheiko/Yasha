@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
@@ -101,27 +102,28 @@ public class PostActivity extends AppCompatActivity {
         }
 
         ParseUser user = ParseUser.getCurrentUser();
-        ParseObject post = new ParseObject("Post");
+        final ParseObject post = new ParseObject("Post");
 
         post.put("category", category);
         post.put("author", user);
         post.put("message", message);
 
-        try {
-            user.fetch();
-            post.put("city", user.getString("city"));
-        } catch (ParseException e) {
-            e.printStackTrace();
-            return;
-        }
-
-        post.saveInBackground(new SaveCallback() {
+        user.fetchIfNeededInBackground(new GetCallback<ParseObject>() {
             @Override
-            public void done(ParseException e) {
+            public void done(ParseObject user, ParseException e) {
                 if (e == null) {
-                    finish();
-                } else {
-                    Toast.makeText(PostActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                    post.put("city", user.getString("city"));
+
+                    post.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            if (e == null) {
+                                finish();
+                            } else {
+                                Toast.makeText(PostActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    });
                 }
             }
         });

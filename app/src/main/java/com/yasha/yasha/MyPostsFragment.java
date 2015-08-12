@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.parse.FindCallback;
+import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -31,29 +32,28 @@ public class MyPostsFragment extends Fragment {
         ListView postList = (ListView) rootView.findViewById(R.id.post_list);
         postList.setAdapter(postAdapter);
 
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("Post");
+        final ParseQuery<ParseObject> query = ParseQuery.getQuery("Post");
         query.orderByDescending("createdAt");
         query.include("author");
         query.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
 
-        try {
             ParseUser user = ParseUser.getCurrentUser();
-            user.fetch();
-            query.whereEqualTo("author", user);
-        } catch (ParseException e) {
-            e.printStackTrace();
-            return rootView;
-        }
+            user.fetchIfNeededInBackground(new GetCallback<ParseObject>() {
+                @Override
+                public void done(ParseObject user, ParseException e) {
+                    query.whereEqualTo("author", user);
 
-        query.findInBackground(new FindCallback<ParseObject>() {
-            @Override
-            public void done(List<ParseObject> posts, ParseException e) {
-                if (e == null) {
-                    postAdapter.clear();
-                    postAdapter.addAll(posts);
+                    query.findInBackground(new FindCallback<ParseObject>() {
+                        @Override
+                        public void done(List<ParseObject> posts, ParseException e) {
+                            if (e == null) {
+                                postAdapter.clear();
+                                postAdapter.addAll(posts);
+                            }
+                        }
+                    });
                 }
-            }
-        });
+            });
 
         return rootView;
     }

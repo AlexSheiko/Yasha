@@ -2,6 +2,7 @@ package com.yasha.yasha.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.support.v7.widget.PopupMenu;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.parse.CountCallback;
+import com.parse.FindCallback;
 import com.parse.GetDataCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -31,6 +33,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
@@ -97,9 +100,33 @@ public class PostAdapter extends ArrayAdapter<ParseObject> {
         query.countInBackground(new CountCallback() {
             @Override
             public void done(int count, ParseException e) {
-                counterView.setText(String.valueOf(count));
+                if (e == null) {
+                    counterView.setText(String.valueOf(count));
+                }
             }
         });
+
+        ParseQuery<ParseObject> unreadQuery = ParseQuery.getQuery("Comment");
+        unreadQuery.whereEqualTo("post", post);
+        unreadQuery.whereNotEqualTo("author", ParseUser.getCurrentUser());
+        unreadQuery.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
+        unreadQuery.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> comments, ParseException e) {
+                if (e == null) {
+                    if (hasUnread(comments)) {
+                        counterView.setTextColor(Color.parseColor("#1aad44"));
+                        counterView.setCompoundDrawablesWithIntrinsicBounds(null, null,
+                                getContext().getResources().getDrawable(R.drawable.ic_message_unread), null);
+                    } else {
+                        counterView.setTextColor(Color.parseColor("#90000000"));
+                        counterView.setCompoundDrawablesWithIntrinsicBounds(null, null,
+                                getContext().getResources().getDrawable(R.drawable.ic_message), null);
+                    }
+                }
+            }
+        });
+
 
         View.OnClickListener commentsClickListener = new View.OnClickListener() {
             @Override
@@ -120,6 +147,19 @@ public class PostAdapter extends ArrayAdapter<ParseObject> {
         });
 
         return convertView;
+    }
+
+    private boolean hasUnread(List<ParseObject> comments) {
+        boolean hasUnread = false;
+
+        for (ParseObject comment: comments) {
+            boolean read = comment.getBoolean("readByAuthor");
+            if (!read) {
+                hasUnread = true;
+            }
+        }
+
+        return hasUnread;
     }
 
     private void showPopup(View v, ParseUser author) {
