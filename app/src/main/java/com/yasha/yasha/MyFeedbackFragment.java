@@ -12,7 +12,7 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
-import com.yasha.yasha.adapter.CommentAdapter;
+import com.yasha.yasha.adapters.CommentAdapter;
 
 import java.util.List;
 

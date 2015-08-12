@@ -32,8 +32,8 @@ import com.parse.ParseFile;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 import com.squareup.picasso.Picasso;
-import com.yasha.yasha.service.Constants;
-import com.yasha.yasha.service.FetchAddressIntentService;
+import com.yasha.yasha.services.Constants;
+import com.yasha.yasha.services.FetchAddressIntentService;
 
 import java.io.ByteArrayOutputStream;
 

@@ -1,4 +1,4 @@
-package com.yasha.yasha.service;
+package com.yasha.yasha.services;
 
 import android.app.IntentService;
 import android.content.Intent;

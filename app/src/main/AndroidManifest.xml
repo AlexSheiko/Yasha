@@ -100,7 +100,7 @@
         </activity>
 
         <service
-            android:name=".service.FetchAddressIntentService"
+            android:name=".services.FetchAddressIntentService"
             android:exported="false"/>
 
         <meta-data

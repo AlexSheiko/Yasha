@@ -1,30 +1,30 @@
-package com.yasha.yasha.adapter;
+package com.yasha.yasha.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.parse.GetCallback;
 import com.parse.GetDataCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
-import com.parse.ParseImageView;
-import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.squareup.picasso.Picasso;
 import com.yasha.yasha.CircleTransform;
+import com.yasha.yasha.HistoryActivity;
 import com.yasha.yasha.R;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-public class CommentAdapter extends ArrayAdapter<ParseObject> {
+public class UserAdapter extends ArrayAdapter<ParseUser> {
 
-    public CommentAdapter(Context context) {
+    public UserAdapter(Context context) {
         super(context, 0);
     }
 
@@ -32,26 +32,17 @@ public class CommentAdapter extends ArrayAdapter<ParseObject> {
     public View getView(int position, View convertView, ViewGroup parent) {
 
             convertView = LayoutInflater.from(getContext())
-                    .inflate(R.layout.comment_list_item, parent, false);
+                    .inflate(R.layout.user_list_item, parent, false);
 
         final TextView nameView = (TextView) convertView.findViewById(R.id.name_textview);
-        final TextView messageView = (TextView) convertView.findViewById(R.id.message_textview);
-        final ParseImageView avatarView = (ParseImageView) convertView.findViewById(R.id.avatar_imageview);
+        final TextView cityView = (TextView) convertView.findViewById(R.id.city_textview);
+        final ImageView avatarView = (ImageView) convertView.findViewById(R.id.avatar_imageview);
 
-        final ParseObject post = getItem(position);
-        messageView.setText(post.getString("message"));
+        ParseUser user = getItem(position);
+        nameView.setText(user.getUsername());
+        cityView.setText(user.getString("city"));
 
-        final ParseUser author = post.getParseUser("author");
-            author.fetchInBackground(new GetCallback<ParseUser>() {
-                @Override
-                public void done(ParseUser author, ParseException e) {
-                    if (e == null) {
-                        nameView.setText(author.getUsername());
-                    }
-                }
-            });
-
-        ParseFile avatarFile = author.getParseFile("avatar");
+        ParseFile avatarFile = user.getParseFile("avatar");
         if (avatarFile != null) {
             avatarFile.getDataInBackground(new GetDataCallback() {
                 @Override
@@ -76,15 +67,14 @@ public class CommentAdapter extends ArrayAdapter<ParseObject> {
             });
         }
 
-
-//        View.OnClickListener userClickListener = new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(getContext(), HistoryActivity.class);
-//                getContext().startActivity(intent);
-//            }
-//        };
-//        convertView.setOnClickListener(userClickListener);
+        View.OnClickListener userClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), HistoryActivity.class);
+                getContext().startActivity(intent);
+            }
+        };
+        convertView.setOnClickListener(userClickListener);
 
         return convertView;
     }

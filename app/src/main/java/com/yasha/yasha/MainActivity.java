@@ -24,7 +24,7 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
-import com.yasha.yasha.adapter.PostAdapter;
+import com.yasha.yasha.adapters.PostAdapter;
 
 import java.util.List;
 
@@ -77,6 +77,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
             @Override
             public void done(List<ParseObject> posts, ParseException e) {
                 if (e == null) {
+                    mUnreadComments = 0;
                     for (ParseObject post : posts) {
                         ParseQuery<ParseObject> commentsQuery = new ParseQuery<>("Comment");
                         commentsQuery.whereEqualTo("post", post);
@@ -92,9 +93,13 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
                                             mUnreadComments++;
                                         }
                                     }
-
                                     TextView unreadView = (TextView) mToolbar.findViewById(R.id.unread_textview);
-                                    unreadView.setText(mUnreadComments + "");
+                                    if (mUnreadComments == 0) {
+                                        unreadView.setVisibility(View.GONE);
+                                    } else {
+                                        unreadView.setVisibility(View.VISIBLE);
+                                        unreadView.setText(mUnreadComments + "");
+                                    }
                                 }
                             }
                         });

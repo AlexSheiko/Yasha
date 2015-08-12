@@ -20,8 +20,8 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:orientation="vertical"
-        android:paddingBottom="20dp"
-        android:paddingTop="20dp">
+        android:paddingBottom="16dp"
+        android:paddingTop="12dp">
 
         <TextView
             android:id="@+id/name_textview"
@@ -36,7 +36,7 @@
             android:id="@+id/message_textview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="16dp"
+            android:paddingBottom="8dp"
             android:textColor="@android:color/primary_text_light"
             android:textSize="14sp"
             tools:text="Hi Marcelle, it's very brave of you. Johnny has to forgive you. My prayers are with you." />

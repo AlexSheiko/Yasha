@@ -1,4 +1,4 @@
-package com.yasha.yasha.adapter;
+package com.yasha.yasha.adapters;
 
 import android.content.Context;
 import android.content.Intent;

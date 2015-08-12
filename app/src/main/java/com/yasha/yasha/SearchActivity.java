@@ -10,7 +10,7 @@ import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
-import com.yasha.yasha.adapter.UserAdapter;
+import com.yasha.yasha.adapters.UserAdapter;
 
 import java.util.List;
 

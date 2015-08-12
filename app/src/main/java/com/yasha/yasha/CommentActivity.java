@@ -21,7 +21,7 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.squareup.picasso.Picasso;
-import com.yasha.yasha.adapter.CommentAdapter;
+import com.yasha.yasha.adapters.CommentAdapter;
 
 import java.io.File;
 import java.io.FileOutputStream;
