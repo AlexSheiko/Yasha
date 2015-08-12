@@ -31,10 +31,8 @@ public class CommentAdapter extends ArrayAdapter<ParseObject> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        if (convertView == null) {
             convertView = LayoutInflater.from(getContext())
                     .inflate(R.layout.comment_list_item, parent, false);
-        }
 
         final TextView nameView = (TextView) convertView.findViewById(R.id.name_textview);
         final TextView messageView = (TextView) convertView.findViewById(R.id.message_textview);

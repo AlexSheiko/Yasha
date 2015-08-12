@@ -31,10 +31,8 @@ public class UserAdapter extends ArrayAdapter<ParseUser> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        if (convertView == null) {
             convertView = LayoutInflater.from(getContext())
                     .inflate(R.layout.user_list_item, parent, false);
-        }
 
         final TextView nameView = (TextView) convertView.findViewById(R.id.name_textview);
         final TextView cityView = (TextView) convertView.findViewById(R.id.city_textview);

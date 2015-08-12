@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.support.v7.widget.PopupMenu;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.View;
@@ -40,8 +39,6 @@ import java.util.TimeZone;
 
 public class PostAdapter extends ArrayAdapter<ParseObject> {
 
-    private ParseObject post;
-
     public PostAdapter(Context context) {
         super(context, 0);
     }
@@ -49,10 +46,8 @@ public class PostAdapter extends ArrayAdapter<ParseObject> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        if (convertView == null) {
-            convertView = LayoutInflater.from(getContext())
-                    .inflate(R.layout.post_list_item, parent, false);
-        }
+        convertView = LayoutInflater.from(getContext())
+                .inflate(R.layout.post_list_item, parent, false);
 
         final TextView authorView = (TextView) convertView.findViewById(R.id.author_textview);
         final ImageView avatarView = (ImageView) convertView.findViewById(R.id.avatar_imageview);
@@ -65,7 +60,7 @@ public class PostAdapter extends ArrayAdapter<ParseObject> {
         Typeface messageTypeface = Typeface.createFromAsset(getContext().getAssets(), "fonts/Lato-Regular.ttf");
         messageView.setTypeface(messageTypeface);
 
-        post = getItem(position);
+        final ParseObject post = getItem(position);
         messageView.setText(post.getString("message"));
         dateView.setText(formatDate(post.getCreatedAt()));
         categoryView.setText(post.getString("category"));
@@ -158,9 +153,6 @@ public class PostAdapter extends ArrayAdapter<ParseObject> {
 
         for (ParseObject comment : comments) {
             boolean read = comment.getBoolean("readByAuthor");
-            if (post.getObjectId().equals("Th6JMqhxoU")) {
-                Log.d("PostAdapter", comment.getString("message") + " is " + read);
-            }
             if (!read) {
                 hasUnread = true;
             }
