@@ -113,7 +113,9 @@ public class CommentActivity extends AppCompatActivity {
                     adapter.clear();
                     adapter.addAll(comments);
 
-                    markAsRead(comments);
+                    if (mPost.getParseUser("author").getUsername().equals(ParseUser.getCurrentUser().getUsername())) {
+                        markAsRead(comments);
+                    }
                 }
             }
         });
@@ -121,8 +123,7 @@ public class CommentActivity extends AppCompatActivity {
 
     private void markAsRead(List<ParseObject> comments) {
         for (final ParseObject comment : comments) {
-            if (mPost.getParseUser("author") == ParseUser.getCurrentUser()
-                    && !comment.getBoolean("readByAuthor")) {
+            if (!comment.getBoolean("readByAuthor")) {
                 comment.put("readByAuthor", true);
                 comment.saveEventually();
             }
