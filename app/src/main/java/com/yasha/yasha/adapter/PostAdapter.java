@@ -113,7 +113,8 @@ public class PostAdapter extends ArrayAdapter<ParseObject> {
             @Override
             public void done(List<ParseObject> comments, ParseException e) {
                 if (e == null) {
-                    if (hasUnread(comments)) {
+                    boolean isAuthor = post.getParseUser("author").getUsername().equals(ParseUser.getCurrentUser().getUsername());
+                    if (hasUnread(comments) && isAuthor) {
                         counterView.setTextColor(Color.parseColor("#1aad44"));
                         counterView.setCompoundDrawablesWithIntrinsicBounds(null, null,
                                 getContext().getResources().getDrawable(R.drawable.ic_message_unread), null);
