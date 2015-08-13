@@ -185,4 +185,15 @@ public class SettingsActivity extends AppCompatActivity {
         // this is our fallback here
         return uri.getPath();
     }
+
+    public void onInviteClick(View view) {
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_TEXT,
+                "Hey check out the app 'Yasha' in the Google Play Store!\n"
+                        + "https://play.google.com/store/apps/details?id="
+                        + getApplicationContext().getPackageName());
+        sendIntent.setType("text/plain");
+        startActivity(Intent.createChooser(sendIntent, "Invite using..."));
+    }
 }

@@ -328,6 +328,8 @@ public class RegisterActivity extends AppCompatActivity
                     .noFade()
                     .into(avatarView);
 
+            // TODO: Prevent crash on image selection
+
 
 //            ByteArrayOutputStream stream = new ByteArrayOutputStream();
 //            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);

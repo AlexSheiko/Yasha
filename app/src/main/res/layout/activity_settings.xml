@@ -88,15 +88,13 @@
 
         <Button
             style="@style/SettingsButton"
+            android:onClick="onChangeEmailClick"
             android:text="Change Your Email Address" />
 
         <Button
             style="@style/SettingsButton"
+            android:onClick="onInviteClick"
             android:text="Invite Your Friends" />
-
-        <Button
-            style="@style/SettingsButton"
-            android:text="Help &amp; About Us" />
 
     </LinearLayout>
 

@@ -9,6 +9,7 @@
     <ImageView
         android:id="@+id/avatar_imageview"
         android:layout_width="72dp"
+        android:clickable="true"
         android:layout_height="72dp"
         android:padding="16dp"
         android:src="@drawable/avatar_placeholder" />

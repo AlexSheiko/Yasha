@@ -62,6 +62,7 @@ public class LoginActivity extends AppCompatActivity {
                                 public void done(ParseUser parseUser, ParseException e) {
                                     if (parseUser != null) {
                                         startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                                        finish();
                                     } else {
                                         Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
                                     }

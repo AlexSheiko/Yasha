@@ -3,7 +3,6 @@ package com.yasha.yasha;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.PopupMenu;
@@ -18,6 +17,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.parse.CountCallback;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
     private PostAdapter mPostAdapter;
     private Toolbar mToolbar;
     private int mUnreadComments;
+    private String TAG = MainActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,10 +43,6 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-
-        TextView headerView = (TextView) mToolbar.findViewById(R.id.title_textview);
-        Typeface headerTypeface = Typeface.createFromAsset(getAssets(), "fonts/Oxygen-Bold.otf");
-        headerView.setTypeface(headerTypeface);
 
 
         mPostAdapter = new PostAdapter(this);
@@ -65,34 +62,27 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
                 startActivity(new Intent(MainActivity.this, PostActivity.class));
             }
         });
-
-        showUnreadComments();
     }
 
     private void showUnreadComments() {
         ParseQuery<ParseObject> query = new ParseQuery<>("Post");
         query.whereEqualTo("author", ParseUser.getCurrentUser());
-        query.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> posts, ParseException e) {
                 if (e == null) {
                     mUnreadComments = 0;
-                    for (ParseObject post : posts) {
+                    for (final ParseObject post : posts) {
                         ParseQuery<ParseObject> commentsQuery = new ParseQuery<>("Comment");
                         commentsQuery.whereEqualTo("post", post);
                         commentsQuery.whereNotEqualTo("author", ParseUser.getCurrentUser());
-                        commentsQuery.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
-                        commentsQuery.findInBackground(new FindCallback<ParseObject>() {
+                        commentsQuery.whereEqualTo("readByAuthor", false);
+                        commentsQuery.countInBackground(new CountCallback() {
                             @Override
-                            public void done(List<ParseObject> comments, ParseException e) {
+                            public void done(int count, ParseException e) {
                                 if (e == null) {
-                                    for (ParseObject comment : comments) {
-                                        boolean read = comment.getBoolean("readByAuthor");
-                                        if (!read) {
-                                            mUnreadComments++;
-                                        }
-                                    }
+                                    mUnreadComments += count;
+
                                     TextView unreadView = (TextView) mToolbar.findViewById(R.id.unread_textview);
                                     if (mUnreadComments == 0) {
                                         unreadView.setVisibility(View.GONE);
@@ -140,6 +130,8 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
                 }
             }
         });
+
+        showUnreadComments();
     }
 
     @Override

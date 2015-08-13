@@ -3,7 +3,6 @@ package com.yasha.yasha.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.support.v7.widget.PopupMenu;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
@@ -24,6 +23,7 @@ import com.parse.ParseUser;
 import com.squareup.picasso.Picasso;
 import com.yasha.yasha.CircleTransform;
 import com.yasha.yasha.CommentActivity;
+import com.yasha.yasha.HistoryActivity;
 import com.yasha.yasha.R;
 
 import java.io.File;
@@ -56,9 +56,6 @@ public class PostAdapter extends ArrayAdapter<ParseObject> {
         final TextView categoryView = (TextView) convertView.findViewById(R.id.category_textview);
         final TextView counterView = (TextView) convertView.findViewById(R.id.messages_counter);
         final View buttonMore = convertView.findViewById(R.id.button_more);
-
-        Typeface messageTypeface = Typeface.createFromAsset(getContext().getAssets(), "fonts/Lato-Regular.ttf");
-        messageView.setTypeface(messageTypeface);
 
         final ParseObject post = getItem(position);
         messageView.setText(post.getString("message"));
@@ -143,6 +140,13 @@ public class PostAdapter extends ArrayAdapter<ParseObject> {
             @Override
             public void onClick(View v) {
                 showPopup(v, author);
+            }
+        });
+
+        avatarView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getContext().startActivity(new Intent(getContext(), HistoryActivity.class));
             }
         });
 

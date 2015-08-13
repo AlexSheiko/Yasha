@@ -31,8 +31,8 @@ public class CommentAdapter extends ArrayAdapter<ParseObject> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-            convertView = LayoutInflater.from(getContext())
-                    .inflate(R.layout.comment_list_item, parent, false);
+        convertView = LayoutInflater.from(getContext())
+                .inflate(R.layout.comment_list_item, parent, false);
 
         final TextView nameView = (TextView) convertView.findViewById(R.id.name_textview);
         final TextView messageView = (TextView) convertView.findViewById(R.id.message_textview);
@@ -42,49 +42,39 @@ public class CommentAdapter extends ArrayAdapter<ParseObject> {
         messageView.setText(post.getString("message"));
 
         final ParseUser author = post.getParseUser("author");
-            author.fetchInBackground(new GetCallback<ParseUser>() {
-                @Override
-                public void done(ParseUser author, ParseException e) {
-                    if (e == null) {
-                        nameView.setText(author.getUsername());
+        author.fetchInBackground(new GetCallback<ParseUser>() {
+            @Override
+            public void done(ParseUser author, ParseException e) {
+                if (e == null) {
+                    nameView.setText(author.getUsername());
+
+                    ParseFile avatarFile = author.getParseFile("avatar");
+                    if (avatarFile != null) {
+                        avatarFile.getDataInBackground(new GetDataCallback() {
+                            @Override
+                            public void done(byte[] bytes, ParseException e) {
+                                File tempFile = null;
+                                try {
+                                    tempFile = File.createTempFile("abc", "cba", null);
+                                    FileOutputStream fos = new FileOutputStream(tempFile);
+                                    fos.write(bytes);
+                                } catch (IOException e1) {
+                                    e1.printStackTrace();
+                                }
+
+                                Picasso.with(getContext())
+                                        .load(tempFile)
+                                        .placeholder(R.drawable.avatar_placeholder)
+                                        .fit()
+                                        .transform(new CircleTransform())
+                                        .noFade()
+                                        .into(avatarView);
+                            }
+                        });
                     }
                 }
-            });
-
-        ParseFile avatarFile = author.getParseFile("avatar");
-        if (avatarFile != null) {
-            avatarFile.getDataInBackground(new GetDataCallback() {
-                @Override
-                public void done(byte[] bytes, ParseException e) {
-                    File tempFile = null;
-                    try {
-                        tempFile = File.createTempFile("abc", "cba", null);
-                        FileOutputStream fos = new FileOutputStream(tempFile);
-                        fos.write(bytes);
-                    } catch (IOException e1) {
-                        e1.printStackTrace();
-                    }
-
-                    Picasso.with(getContext())
-                            .load(tempFile)
-                            .placeholder(R.drawable.avatar_placeholder)
-                            .fit()
-                            .transform(new CircleTransform())
-                            .noFade()
-                            .into(avatarView);
-                }
-            });
-        }
-
-
-//        View.OnClickListener userClickListener = new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(getContext(), HistoryActivity.class);
-//                getContext().startActivity(intent);
-//            }
-//        };
-//        convertView.setOnClickListener(userClickListener);
+            }
+        });
 
         return convertView;
     }
