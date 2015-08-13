@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.parse.DeleteCallback;
 import com.parse.GetDataCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -191,5 +192,35 @@ public class SettingsActivity extends AppCompatActivity {
                         + getApplicationContext().getPackageName());
         sendIntent.setType("text/plain");
         startActivity(Intent.createChooser(sendIntent, "Invite using..."));
+    }
+
+    public void onDeleteAccountPressed(View view) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Are you sure you want to delete your account? There's no undo.");
+        builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                ParseUser user = ParseUser.getCurrentUser();
+                user.deleteInBackground(new DeleteCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if (e == null) {
+                            startActivity(new Intent(SettingsActivity.this, RegisterActivity.class));
+                        } else {
+                            Toast.makeText(SettingsActivity.this,
+                                    "Failed to delete account: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+            }
+        });
+        builder.setNegativeButton("Return", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 }

@@ -80,6 +80,7 @@
 
         <Button
             style="@style/SettingsButton"
+            android:onClick="onDeleteAccountPressed"
             android:text="Delete Your Account" />
 
         <Button

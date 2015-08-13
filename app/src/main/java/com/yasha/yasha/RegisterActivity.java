@@ -311,9 +311,6 @@ public class RegisterActivity extends AppCompatActivity
             }
         }
 
-        ImageView avatarView = (ImageView) findViewById(R.id.avatar_picker);
-
-
         if (resultCode == RESULT_OK) {
             Uri imageUri = null;
 
@@ -323,6 +320,8 @@ public class RegisterActivity extends AppCompatActivity
             } else if (requestCode == REQUEST_FROM_GALLERY) {
                 imageUri = data.getData();
             }
+
+            ImageView avatarView = (ImageView) findViewById(R.id.avatar_picker);
 
             Picasso.with(this)
                     .load(imageUri)
