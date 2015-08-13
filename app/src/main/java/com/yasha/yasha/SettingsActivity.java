@@ -17,9 +17,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.parse.DeleteCallback;
+import com.parse.FindCallback;
 import com.parse.GetDataCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.squareup.picasso.Picasso;
@@ -28,6 +31,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.List;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -200,15 +204,42 @@ public class SettingsActivity extends AppCompatActivity {
         builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                ParseUser user = ParseUser.getCurrentUser();
-                user.deleteInBackground(new DeleteCallback() {
+                final ParseUser user = ParseUser.getCurrentUser();
+
+                ParseQuery<ParseObject> postsQuery = ParseQuery.getQuery("Post");
+                postsQuery.whereEqualTo("author", user);
+                postsQuery.findInBackground(new FindCallback<ParseObject>() {
                     @Override
-                    public void done(ParseException e) {
+                    public void done(List<ParseObject> posts, ParseException e) {
                         if (e == null) {
-                            startActivity(new Intent(SettingsActivity.this, RegisterActivity.class));
-                        } else {
-                            Toast.makeText(SettingsActivity.this,
-                                    "Failed to delete account: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                            for (ParseObject post : posts) {
+                                post.deleteEventually();
+                            }
+
+                            ParseQuery<ParseObject> commentQuery = ParseQuery.getQuery("Comment");
+                            commentQuery.whereEqualTo("author", user);
+                            commentQuery.findInBackground(new FindCallback<ParseObject>() {
+                                @Override
+                                public void done(List<ParseObject> comments, ParseException e) {
+                                    if (e == null) {
+                                        for (ParseObject comment : comments) {
+                                            comment.deleteEventually();
+                                        }
+
+                                        user.deleteInBackground(new DeleteCallback() {
+                                            @Override
+                                            public void done(ParseException e) {
+                                                if (e == null) {
+                                                    startActivity(new Intent(SettingsActivity.this, RegisterActivity.class));
+                                                } else {
+                                                    Toast.makeText(SettingsActivity.this,
+                                                            "Failed to delete account: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                                                }
+                                            }
+                                        });
+                                    }
+                                }
+                            });
                         }
                     }
                 });
