@@ -86,6 +86,7 @@
 
         <Button
             style="@style/SettingsButton"
+            android:onClick="onChangeUsernameClick"
             android:text="Change Your Username" />
 
         <Button

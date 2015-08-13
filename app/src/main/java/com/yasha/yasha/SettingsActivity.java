@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.InputType;
 import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.widget.EditText;
@@ -262,15 +263,15 @@ public class SettingsActivity extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("New password");
 
-        final EditText inputField = new EditText(this);
-        inputField.setTransformationMethod(PasswordTransformationMethod.getInstance());
-        inputField.setHint("Type here");
-        builder.setView(inputField, convertToPixels(20), convertToPixels(12), convertToPixels(20), convertToPixels(4));
+        final EditText passwordField = new EditText(this);
+        passwordField.setTransformationMethod(PasswordTransformationMethod.getInstance());
+        passwordField.setHint("Type here");
+        builder.setView(passwordField, convertToPixels(20), convertToPixels(12), convertToPixels(20), convertToPixels(4));
 
         builder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(final DialogInterface dialog, int which) {
-                String password = inputField.getText().toString();
+                String password = passwordField.getText().toString();
 
                 ParseUser user = ParseUser.getCurrentUser();
                 user.setPassword(password);
@@ -301,5 +302,46 @@ public class SettingsActivity extends AppCompatActivity {
     private int convertToPixels(int dp) {
         float density = getResources().getDisplayMetrics().density;
         return (int) (dp * density);
+    }
+
+    public void onChangeUsernameClick(View view) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("New username");
+
+        final EditText usernameField = new EditText(this);
+        usernameField.setInputType(InputType.TYPE_TEXT_VARIATION_PERSON_NAME|InputType.TYPE_TEXT_FLAG_CAP_WORDS);
+        usernameField.setText(ParseUser.getCurrentUser().getUsername());
+        usernameField.selectAll();
+        builder.setView(usernameField, convertToPixels(20), convertToPixels(12), convertToPixels(20), convertToPixels(4));
+
+        builder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(final DialogInterface dialog, int which) {
+                String username = usernameField.getText().toString();
+
+                ParseUser user = ParseUser.getCurrentUser();
+                user.setUsername(username);
+                user.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if (e == null) {
+                            ParseUser.logOutInBackground(new LogOutCallback() {
+                                @Override
+                                public void done(ParseException e) {
+                                    if (e == null) {
+                                        dialog.cancel();
+                                        startActivity(new Intent(SettingsActivity.this, LoginActivity.class));
+                                        Toast.makeText(SettingsActivity.this, "Now you can login using your new username", Toast.LENGTH_LONG).show();
+                                    }
+                                }
+                            });
+                        }
+                    }
+                });
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 }
