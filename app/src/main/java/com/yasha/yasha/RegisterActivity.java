@@ -36,6 +36,7 @@ import com.yasha.yasha.services.Constants;
 import com.yasha.yasha.services.FetchAddressIntentService;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 
 public class RegisterActivity extends AppCompatActivity
         implements ConnectionCallbacks, OnConnectionFailedListener {
@@ -312,8 +313,9 @@ public class RegisterActivity extends AppCompatActivity
 
         ImageView avatarView = (ImageView) findViewById(R.id.avatar_picker);
 
-        Uri imageUri = null;
+
         if (resultCode == RESULT_OK) {
+            Uri imageUri = null;
 
             if (requestCode == REQUEST_IMAGE_CAPTURE) {
                 Bitmap photo = (Bitmap) data.getExtras().get("data");
@@ -328,15 +330,19 @@ public class RegisterActivity extends AppCompatActivity
                     .noFade()
                     .into(avatarView);
 
-            // TODO: Prevent crash on image selection
+            Bitmap bitmap = null;
+            try {
+                bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(),imageUri);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            byte[] bitmapdata = stream.toByteArray();
 
-//            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-//            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-//            byte[] bitmapdata = stream.toByteArray();
-//
-//            mAvatarFile = new ParseFile(bitmapdata, "image/png");
-//            mAvatarFile.saveInBackground();
+            mAvatarFile = new ParseFile(bitmapdata, "image/png");
+            mAvatarFile.saveInBackground();
         }
     }
 

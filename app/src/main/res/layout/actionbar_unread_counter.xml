@@ -13,7 +13,7 @@
         android:layout_gravity="center_vertical"
         tools:paddingLeft="16dp"
         android:textColor="#f2ffffff"
-        android:textSize="21sp"/>
+        android:textSize="20sp"/>
 
     <TextView
         android:id="@+id/unread_textview"
