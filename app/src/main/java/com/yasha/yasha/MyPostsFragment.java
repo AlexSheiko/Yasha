@@ -19,6 +19,8 @@ import java.util.List;
 
 public class MyPostsFragment extends Fragment {
 
+    private PostAdapter mPostAdapter;
+
     public MyPostsFragment() {
     }
 
@@ -27,34 +29,39 @@ public class MyPostsFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_posts, container, false);
 
-        final PostAdapter postAdapter = new PostAdapter(getActivity());
+        mPostAdapter = new PostAdapter(getActivity());
 
         ListView postList = (ListView) rootView.findViewById(R.id.post_list);
-        postList.setAdapter(postAdapter);
+        postList.setAdapter(mPostAdapter);
+
+        return rootView;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
 
         final ParseQuery<ParseObject> query = ParseQuery.getQuery("Post");
         query.orderByDescending("createdAt");
         query.include("author");
         query.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
 
-            ParseUser user = ParseUser.getCurrentUser();
-            user.fetchInBackground(new GetCallback<ParseObject>() {
-                @Override
-                public void done(ParseObject user, ParseException e) {
-                    query.whereEqualTo("author", user);
+        ParseUser user = ParseUser.getCurrentUser();
+        user.fetchInBackground(new GetCallback<ParseObject>() {
+            @Override
+            public void done(ParseObject user, ParseException e) {
+                query.whereEqualTo("author", user);
 
-                    query.findInBackground(new FindCallback<ParseObject>() {
-                        @Override
-                        public void done(List<ParseObject> posts, ParseException e) {
-                            if (e == null) {
-                                postAdapter.clear();
-                                postAdapter.addAll(posts);
-                            }
+                query.findInBackground(new FindCallback<ParseObject>() {
+                    @Override
+                    public void done(List<ParseObject> posts, ParseException e) {
+                        if (e == null) {
+                            mPostAdapter.clear();
+                            mPostAdapter.addAll(posts);
                         }
-                    });
-                }
-            });
-
-        return rootView;
+                    }
+                });
+            }
+        });
     }
 }

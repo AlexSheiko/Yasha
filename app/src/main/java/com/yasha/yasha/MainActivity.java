@@ -33,7 +33,6 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
     private PostAdapter mPostAdapter;
     private Toolbar mToolbar;
     private int mUnreadComments;
-    private String TAG = MainActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

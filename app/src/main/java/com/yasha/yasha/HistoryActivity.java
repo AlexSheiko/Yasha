@@ -1,5 +1,6 @@
 package com.yasha.yasha;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -10,8 +11,19 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.PopupMenu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.parse.CountCallback;
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
+
+import java.util.List;
 import java.util.Locale;
 
 public class HistoryActivity extends AppCompatActivity
@@ -31,16 +43,24 @@ public class HistoryActivity extends AppCompatActivity
      * The {@link ViewPager} that will host the section contents.
      */
     ViewPager mViewPager;
+    private int mUnreadComments;
+    private View mActionbarView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
 
-        // TODO: Add a copy of notification icon from main screen
         // Set up the action bar.
         final ActionBar actionBar = getSupportActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+
+        ActionBar.LayoutParams params = new ActionBar.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        mActionbarView = getLayoutInflater().inflate(R.layout.actionbar_unread_counter, null);
+        actionBar.setCustomView(mActionbarView, params);
+        actionBar.setDisplayShowCustomEnabled(true);
+
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
@@ -71,6 +91,48 @@ public class HistoryActivity extends AppCompatActivity
                             .setText(mSectionsPagerAdapter.getPageTitle(i))
                             .setTabListener(this));
         }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        showUnreadComments();
+    }
+
+    private void showUnreadComments() {
+        ParseQuery<ParseObject> query = new ParseQuery<>("Post");
+        query.whereEqualTo("author", ParseUser.getCurrentUser());
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> posts, ParseException e) {
+                if (e == null) {
+                    mUnreadComments = 0;
+                    for (final ParseObject post : posts) {
+                        ParseQuery<ParseObject> commentsQuery = new ParseQuery<>("Comment");
+                        commentsQuery.whereEqualTo("post", post);
+                        commentsQuery.whereNotEqualTo("author", ParseUser.getCurrentUser());
+                        commentsQuery.whereEqualTo("readByAuthor", false);
+                        commentsQuery.countInBackground(new CountCallback() {
+                            @Override
+                            public void done(int count, ParseException e) {
+                                if (e == null) {
+                                    mUnreadComments += count;
+
+                                    TextView unreadView = (TextView) mActionbarView.findViewById(R.id.unread_textview);
+                                    unreadView.setText(mUnreadComments + "");
+                                    unreadView.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            startActivity(new Intent(HistoryActivity.this, MainActivity.class));
+                                        }
+                                    });
+                                }
+                            }
+                        });
+                    }
+                }
+            }
+        });
     }
 
     @Override

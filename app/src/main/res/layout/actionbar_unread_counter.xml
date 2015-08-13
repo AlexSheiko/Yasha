@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:layout_height="56dp"
+    tools:background="@color/primary">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/title_activity_history"
+        android:layout_gravity="center_vertical"
+        tools:paddingLeft="16dp"
+        android:textColor="#f2ffffff"
+        android:textSize="21sp"/>
+
+    <TextView
+        android:id="@+id/unread_textview"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginLeft="2dp"
+        android:clickable="true"
+        android:background="@drawable/unread_background"
+        android:elevation="2dp"
+        android:layout_gravity="right|center_vertical"
+        android:gravity="center"
+        tools:layout_marginRight="16dp"
+        android:textColor="#33B65E"
+        android:textSize="18sp"
+        android:text="0"/>
+
+</FrameLayout>
