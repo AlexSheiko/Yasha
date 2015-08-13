@@ -11,7 +11,9 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.method.PasswordTransformationMethod;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,6 +21,7 @@ import android.widget.Toast;
 import com.parse.DeleteCallback;
 import com.parse.FindCallback;
 import com.parse.GetDataCallback;
+import com.parse.LogOutCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
@@ -253,5 +256,50 @@ public class SettingsActivity extends AppCompatActivity {
         });
         AlertDialog dialog = builder.create();
         dialog.show();
+    }
+
+    public void onChangePasswordClick(View view) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("New password");
+
+        final EditText inputField = new EditText(this);
+        inputField.setTransformationMethod(PasswordTransformationMethod.getInstance());
+        inputField.setHint("Type here");
+        builder.setView(inputField, convertToPixels(20), convertToPixels(12), convertToPixels(20), convertToPixels(4));
+
+        builder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(final DialogInterface dialog, int which) {
+                String password = inputField.getText().toString();
+
+                ParseUser user = ParseUser.getCurrentUser();
+                user.setPassword(password);
+                user.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if (e == null) {
+                            ParseUser.logOutInBackground(new LogOutCallback() {
+                                @Override
+                                public void done(ParseException e) {
+                                    if (e == null) {
+                                        dialog.cancel();
+                                        startActivity(new Intent(SettingsActivity.this, LoginActivity.class));
+                                        Toast.makeText(SettingsActivity.this, "Now you can login using your new password", Toast.LENGTH_LONG).show();
+                                    }
+                                }
+                            });
+                        }
+                    }
+                });
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    private int convertToPixels(int dp) {
+        float density = getResources().getDisplayMetrics().density;
+        return (int) (dp * density);
     }
 }

@@ -76,6 +76,7 @@
 
         <Button
             style="@style/SettingsButton"
+            android:onClick="onChangePasswordClick"
             android:text="Change Your Password" />
 
         <Button
