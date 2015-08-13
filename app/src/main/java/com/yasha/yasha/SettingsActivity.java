@@ -309,7 +309,7 @@ public class SettingsActivity extends AppCompatActivity {
         builder.setTitle("New username");
 
         final EditText usernameField = new EditText(this);
-        usernameField.setInputType(InputType.TYPE_TEXT_VARIATION_PERSON_NAME|InputType.TYPE_TEXT_FLAG_CAP_WORDS);
+        usernameField.setInputType(InputType.TYPE_TEXT_VARIATION_PERSON_NAME | InputType.TYPE_TEXT_FLAG_CAP_WORDS);
         usernameField.setText(ParseUser.getCurrentUser().getUsername());
         usernameField.selectAll();
         builder.setView(usernameField, convertToPixels(20), convertToPixels(12), convertToPixels(20), convertToPixels(4));
@@ -332,6 +332,47 @@ public class SettingsActivity extends AppCompatActivity {
                                         dialog.cancel();
                                         startActivity(new Intent(SettingsActivity.this, LoginActivity.class));
                                         Toast.makeText(SettingsActivity.this, "Now you can login using your new username", Toast.LENGTH_LONG).show();
+                                    }
+                                }
+                            });
+                        }
+                    }
+                });
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    public void onChangeEmailClick(View view) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("New email");
+
+        final EditText emailField = new EditText(this);
+        emailField.setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
+        emailField.setText(ParseUser.getCurrentUser().getEmail());
+        emailField.selectAll();
+        builder.setView(emailField, convertToPixels(20), convertToPixels(12), convertToPixels(20), convertToPixels(4));
+
+        builder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(final DialogInterface dialog, int which) {
+                String email = emailField.getText().toString();
+
+                ParseUser user = ParseUser.getCurrentUser();
+                user.setEmail(email);
+                user.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if (e == null) {
+                            ParseUser.logOutInBackground(new LogOutCallback() {
+                                @Override
+                                public void done(ParseException e) {
+                                    if (e == null) {
+                                        dialog.cancel();
+                                        startActivity(new Intent(SettingsActivity.this, LoginActivity.class));
+                                        Toast.makeText(SettingsActivity.this, "Now you can login using your new email", Toast.LENGTH_LONG).show();
                                     }
                                 }
                             });
