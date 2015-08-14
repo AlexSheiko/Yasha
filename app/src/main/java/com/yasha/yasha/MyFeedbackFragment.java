@@ -18,17 +18,19 @@ import java.util.List;
 
 public class MyFeedbackFragment extends Fragment {
 
+    private View mRootView;
+
     public MyFeedbackFragment() {
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_feedback, container, false);
+        mRootView = inflater.inflate(R.layout.fragment_feedback, container, false);
 
         final CommentAdapter commentAdapter = new CommentAdapter(getActivity());
 
-        ListView commentList = (ListView) rootView.findViewById(R.id.comment_list);
+        ListView commentList = (ListView) mRootView.findViewById(R.id.comment_list);
         commentList.setAdapter(commentAdapter);
 
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Post");
@@ -55,10 +57,16 @@ public class MyFeedbackFragment extends Fragment {
                             }
                         });
                     }
+
+                    if (commentAdapter.getCount() > 0) {
+                        mRootView.findViewById(R.id.empty).setVisibility(View.GONE);
+                    } else {
+                        mRootView.findViewById(R.id.empty).setVisibility(View.VISIBLE);
+                    }
                 }
             }
         });
 
-        return rootView;
+        return mRootView;
     }
 }

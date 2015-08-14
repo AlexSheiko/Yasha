@@ -18,17 +18,19 @@ import java.util.List;
 
 public class MyCommentsFragment extends Fragment {
 
+    private View mRootView;
+
     public MyCommentsFragment() {
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_comments, container, false);
+        mRootView = inflater.inflate(R.layout.fragment_comments, container, false);
 
         final CommentAdapter commentAdapter = new CommentAdapter(getActivity());
 
-        ListView commentList = (ListView) rootView.findViewById(R.id.comment_list);
+        ListView commentList = (ListView) mRootView.findViewById(R.id.comment_list);
         commentList.setAdapter(commentAdapter);
 
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Comment");
@@ -37,12 +39,17 @@ public class MyCommentsFragment extends Fragment {
             @Override
             public void done(List<ParseObject> comments, ParseException e) {
                 if (e == null) {
-                    commentAdapter.clear();
-                    commentAdapter.addAll(comments);
+                    if (comments.size() > 0) {
+                        mRootView.findViewById(R.id.empty).setVisibility(View.GONE);
+                        commentAdapter.clear();
+                        commentAdapter.addAll(comments);
+                    } else {
+                        mRootView.findViewById(R.id.empty).setVisibility(View.VISIBLE);
+                    }
                 }
             }
         });
 
-        return rootView;
+        return mRootView;
     }
 }

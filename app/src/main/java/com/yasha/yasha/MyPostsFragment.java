@@ -20,6 +20,7 @@ import java.util.List;
 public class MyPostsFragment extends Fragment {
 
     private PostAdapter mPostAdapter;
+    private View mRootView;
 
     public MyPostsFragment() {
     }
@@ -27,14 +28,14 @@ public class MyPostsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_posts, container, false);
+        mRootView = inflater.inflate(R.layout.fragment_posts, container, false);
 
         mPostAdapter = new PostAdapter(getActivity());
 
-        ListView postList = (ListView) rootView.findViewById(R.id.post_list);
+        ListView postList = (ListView) mRootView.findViewById(R.id.post_list);
         postList.setAdapter(mPostAdapter);
 
-        return rootView;
+        return mRootView;
     }
 
     @Override
@@ -56,8 +57,13 @@ public class MyPostsFragment extends Fragment {
                     @Override
                     public void done(List<ParseObject> posts, ParseException e) {
                         if (e == null) {
-                            mPostAdapter.clear();
-                            mPostAdapter.addAll(posts);
+                            if (posts.size() > 0) {
+                                mRootView.findViewById(R.id.empty).setVisibility(View.GONE);
+                                mPostAdapter.clear();
+                                mPostAdapter.addAll(posts);
+                            } else {
+                                mRootView.findViewById(R.id.empty).setVisibility(View.VISIBLE);
+                            }
                         }
                     }
                 });
