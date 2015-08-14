@@ -54,14 +54,14 @@ public class MyFeedbackFragment extends Fragment {
                                 if (e == null) {
                                     commentAdapter.addAll(comments);
                                 }
+
+                                if (commentAdapter.getCount() > 0) {
+                                    mRootView.findViewById(R.id.empty).setVisibility(View.GONE);
+                                } else {
+                                    mRootView.findViewById(R.id.empty).setVisibility(View.VISIBLE);
+                                }
                             }
                         });
-                    }
-
-                    if (commentAdapter.getCount() > 0) {
-                        mRootView.findViewById(R.id.empty).setVisibility(View.GONE);
-                    } else {
-                        mRootView.findViewById(R.id.empty).setVisibility(View.VISIBLE);
                     }
                 }
             }

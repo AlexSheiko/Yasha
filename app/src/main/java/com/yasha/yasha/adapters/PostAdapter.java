@@ -3,7 +3,9 @@ package com.yasha.yasha.adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.preference.PreferenceManager;
 import android.support.v7.widget.PopupMenu;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
@@ -23,6 +25,7 @@ import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 import com.squareup.picasso.Picasso;
 import com.yasha.yasha.CircleTransform;
 import com.yasha.yasha.CommentActivity;
@@ -155,6 +158,8 @@ public class PostAdapter extends ArrayAdapter<ParseObject> {
         avatarView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+                prefs.edit().putString("user_id_history", post.getParseUser("author").getObjectId()).apply();
                 getContext().startActivity(new Intent(getContext(), HistoryActivity.class));
             }
         });
@@ -198,12 +203,7 @@ public class PostAdapter extends ArrayAdapter<ParseObject> {
                             @Override
                             public void done(ParseException e) {
                                 if (e == null) {
-                                    // refresh page
-                                    Activity activity = (Activity) getContext();
-
-                                    Intent intent = activity.getIntent();
-                                    activity.finish();
-                                    activity.startActivity(intent);
+                                    refreshScreen();
                                 }
                             }
                         });
@@ -211,6 +211,16 @@ public class PostAdapter extends ArrayAdapter<ParseObject> {
                     case R.id.action_report:
                         return true;
                     case R.id.action_block:
+                        ParseUser user = ParseUser.getCurrentUser();
+                        user.add("blackList", post.getParseUser("author"));
+                        user.saveInBackground(new SaveCallback() {
+                            @Override
+                            public void done(ParseException e) {
+                                if (e == null) {
+                                    refreshScreen();
+                                }
+                            }
+                        });
                         return true;
                     default:
                         return false;
@@ -219,6 +229,14 @@ public class PostAdapter extends ArrayAdapter<ParseObject> {
         });
 
         popup.show();
+    }
+
+    private void refreshScreen() {
+        Activity activity = (Activity) getContext();
+
+        Intent intent = activity.getIntent();
+        activity.finish();
+        activity.startActivity(intent);
     }
 
     private String formatDate(Date date) {

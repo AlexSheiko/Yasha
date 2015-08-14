@@ -76,7 +76,6 @@ public class UserAdapter extends ArrayAdapter<ParseUser> {
         View.OnClickListener userClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: Open history for selected user
                 Intent intent = new Intent(getContext(), HistoryActivity.class);
                 getContext().startActivity(intent);
             }

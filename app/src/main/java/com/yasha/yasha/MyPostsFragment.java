@@ -1,6 +1,8 @@
 package com.yasha.yasha;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,26 +49,31 @@ public class MyPostsFragment extends Fragment {
         query.include("author");
         query.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
 
-        ParseUser user = ParseUser.getCurrentUser();
-        user.fetchInBackground(new GetCallback<ParseObject>() {
-            @Override
-            public void done(ParseObject user, ParseException e) {
-                query.whereEqualTo("author", user);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        String userId = prefs.getString("user_id_history", ParseUser.getCurrentUser().getObjectId());
 
-                query.findInBackground(new FindCallback<ParseObject>() {
-                    @Override
-                    public void done(List<ParseObject> posts, ParseException e) {
-                        if (e == null) {
-                            if (posts.size() > 0) {
-                                mRootView.findViewById(R.id.empty).setVisibility(View.GONE);
-                                mPostAdapter.clear();
-                                mPostAdapter.addAll(posts);
-                            } else {
-                                mRootView.findViewById(R.id.empty).setVisibility(View.VISIBLE);
+        ParseQuery<ParseUser> userQuery = ParseUser.getQuery();
+        userQuery.getInBackground(userId, new GetCallback<ParseUser>() {
+            @Override
+            public void done(ParseUser user, ParseException e) {
+                if (e == null) {
+                    query.whereEqualTo("author", user);
+
+                    query.findInBackground(new FindCallback<ParseObject>() {
+                        @Override
+                        public void done(List<ParseObject> posts, ParseException e) {
+                            if (e == null) {
+                                if (posts.size() > 0) {
+                                    mRootView.findViewById(R.id.empty).setVisibility(View.GONE);
+                                    mPostAdapter.clear();
+                                    mPostAdapter.addAll(posts);
+                                } else {
+                                    mRootView.findViewById(R.id.empty).setVisibility(View.VISIBLE);
+                                }
                             }
                         }
-                    }
-                });
+                    });
+                }
             }
         });
     }
