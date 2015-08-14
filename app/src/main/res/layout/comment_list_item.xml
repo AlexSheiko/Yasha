@@ -41,6 +41,16 @@
             android:textSize="14sp"
             tools:text="Hi Marcelle, it's very brave of you. Johnny has to forgive you. My prayers are with you." />
 
+        <TextView
+            android:id="@+id/date_textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="8dp"
+            android:textColor="#191919"
+            tools:text="Yesterday"
+            android:visibility="gone"
+            tools:visibility="visible"/>
+
     </LinearLayout>
 
 </LinearLayout>

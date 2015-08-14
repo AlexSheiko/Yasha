@@ -21,11 +21,24 @@ import com.yasha.yasha.R;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
 
 public class CommentAdapter extends ArrayAdapter<ParseObject> {
 
+    private boolean mHistorySection = false;
+
     public CommentAdapter(Context context) {
         super(context, 0);
+    }
+
+    public CommentAdapter(Context context, Boolean historySection) {
+        super(context, 0);
+        mHistorySection = historySection;
     }
 
     @Override
@@ -38,10 +51,10 @@ public class CommentAdapter extends ArrayAdapter<ParseObject> {
         final TextView messageView = (TextView) convertView.findViewById(R.id.message_textview);
         final ImageView avatarView = (ImageView) convertView.findViewById(R.id.avatar_imageview);
 
-        final ParseObject post = getItem(position);
-        messageView.setText(post.getString("message"));
+        final ParseObject comment = getItem(position);
+        messageView.setText(comment.getString("message"));
 
-        final ParseUser author = post.getParseUser("author");
+        final ParseUser author = comment.getParseUser("author");
         if (author != null) {
             author.fetchInBackground(new GetCallback<ParseUser>() {
                 @Override
@@ -84,6 +97,47 @@ public class CommentAdapter extends ArrayAdapter<ParseObject> {
             });
         }
 
+        if (mHistorySection) {
+            TextView dateView = (TextView) convertView.findViewById(R.id.date_textview);
+            dateView.setVisibility(View.VISIBLE);
+            dateView.setText(formatDate(comment.getCreatedAt()));
+        }
+
+
         return convertView;
+    }
+
+    private String formatDate(Date date) {
+        if (isToday(date)) {
+            DateFormat dateFormat = new SimpleDateFormat("hh:mm a", Locale.getDefault());
+            return dateFormat.format(date);
+        } else if (isYesterday(date)) {
+            return "Yesterday";
+        } else {
+            DateFormat dateFormat = new SimpleDateFormat("MMMM d", Locale.getDefault());
+            return dateFormat.format(date);
+        }
+    }
+
+    public static boolean isToday(Date date1) {
+        return isSameDay(date1, Calendar.getInstance(TimeZone.getTimeZone("UTC")).getTime());
+    }
+
+    public static boolean isYesterday(Date date1) {
+        Date date2 = new Date(System.currentTimeMillis() - 24 * 60 * 60 * 1000L);
+        return isSameDay(date1, date2);
+    }
+
+    public static boolean isSameDay(Date date1, Date date2) {
+        Calendar cal1 = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        cal1.setTime(date1);
+        Calendar cal2 = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        cal2.setTime(date2);
+        return isSameDay(cal1, cal2);
+    }
+
+    public static boolean isSameDay(Calendar cal1, Calendar cal2) {
+        return (cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) &&
+                cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR));
     }
 }

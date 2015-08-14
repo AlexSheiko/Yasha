@@ -2,6 +2,8 @@ package com.yasha.yasha.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,7 +40,7 @@ public class UserAdapter extends ArrayAdapter<ParseUser> {
         final TextView cityView = (TextView) convertView.findViewById(R.id.city_textview);
         final ImageView avatarView = (ImageView) convertView.findViewById(R.id.avatar_imageview);
 
-        ParseUser user = getItem(position);
+        final ParseUser user = getItem(position);
         nameView.setText(user.getUsername());
         cityView.setText(user.getString("city"));
 
@@ -76,6 +78,9 @@ public class UserAdapter extends ArrayAdapter<ParseUser> {
         View.OnClickListener userClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+                prefs.edit().putString("user_id_history", user.getObjectId()).apply();
+
                 Intent intent = new Intent(getContext(), HistoryActivity.class);
                 getContext().startActivity(intent);
             }

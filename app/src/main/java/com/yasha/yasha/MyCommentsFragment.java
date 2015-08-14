@@ -28,13 +28,14 @@ public class MyCommentsFragment extends Fragment {
                              Bundle savedInstanceState) {
         mRootView = inflater.inflate(R.layout.fragment_comments, container, false);
 
-        final CommentAdapter commentAdapter = new CommentAdapter(getActivity());
+        final CommentAdapter commentAdapter = new CommentAdapter(getActivity(), true);
 
         ListView commentList = (ListView) mRootView.findViewById(R.id.comment_list);
         commentList.setAdapter(commentAdapter);
 
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Comment");
         query.whereEqualTo("author", ParseUser.getCurrentUser());
+        query.orderByDescending("createdAt");
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> comments, ParseException e) {

@@ -21,6 +21,6 @@
         android:text="No posts yet"
         android:textColor="#3b000000"
         android:textSize="20sp"
-        tools:visibility="gone"/>
+        android:visibility="gone"/>
 
 </FrameLayout>

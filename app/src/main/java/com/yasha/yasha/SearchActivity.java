@@ -43,7 +43,6 @@ public class SearchActivity extends AppCompatActivity {
     private void searchUsers(final String username) {
         ParseQuery<ParseUser> query = ParseUser.getQuery();
         query.whereContains("username", username);
-        query.whereEqualTo("city", ParseUser.getCurrentUser().getString("city"));
         query.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
         query.findInBackground(new FindCallback<ParseUser>() {
             @Override
@@ -53,11 +52,7 @@ public class SearchActivity extends AppCompatActivity {
                     mUserAdapter.addAll(users);
                 } else {
                     TextView emptyView = (TextView) findViewById(R.id.empty);
-                    String city = ParseUser.getCurrentUser().getString("city");
-                    if (city.contains(",")) {
-                        city = city.split(",")[0];
-                    }
-                    emptyView.setText("No users matches “" + username + "” in " + city);
+                    emptyView.setText("No users matches “" + username + "”");
                     emptyView.setVisibility(View.VISIBLE);
                 }
             }

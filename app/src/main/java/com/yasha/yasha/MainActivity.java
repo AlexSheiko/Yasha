@@ -106,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
         final ParseQuery<ParseObject> query = ParseQuery.getQuery("Post");
         query.orderByDescending("createdAt");
         query.include("author");
-        query.setCachePolicy(ParseQuery.CachePolicy.NETWORK_ELSE_CACHE);
+        query.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
 
         ParseUser user = ParseUser.getCurrentUser();
         user.fetchInBackground(new GetCallback<ParseObject>() {
@@ -123,8 +123,10 @@ public class MainActivity extends AppCompatActivity {
                         public void done(List<ParseObject> posts, ParseException e) {
                             findViewById(R.id.loading).setVisibility(View.GONE);
                             if (e == null) {
-                                mPostAdapter.clear();
-                                mPostAdapter.addAll(posts);
+                                if (mPostAdapter.getCount() != posts.size()) {
+                                    mPostAdapter.clear();
+                                    mPostAdapter.addAll(posts);
+                                }
                             }
                         }
                     });
