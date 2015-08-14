@@ -8,7 +8,7 @@
     android:background="#F1F8E9"
     android:orientation="horizontal">
 
-    <com.parse.ParseImageView
+    <ImageView
         android:id="@+id/avatar_imageview"
         android:layout_width="72dp"
         android:layout_height="72dp"

@@ -5,13 +5,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.parse.GetCallback;
 import com.parse.GetDataCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
-import com.parse.ParseImageView;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.squareup.picasso.Picasso;
@@ -36,7 +36,7 @@ public class CommentAdapter extends ArrayAdapter<ParseObject> {
 
         final TextView nameView = (TextView) convertView.findViewById(R.id.name_textview);
         final TextView messageView = (TextView) convertView.findViewById(R.id.message_textview);
-        final ParseImageView avatarView = (ParseImageView) convertView.findViewById(R.id.avatar_imageview);
+        final ImageView avatarView = (ImageView) convertView.findViewById(R.id.avatar_imageview);
 
         final ParseObject post = getItem(position);
         messageView.setText(post.getString("message"));
