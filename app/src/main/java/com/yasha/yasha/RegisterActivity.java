@@ -87,6 +87,8 @@ public class RegisterActivity extends AppCompatActivity
     }
 
     public void onClickRegister(View view) {
+        findViewById(R.id.loading).setVisibility(View.VISIBLE);
+
         EditText usernameField = (EditText) findViewById(R.id.username_field);
         EditText emailField = (EditText) findViewById(R.id.email_field);
         EditText passwordField = (EditText) findViewById(R.id.password_field);
@@ -127,6 +129,8 @@ public class RegisterActivity extends AppCompatActivity
         user.signUpInBackground(new SignUpCallback() {
             @Override
             public void done(ParseException e) {
+                findViewById(R.id.loading).setVisibility(View.GONE);
+
                 if (e == null) {
                     // connect to location services and get user location
                     mGoogleApiClient.connect();

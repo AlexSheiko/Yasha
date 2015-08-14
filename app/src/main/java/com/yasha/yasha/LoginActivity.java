@@ -23,6 +23,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void onClickLogin(View view) {
+        findViewById(R.id.loading).setVisibility(View.VISIBLE);
+
         EditText usernameField = (EditText) findViewById(R.id.username_field);
         EditText passwordField = (EditText) findViewById(R.id.password_field);
 
@@ -46,6 +48,8 @@ public class LoginActivity extends AppCompatActivity {
         ParseUser.logInInBackground(username, password, new LogInCallback() {
             @Override
             public void done(ParseUser user, ParseException e) {
+                findViewById(R.id.loading).setVisibility(View.GONE);
+
                 if (user != null) {
                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
                     finish();
