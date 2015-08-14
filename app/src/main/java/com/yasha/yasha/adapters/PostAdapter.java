@@ -1,11 +1,13 @@
 package com.yasha.yasha.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.widget.PopupMenu;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -13,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.parse.CountCallback;
+import com.parse.DeleteCallback;
 import com.parse.FindCallback;
 import com.parse.GetDataCallback;
 import com.parse.ParseException;
@@ -145,7 +148,7 @@ public class PostAdapter extends ArrayAdapter<ParseObject> {
         buttonMore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showPopup(v, author);
+                showPopup(v, author, post);
             }
         });
 
@@ -172,7 +175,7 @@ public class PostAdapter extends ArrayAdapter<ParseObject> {
         return hasUnread;
     }
 
-    private void showPopup(View v, ParseUser author) {
+    private void showPopup(View v, ParseUser author, final ParseObject post) {
         PopupMenu popup = new PopupMenu(getContext(), v);
         MenuInflater inflater = popup.getMenuInflater();
 
@@ -186,8 +189,35 @@ public class PostAdapter extends ArrayAdapter<ParseObject> {
 
 
         inflater.inflate(menuRes, popup.getMenu());
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.action_delete:
+                        post.deleteInBackground(new DeleteCallback() {
+                            @Override
+                            public void done(ParseException e) {
+                                if (e == null) {
+                                    // refresh page
+                                    Activity activity = (Activity) getContext();
 
-        popup.setOnMenuItemClickListener((PopupMenu.OnMenuItemClickListener) getContext());
+                                    Intent intent = activity.getIntent();
+                                    activity.finish();
+                                    activity.startActivity(intent);
+                                }
+                            }
+                        });
+                        return true;
+                    case R.id.action_report:
+                        return true;
+                    case R.id.action_block:
+                        return true;
+                    default:
+                        return false;
+                }
+            }
+        });
+
         popup.show();
     }
 

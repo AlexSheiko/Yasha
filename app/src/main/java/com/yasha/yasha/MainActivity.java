@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
@@ -28,7 +27,7 @@ import com.yasha.yasha.adapters.PostAdapter;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuItemClickListener {
+public class MainActivity extends AppCompatActivity {
 
     private PostAdapter mPostAdapter;
     private Toolbar mToolbar;
@@ -165,21 +164,5 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public boolean onMenuItemClick(MenuItem item) {
-        Toast.makeText(this, "Coming soon", Toast.LENGTH_SHORT).show();
-        switch (item.getItemId()) {
-            case R.id.action_delete:
-                // TODO: Remove selected post
-                return true;
-            case R.id.action_report:
-                return true;
-            case R.id.action_block:
-                return true;
-            default:
-                return false;
-        }
     }
 }
