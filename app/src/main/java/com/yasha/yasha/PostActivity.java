@@ -1,7 +1,6 @@
 package com.yasha.yasha;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
@@ -91,10 +90,8 @@ public class PostActivity extends AppCompatActivity {
     }
 
     public void onClickHistory(View view) {
-        String currentUser = ParseUser.getCurrentUser().getObjectId();
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        prefs.edit().putString("user_id_history", currentUser).apply();
-
+        PreferenceManager.getDefaultSharedPreferences(this)
+                .edit().putString("user_id_history", ParseUser.getCurrentUser().getObjectId()).apply();
         startActivity(new Intent(this, HistoryActivity.class));
     }
 

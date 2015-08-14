@@ -4,7 +4,9 @@ import android.app.SearchManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -38,15 +40,25 @@ public class SearchActivity extends AppCompatActivity {
         userList.setAdapter(mUserAdapter);
     }
 
-    private void searchUsers(String username) {
+    private void searchUsers(final String username) {
         ParseQuery<ParseUser> query = ParseUser.getQuery();
         query.whereContains("username", username);
+        query.whereEqualTo("city", ParseUser.getCurrentUser().getString("city"));
         query.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
         query.findInBackground(new FindCallback<ParseUser>() {
             @Override
             public void done(List<ParseUser> users, ParseException e) {
-                if (users != null) {
+                if (users != null && users.size() > 0) {
+                    findViewById(R.id.empty).setVisibility(View.GONE);
                     mUserAdapter.addAll(users);
+                } else {
+                    TextView emptyView = (TextView) findViewById(R.id.empty);
+                    String city = ParseUser.getCurrentUser().getString("city");
+                    if (city.contains(",")) {
+                        city = city.split(",")[0];
+                    }
+                    emptyView.setText("No users matches “" + username + "” in " + city);
+                    emptyView.setVisibility(View.VISIBLE);
                 }
             }
         });

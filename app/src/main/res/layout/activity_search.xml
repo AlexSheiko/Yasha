@@ -13,4 +13,14 @@
         android:paddingTop="8dp"
         tools:listitem="@layout/user_list_item"/>
 
+    <TextView
+        android:id="@+id/empty"
+        android:layout_width="match_parent"
+        android:gravity="center_horizontal"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="112dp"
+        android:text="No users matches “Ann” in Kiev"
+        android:textColor="#3b000000"
+        android:textSize="20sp"/>
+
 </FrameLayout>
