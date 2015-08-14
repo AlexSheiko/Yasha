@@ -16,7 +16,6 @@ import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -87,8 +86,6 @@ public class RegisterActivity extends AppCompatActivity
     }
 
     public void onClickRegister(View view) {
-        findViewById(R.id.loading).setVisibility(View.VISIBLE);
-
         EditText usernameField = (EditText) findViewById(R.id.username_field);
         EditText emailField = (EditText) findViewById(R.id.email_field);
         EditText passwordField = (EditText) findViewById(R.id.password_field);
@@ -115,6 +112,7 @@ public class RegisterActivity extends AppCompatActivity
             hasEmptyFields = true;
         }
         if (hasEmptyFields) return;
+        findViewById(R.id.loading).setVisibility(View.VISIBLE);
 
         ParseUser user = new ParseUser();
 
@@ -366,15 +364,9 @@ public class RegisterActivity extends AppCompatActivity
     }
 
     @Override
-    public void onBackPressed() {
-        startActivity(new Intent(this, WelcomeActivity.class));
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            startActivity(new Intent(this, WelcomeActivity.class));
-        }
-        return super.onOptionsItemSelected(item);
+    public void startActivity(Intent intent) {
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        finish();
     }
 }

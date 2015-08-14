@@ -14,8 +14,10 @@ public class DispatchActivity extends AppCompatActivity {
 
         if (ParseUser.getCurrentUser() != null) {
             startActivity(new Intent(this, MainActivity.class));
+            finish();
         } else {
             startActivity(new Intent(this, WelcomeActivity.class));
+            finish();
         }
     }
 }

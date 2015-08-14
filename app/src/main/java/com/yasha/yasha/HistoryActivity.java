@@ -1,7 +1,9 @@
 package com.yasha.yasha;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -18,6 +20,7 @@ import android.widget.Toast;
 
 import com.parse.CountCallback;
 import com.parse.FindCallback;
+import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -51,52 +54,77 @@ public class HistoryActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
 
-        // Set up the action bar.
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        String userId = prefs.getString("user_id_history", ParseUser.getCurrentUser().getObjectId());
+        boolean myHistory = userId.equals(ParseUser.getCurrentUser().getObjectId());
+
         final ActionBar actionBar = getSupportActionBar();
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+        if (myHistory) {
+            // Set up the action bar.
+            actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
-        ActionBar.LayoutParams params = new ActionBar.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        mActionbarView = getLayoutInflater().inflate(R.layout.actionbar_unread_counter, null);
-        actionBar.setCustomView(mActionbarView, params);
-        actionBar.setDisplayShowCustomEnabled(true);
+            ActionBar.LayoutParams params = new ActionBar.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+            mActionbarView = getLayoutInflater().inflate(R.layout.actionbar_unread_counter, null);
+            actionBar.setCustomView(mActionbarView, params);
+            actionBar.setDisplayShowCustomEnabled(true);
+        } else {
+            ParseQuery<ParseUser> query = ParseUser.getQuery();
+            query.getInBackground(userId, new GetCallback<ParseUser>() {
+                @Override
+                public void done(ParseUser author, ParseException e) {
+                    if (e == null) {
+                        actionBar.setTitle(author.getUsername() + "'s history");
+                    }
+                }
+            });
+        }
 
+            // Create the adapter that will return a fragment for each of the three
+            // primary sections of the activity.
+            mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
-        // Create the adapter that will return a fragment for each of the three
-        // primary sections of the activity.
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+            // Set up the ViewPager with the sections adapter.
+            mViewPager = (ViewPager) findViewById(R.id.pager);
+            mViewPager.setAdapter(mSectionsPagerAdapter);
 
-        // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.pager);
-        mViewPager.setAdapter(mSectionsPagerAdapter);
+        if (myHistory) {
+            // When swiping between different sections, select the corresponding
+            // tab. We can also use ActionBar.Tab#select() to do this if we have
+            // a reference to the Tab.
+            final ActionBar finalActionBar = actionBar;
+            mViewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+                @Override
+                public void onPageSelected(int position) {
+                    finalActionBar.setSelectedNavigationItem(position);
+                }
+            });
 
-        // When swiping between different sections, select the corresponding
-        // tab. We can also use ActionBar.Tab#select() to do this if we have
-        // a reference to the Tab.
-        mViewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
-            @Override
-            public void onPageSelected(int position) {
-                actionBar.setSelectedNavigationItem(position);
+            // For each of the sections in the app, add a tab to the action bar.
+            for (int i = 0; i < mSectionsPagerAdapter.getCount(); i++) {
+                // Create a tab with text corresponding to the page title defined by
+                // the adapter. Also specify this Activity object, which implements
+                // the TabListener interface, as the callback (listener) for when
+                // this tab is selected.
+                actionBar.addTab(
+                        actionBar.newTab()
+                                .setText(mSectionsPagerAdapter.getPageTitle(i))
+                                .setTabListener(this));
             }
-        });
-
-        // For each of the sections in the app, add a tab to the action bar.
-        for (int i = 0; i < mSectionsPagerAdapter.getCount(); i++) {
-            // Create a tab with text corresponding to the page title defined by
-            // the adapter. Also specify this Activity object, which implements
-            // the TabListener interface, as the callback (listener) for when
-            // this tab is selected.
-            actionBar.addTab(
-                    actionBar.newTab()
-                            .setText(mSectionsPagerAdapter.getPageTitle(i))
-                            .setTabListener(this));
         }
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        showUnreadComments();
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        String userId = prefs.getString("user_id_history", ParseUser.getCurrentUser().getObjectId());
+        boolean myHistory = userId.equals(ParseUser.getCurrentUser().getObjectId());
+
+        if (myHistory) {
+            showUnreadComments();
+        }
     }
 
     private void showUnreadComments() {

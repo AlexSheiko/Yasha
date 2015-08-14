@@ -3,7 +3,6 @@ package com.yasha.yasha;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -23,8 +22,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void onClickLogin(View view) {
-        findViewById(R.id.loading).setVisibility(View.VISIBLE);
-
         EditText usernameField = (EditText) findViewById(R.id.username_field);
         EditText passwordField = (EditText) findViewById(R.id.password_field);
 
@@ -44,6 +41,7 @@ public class LoginActivity extends AppCompatActivity {
             hasEmptyFields = true;
         }
         if (hasEmptyFields) return;
+        findViewById(R.id.loading).setVisibility(View.VISIBLE);
 
         ParseUser.logInInBackground(username, password, new LogInCallback() {
             @Override
@@ -98,15 +96,10 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onBackPressed() {
-        startActivity(new Intent(this, WelcomeActivity.class));
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            startActivity(new Intent(this, WelcomeActivity.class));
-        }
-        return super.onOptionsItemSelected(item);
+    public void startActivity(Intent intent) {
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        finish();
+        super.startActivity(intent);
     }
 }
