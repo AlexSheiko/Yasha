@@ -29,7 +29,7 @@
                 android:onClick="onAvatarClick"
                 android:clickable="true"
                 android:scaleType="centerCrop"
-                android:src="@drawable/avatar_placeholder" />
+                tools:src="@drawable/avatar_placeholder" />
 
             <LinearLayout
                 android:layout_width="match_parent"

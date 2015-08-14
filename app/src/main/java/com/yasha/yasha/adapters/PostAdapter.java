@@ -81,18 +81,24 @@ public class PostAdapter extends ArrayAdapter<ParseObject> {
 
                     Picasso.with(getContext())
                             .load(tempFile)
-                            .placeholder(R.drawable.avatar_placeholder)
                             .fit()
                             .transform(new CircleTransform())
                             .noFade()
                             .into(avatarView);
                 }
             });
+        } else {
+            Picasso.with(getContext())
+                    .load(R.drawable.avatar_placeholder)
+                    .fit()
+                    .transform(new CircleTransform())
+                    .noFade()
+                    .into(avatarView);
         }
 
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Comment");
         query.whereEqualTo("post", post);
-        query.setCachePolicy(ParseQuery.CachePolicy.NETWORK_ELSE_CACHE);
+        query.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
         query.countInBackground(new CountCallback() {
             @Override
             public void done(int count, ParseException e) {
@@ -105,7 +111,7 @@ public class PostAdapter extends ArrayAdapter<ParseObject> {
         ParseQuery<ParseObject> unreadQuery = ParseQuery.getQuery("Comment");
         unreadQuery.whereEqualTo("post", post);
         unreadQuery.whereNotEqualTo("author", ParseUser.getCurrentUser());
-        unreadQuery.setCachePolicy(ParseQuery.CachePolicy.NETWORK_ELSE_CACHE);
+        unreadQuery.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
         unreadQuery.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> comments, ParseException e) {

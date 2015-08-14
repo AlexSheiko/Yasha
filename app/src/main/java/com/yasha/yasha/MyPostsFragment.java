@@ -44,7 +44,7 @@ public class MyPostsFragment extends Fragment {
         final ParseQuery<ParseObject> query = ParseQuery.getQuery("Post");
         query.orderByDescending("createdAt");
         query.include("author");
-        query.setCachePolicy(ParseQuery.CachePolicy.NETWORK_ELSE_CACHE);
+        query.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
 
         ParseUser user = ParseUser.getCurrentUser();
         user.fetchInBackground(new GetCallback<ParseObject>() {

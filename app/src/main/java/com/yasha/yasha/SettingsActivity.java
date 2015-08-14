@@ -76,6 +76,12 @@ public class SettingsActivity extends AppCompatActivity {
                             .into(avatarView);
                 }
             });
+        } else {
+            Picasso.with(this)
+                    .load(R.drawable.avatar_placeholder)
+                    .transform(new CircleTransform())
+                    .noFade()
+                    .into(avatarView);
         }
     }
 

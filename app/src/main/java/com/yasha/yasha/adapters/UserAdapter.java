@@ -58,13 +58,19 @@ public class UserAdapter extends ArrayAdapter<ParseUser> {
 
                     Picasso.with(getContext())
                             .load(tempFile)
-                            .placeholder(R.drawable.avatar_placeholder)
                             .fit()
                             .transform(new CircleTransform())
                             .noFade()
                             .into(avatarView);
                 }
             });
+        } else {
+            Picasso.with(getContext())
+                    .load(R.drawable.avatar_placeholder)
+                    .fit()
+                    .transform(new CircleTransform())
+                    .noFade()
+                    .into(avatarView);
         }
 
         View.OnClickListener userClickListener = new View.OnClickListener() {

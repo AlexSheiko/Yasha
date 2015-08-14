@@ -16,7 +16,7 @@
         android:scaleType="centerCrop"
         android:clickable="true"
         android:onClick="onAvatarClick"
-        android:src="@drawable/avatar_placeholder"/>
+        tools:src="@drawable/avatar_placeholder"/>
 
     <EditText
         android:id="@+id/username_field"

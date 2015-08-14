@@ -12,7 +12,7 @@
         android:clickable="true"
         android:layout_height="72dp"
         android:padding="16dp"
-        android:src="@drawable/avatar_placeholder" />
+        tools:src="@drawable/avatar_placeholder" />
 
     <LinearLayout
         android:layout_width="0dp"

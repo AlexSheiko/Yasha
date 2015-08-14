@@ -65,13 +65,19 @@ public class CommentAdapter extends ArrayAdapter<ParseObject> {
 
                                     Picasso.with(getContext())
                                             .load(tempFile)
-                                            .placeholder(R.drawable.avatar_placeholder)
                                             .fit()
                                             .transform(new CircleTransform())
                                             .noFade()
                                             .into(avatarView);
                                 }
                             });
+                        } else {
+                            Picasso.with(getContext())
+                                    .load(R.drawable.avatar_placeholder)
+                                    .fit()
+                                    .transform(new CircleTransform())
+                                    .noFade()
+                                    .into(avatarView);
                         }
                     }
                 }

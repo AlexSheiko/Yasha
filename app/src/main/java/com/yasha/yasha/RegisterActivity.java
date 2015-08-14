@@ -70,6 +70,14 @@ public class RegisterActivity extends AppCompatActivity
                 && savedInstanceState.getBoolean(STATE_RESOLVING_ERROR, false);
 
         mResultReceiver = new AddressResultReceiver(new Handler());
+
+
+        ImageView avatarView = (ImageView) findViewById(R.id.avatar_picker);
+        Picasso.with(this)
+                .load(R.drawable.avatar_placeholder)
+                .transform(new CircleTransform())
+                .noFade()
+                .into(avatarView);
     }
 
     @Override

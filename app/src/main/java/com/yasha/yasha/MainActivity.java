@@ -105,7 +105,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         final ParseQuery<ParseObject> query = ParseQuery.getQuery("Post");
         query.orderByDescending("createdAt");
         query.include("author");
-        query.setCachePolicy(ParseQuery.CachePolicy.NETWORK_ELSE_CACHE);
+        query.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
 
         ParseUser user = ParseUser.getCurrentUser();
         user.fetchInBackground(new GetCallback<ParseObject>() {
@@ -126,6 +126,10 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
                             }
                         }
                     });
+                } else if (e.getMessage().contains("invalid session token")) {
+                    startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                    finish();
+                    Toast.makeText(MainActivity.this, "Session was expired. Please login again", Toast.LENGTH_LONG).show();
                 }
             }
         });
