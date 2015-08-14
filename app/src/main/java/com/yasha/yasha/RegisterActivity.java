@@ -16,6 +16,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -337,7 +338,7 @@ public class RegisterActivity extends AppCompatActivity
             }
 
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 51, stream);
             byte[] bitmapdata = stream.toByteArray();
 
             mAvatarFile = new ParseFile(bitmapdata, "image/png");
@@ -347,8 +348,21 @@ public class RegisterActivity extends AppCompatActivity
 
     public Uri getImageUri(Bitmap inImage) {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        inImage.compress(Bitmap.CompressFormat.PNG, 100, bytes);
+        inImage.compress(Bitmap.CompressFormat.PNG, 51, bytes);
         String path = MediaStore.Images.Media.insertImage(getContentResolver(), inImage, "Title", null);
         return Uri.parse(path);
+    }
+
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(this, WelcomeActivity.class));
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            startActivity(new Intent(this, WelcomeActivity.class));
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

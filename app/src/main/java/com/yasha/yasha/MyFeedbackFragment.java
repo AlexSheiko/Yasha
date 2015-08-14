@@ -33,7 +33,7 @@ public class MyFeedbackFragment extends Fragment {
 
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Post");
         query.whereEqualTo("author", ParseUser.getCurrentUser());
-        query.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
+        query.setCachePolicy(ParseQuery.CachePolicy.NETWORK_ELSE_CACHE);
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> posts, ParseException e) {
@@ -45,7 +45,7 @@ public class MyFeedbackFragment extends Fragment {
                         commentQuery.include("author");
                         commentQuery.whereEqualTo("post", post);
                         commentQuery.whereNotEqualTo("author", ParseUser.getCurrentUser());
-                        commentQuery.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
+                        commentQuery.setCachePolicy(ParseQuery.CachePolicy.NETWORK_ELSE_CACHE);
                         commentQuery.findInBackground(new FindCallback<ParseObject>() {
                             @Override
                             public void done(List<ParseObject> comments, ParseException e) {

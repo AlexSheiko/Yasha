@@ -15,9 +15,11 @@ public class WelcomeActivity extends AppCompatActivity {
 
     public void onClickRegister(View view) {
         startActivity(new Intent(this, RegisterActivity.class));
+        finish();
     }
 
     public void onClickLogin(View view) {
         startActivity(new Intent(this, LoginActivity.class));
+        finish();
     }
 }

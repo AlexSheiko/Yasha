@@ -105,7 +105,7 @@ public class CommentActivity extends AppCompatActivity {
         ParseQuery<ParseObject> query = new ParseQuery<>("Comment");
         query.whereEqualTo("post", mPost);
         query.include("author");
-        query.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
+        query.setCachePolicy(ParseQuery.CachePolicy.NETWORK_ELSE_CACHE);
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> comments, ParseException e) {

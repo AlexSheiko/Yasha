@@ -92,7 +92,7 @@ public class PostAdapter extends ArrayAdapter<ParseObject> {
 
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Comment");
         query.whereEqualTo("post", post);
-        query.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
+        query.setCachePolicy(ParseQuery.CachePolicy.NETWORK_ELSE_CACHE);
         query.countInBackground(new CountCallback() {
             @Override
             public void done(int count, ParseException e) {
@@ -105,7 +105,7 @@ public class PostAdapter extends ArrayAdapter<ParseObject> {
         ParseQuery<ParseObject> unreadQuery = ParseQuery.getQuery("Comment");
         unreadQuery.whereEqualTo("post", post);
         unreadQuery.whereNotEqualTo("author", ParseUser.getCurrentUser());
-        unreadQuery.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
+        unreadQuery.setCachePolicy(ParseQuery.CachePolicy.NETWORK_ELSE_CACHE);
         unreadQuery.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> comments, ParseException e) {

@@ -209,4 +209,12 @@ public class HistoryActivity extends AppCompatActivity
                 return false;
         }
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            super.onBackPressed();
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

@@ -3,6 +3,7 @@ package com.yasha.yasha;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -57,17 +58,17 @@ public class LoginActivity extends AppCompatActivity {
                         public void done(ParseUser user, ParseException e) {
                             if (e == null) {
 
-                            ParseUser.logInInBackground(user.getUsername(), password, new LogInCallback() {
-                                @Override
-                                public void done(ParseUser parseUser, ParseException e) {
-                                    if (parseUser != null) {
-                                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                                        finish();
-                                    } else {
-                                        Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                                ParseUser.logInInBackground(user.getUsername(), password, new LogInCallback() {
+                                    @Override
+                                    public void done(ParseUser parseUser, ParseException e) {
+                                        if (parseUser != null) {
+                                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                                            finish();
+                                        } else {
+                                            Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                                        }
                                     }
-                                }
-                            });
+                                });
 
                             } else {
                                 String errorMessage = e.getMessage();
@@ -90,5 +91,18 @@ public class LoginActivity extends AppCompatActivity {
 
     public void onForgotPasswordClick(View view) {
         Toast.makeText(this, "Coming soon", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(this, WelcomeActivity.class));
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            startActivity(new Intent(this, WelcomeActivity.class));
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

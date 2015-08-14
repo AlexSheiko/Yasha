@@ -105,7 +105,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         final ParseQuery<ParseObject> query = ParseQuery.getQuery("Post");
         query.orderByDescending("createdAt");
         query.include("author");
-        query.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
+        query.setCachePolicy(ParseQuery.CachePolicy.NETWORK_ELSE_CACHE);
 
         ParseUser user = ParseUser.getCurrentUser();
         user.fetchInBackground(new GetCallback<ParseObject>() {
@@ -168,6 +168,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         Toast.makeText(this, "Coming soon", Toast.LENGTH_SHORT).show();
         switch (item.getItemId()) {
             case R.id.action_delete:
+                // TODO: Remove selected post
                 return true;
             case R.id.action_report:
                 return true;

@@ -54,7 +54,6 @@
                         android:id="@+id/city_textview"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:visibility="gone"
                         tools:text="Paris, France" />
 
                 </LinearLayout>

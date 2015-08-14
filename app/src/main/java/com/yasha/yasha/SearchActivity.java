@@ -42,7 +42,7 @@ public class SearchActivity extends AppCompatActivity {
         // TODO: Add settings functionality
         ParseQuery<ParseUser> query = ParseUser.getQuery();
         query.whereContains("username", username);
-        query.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
+        query.setCachePolicy(ParseQuery.CachePolicy.NETWORK_ELSE_CACHE);
         query.findInBackground(new FindCallback<ParseUser>() {
             @Override
             public void done(List<ParseUser> users, ParseException e) {

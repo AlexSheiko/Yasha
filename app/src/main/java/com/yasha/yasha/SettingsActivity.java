@@ -137,9 +137,6 @@ public class SettingsActivity extends AppCompatActivity {
                 Bundle extras = data.getExtras();
                 bitmap = (Bitmap) extras.get("data");
 
-//                drawable = new BitmapDrawable(getResources(), bitmap);
-//                avatarView.setBackground(drawable);
-
             } else if (requestCode == REQUEST_FROM_GALLERY) {
                 Uri imageUri = data.getData();
                 String imagePath = getPath(imageUri);
@@ -155,11 +152,10 @@ public class SettingsActivity extends AppCompatActivity {
                     .noFade()
                     .into(avatarView);
 
-//            avatarView.setBackground(roundedDrawable);
-//            avatarView.setImageBitmap(null);
+
 
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 51, stream);
             byte[] bitmapdata = stream.toByteArray();
 
             final ParseFile avatarFile = new ParseFile(bitmapdata, "image/png");
@@ -351,7 +347,9 @@ public class SettingsActivity extends AppCompatActivity {
 
         final EditText emailField = new EditText(this);
         emailField.setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
-        emailField.setText(ParseUser.getCurrentUser().getEmail());
+        if (ParseUser.getCurrentUser() != null) {
+            emailField.setText(ParseUser.getCurrentUser().getEmail());
+        }
         emailField.selectAll();
         builder.setView(emailField, convertToPixels(20), convertToPixels(12), convertToPixels(20), convertToPixels(4));
 
