@@ -1,99 +1,123 @@
-<LinearLayout
-    style="@style/Container"
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    style="@style/Container"
     tools:context=".PostActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingBottom="8dp"
-        android:paddingTop="8dp">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <ToggleButton
-            android:id="@+id/toggle_forgiveness"
-            style="@style/CategoryToggle"
-            android:layout_marginLeft="8dp"
-            android:checked="true"
-            android:textSize="16sp"
-            android:contentDescription="@string/forgiveness"
-            android:textOff="F"
-            android:textOn="F"/>
-
-        <ToggleButton
-            android:id="@+id/toggle_confession"
-            style="@style/CategoryToggle"
-            android:layout_marginLeft="8dp"
-            android:contentDescription="@string/confession"
-            android:textOff="C"
-            android:textOn="C"/>
-
-        <ToggleButton
-            android:id="@+id/toggle_witness"
-            style="@style/CategoryToggle"
-            android:layout_marginLeft="8dp"
-            android:contentDescription="@string/witness"
-            android:textOff="W"
-            android:textOn="W"/>
-
-        <ToggleButton
-            android:id="@+id/toggle_testimony"
-            style="@style/CategoryToggle"
-            android:layout_marginLeft="8dp"
-            android:contentDescription="@string/testimony"
-            android:textOff="T"
-            android:textOn="T"/>
-
-        <Space
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"/>
-
-        <Button
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_width="wrap_content"
-            android:layout_height="56dp"
-            android:drawablePadding="8dp"
-            android:drawableRight="@drawable/ic_history"
-            android:gravity="center_vertical"
-            android:onClick="onClickHistory"
-            android:paddingLeft="16dp"
-            android:text="History"
-            android:textAllCaps="false"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:gravity="bottom"
-        android:orientation="horizontal"
-        android:padding="8dp">
-
-        <EditText
-            android:id="@+id/message_field"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="8dp"
+            android:paddingTop="8dp">
+
+            <ToggleButton
+                android:id="@+id/toggle_forgiveness"
+                style="@style/CategoryToggle"
+                android:layout_marginLeft="8dp"
+                android:checked="true"
+                android:contentDescription="@string/forgiveness"
+                android:textOff="F"
+                android:textOn="F"
+                android:textSize="16sp" />
+
+            <ToggleButton
+                android:id="@+id/toggle_confession"
+                style="@style/CategoryToggle"
+                android:layout_marginLeft="8dp"
+                android:contentDescription="@string/confession"
+                android:textOff="C"
+                android:textOn="C" />
+
+            <ToggleButton
+                android:id="@+id/toggle_witness"
+                style="@style/CategoryToggle"
+                android:layout_marginLeft="8dp"
+                android:contentDescription="@string/witness"
+                android:textOff="W"
+                android:textOn="W" />
+
+            <ToggleButton
+                android:id="@+id/toggle_testimony"
+                style="@style/CategoryToggle"
+                android:layout_marginLeft="8dp"
+                android:contentDescription="@string/testimony"
+                android:textOff="T"
+                android:textOn="T" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <Button
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="wrap_content"
+                android:layout_height="56dp"
+                android:drawablePadding="8dp"
+                android:drawableRight="@drawable/ic_history"
+                android:gravity="center_vertical"
+                android:onClick="onClickHistory"
+                android:paddingLeft="16dp"
+                android:text="History"
+                android:textAllCaps="false" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
             android:layout_weight="1"
-            android:hint="@string/comment"
-            android:inputType="textCapSentences|textMultiLine"
-            android:paddingBottom="20dp"
-            android:paddingRight="8dp"
-            android:paddingTop="8dp"/>
+            android:gravity="bottom"
+            android:orientation="horizontal"
+            android:padding="8dp">
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/category_background"
-            android:onClick="onClickPost"
-            android:text="@string/post"
-            android:textAllCaps="false"
-            android:textColor="#e6ffffff"/>
+            <EditText
+                android:id="@+id/message_field"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/comment"
+                android:inputType="textCapSentences|textMultiLine"
+                android:paddingBottom="20dp"
+                android:paddingRight="8dp"
+                android:paddingTop="8dp" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/category_background"
+                android:onClick="onClickPost"
+                android:text="@string/post"
+                android:textAllCaps="false"
+                android:textColor="#e6ffffff" />
+
+        </LinearLayout>
 
     </LinearLayout>
 
-</LinearLayout>
+    <FrameLayout
+        android:id="@+id/loading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#33000000"
+        android:clickable="true"
+        android:visibility="gone">
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="86dp" />
+
+    </FrameLayout>
+
+</FrameLayout>

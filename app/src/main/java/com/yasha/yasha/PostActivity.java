@@ -103,6 +103,7 @@ public class PostActivity extends AppCompatActivity {
             messageField.setError("Enter your message");
             return;
         }
+        findViewById(R.id.loading).setVisibility(View.VISIBLE);
 
         ParseUser user = ParseUser.getCurrentUser();
         final ParseObject post = new ParseObject("Post");
@@ -114,6 +115,8 @@ public class PostActivity extends AppCompatActivity {
         user.fetchInBackground(new GetCallback<ParseObject>() {
             @Override
             public void done(ParseObject user, ParseException e) {
+                findViewById(R.id.loading).setVisibility(View.GONE);
+
                 if (e == null) {
                     post.put("city", user.getString("city"));
 
