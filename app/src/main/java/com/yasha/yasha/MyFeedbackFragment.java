@@ -28,13 +28,14 @@ public class MyFeedbackFragment extends Fragment {
                              Bundle savedInstanceState) {
         mRootView = inflater.inflate(R.layout.fragment_feedback, container, false);
 
-        final CommentAdapter commentAdapter = new CommentAdapter(getActivity());
+        final CommentAdapter commentAdapter = new CommentAdapter(getActivity(), true);
 
         ListView commentList = (ListView) mRootView.findViewById(R.id.comment_list);
         commentList.setAdapter(commentAdapter);
 
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Post");
         query.whereEqualTo("author", ParseUser.getCurrentUser());
+        query.orderByDescending("createdAt");
         query.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override

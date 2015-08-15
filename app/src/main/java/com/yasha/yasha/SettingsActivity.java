@@ -389,4 +389,19 @@ public class SettingsActivity extends AppCompatActivity {
         AlertDialog dialog = builder.create();
         dialog.show();
     }
+
+    public void onLogoutClick(View view) {
+        ParseUser.logOutInBackground(new LogOutCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e == null) {
+                    finish();
+
+                    Intent intent = new Intent(SettingsActivity.this, LoginActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
+                }
+            }
+        });
+    }
 }
