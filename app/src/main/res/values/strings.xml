@@ -8,8 +8,8 @@
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="login">Log In</string>
-    <string name="policy_login">By clicking “Log In” you accept Yasha\'s terms of service and privacy policy</string>
-    <string name="policy_register">By clicking “Register” you accept Yasha\'s terms of service and privacy policy</string>
+    <string name="policy_login">By clicking “Log In” you accept Yasha\'s</string>
+    <string name="policy_register">By clicking “Register” you accept Yasha\'s</string>
     <string name="title_activity_comment">Comments</string>
     <string name="comment">Type a message…</string>
     <string name="title_activity_post">My post</string>
@@ -34,4 +34,7 @@
     <string name="no_address_found">No address found</string>
     <string name="address_found">Address found</string>
     <string name="search_hint">Search users...</string>
+    <string name="terms"><u>terms of service</u></string>
+    <string name="policy"><u>privacy policy</u></string>
+    <string name="title_activity_agreement">AgreementActivity</string>
 </resources>

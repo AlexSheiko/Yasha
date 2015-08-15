@@ -1,8 +1,9 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    style="@style/Container"
-    android:layout_height="match_parent"
-    tools:context=".LoginActivity">
+<FrameLayout style="@style/Container"
+             xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_height="match_parent"
+             android:paddingBottom="16dp"
+             tools:context=".LoginActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -24,7 +25,7 @@
             android:paddingBottom="16dp"
             android:paddingLeft="4dp"
             android:paddingRight="4dp"
-            android:paddingTop="16dp" />
+            android:paddingTop="16dp"/>
 
         <EditText
             android:id="@+id/password_field"
@@ -39,7 +40,7 @@
             android:paddingBottom="16dp"
             android:paddingLeft="4dp"
             android:paddingRight="4dp"
-            android:paddingTop="16dp" />
+            android:paddingTop="16dp"/>
 
         <Button
             android:id="@+id/forgot_button"
@@ -49,7 +50,7 @@
             android:onClick="onForgotPasswordClick"
             android:text="Forgot password?"
             android:textAllCaps="false"
-            android:textColor="#6B8EBA" />
+            android:textColor="#6B8EBA"/>
 
         <Button
             android:id="@+id/login_button"
@@ -64,15 +65,49 @@
             android:text="@string/login"
             android:textAllCaps="false"
             android:textColor="@android:color/primary_text_dark"
-            android:textSize="16sp" />
+            android:textSize="16sp"/>
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:gravity="center_horizontal"
-            android:lineSpacingMultiplier="1.1"
-            android:text="@string/policy_login" />
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:gravity="center_horizontal"
+                android:text="@string/policy_login"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:onClick="onClickTerms"
+                    android:text="@string/terms"
+                    android:textColor="#139D90"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" and "/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:onClick="onClickPolicy"
+                    android:text="@string/policy"
+                    android:textColor="#139D90"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
 
     </LinearLayout>
 
@@ -90,7 +125,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="86dp" />
+            android:layout_marginTop="86dp"/>
 
     </FrameLayout>
 

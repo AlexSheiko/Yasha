@@ -1,0 +1,109 @@
+<p>Please read these Terms of Use (“Terms”) carefully.</p>
+
+<p>By downloading, accessing or using the mobile
+applications, websites or other products or services (collectively, the “Services”) of Yasha Ltd., you agree
+to be bound by these Terms. If you do not agree to these Terms, do not use the Services.
+We may change or modify these Terms at any time and in our sole discretion. If we make changes to
+these Terms, we will provide notice of such changes, such as by sending a notification, posting a notice
+on the Services or updating the “Last Updated” date above. Your continued use of the Services
+will confirm your acceptance of the revised Terms. We encourage you to frequently review the Terms to
+ensure you understand the terms and conditions that apply to your use of the Services. If you do not
+agree to the amended Terms, you must stop using the Services and delete your Yasha account.<p>
+
+<h2>HAVE FUN</h2>
+
+<p>The language below is meant to support this rule. It allows us to providing and improving our Services,
+and it helps to ensure that a few mean users don’t ruin the fun for everyone else. Your part in that is
+simple. Just use common sense and do not abuse the Yasha services.</p>
+
+<h2>OUR AUDIENCE</h2>
+
+<p>This section is about who can use Yasha.
+You affirm that you are either more than 18 years of age, or an emancipated minor, or possess legal
+parental or guardian consent, and are fully able and competent to enter into the terms, conditions,
+obligations, affirmations, representations, and warranties set forth in these Terms, and to abide by and
+comply with these Terms. In addition, you affirm that you have not been previously suspended or
+removed from the Services and do not have more than one Yasha account.
+We may, in our sole discretion, refuse to offer the Services to any person or entity. We may, without
+notice and in our sole discretion, terminate your right to use the Services, or any portion of thereof, and
+block or prevent your future access to and use of the Services or any portion thereof.</p>
+
+<h2>USAGE DATA</h2>
+
+<p>This section is about data we collect.
+By using the Yasha application you agree to let Yasha Ltd. collect information about your usage of the
+application. You also agree to let Yasha Ltd. collect certain types of information from and about your
+device. For more information about the information we collect from you and your device and Yasha
+Ltd.’s privacy practices, please review our Private Policy.</p>
+
+<h2>USER CONTENT</h2>
+
+<p>This section is about your stuff—content you create.
+The Services consist of interactive features and areas that allow users to create, post, transmit and/or
+store content, including but not limited to photos, text, graphics, items or other materials (collectively, 
+“User Content”). You understand that your User Content may be viewable by others. You agree that you
+are solely responsible for your User Content and that Yasha Ltd. is not responsible or liable for any User
+Content. While we are not obligated to do so, we reserve the right, and have absolute discretion, to
+review, screen and delete User Content at any time and for any reason.
+You retain all ownership rights in your User Content. However, by submitting User Content to Yasha Ltd.,
+you hereby grant us a nonexclusive, worldwide, royalty-free, sub-licensable and transferable license to
+use, reproduce, modify, adapt, publish, create derivative works from, distribute, perform and display
+such User Content in connection with the Services.</p>
+
+<h2>PROHIBITED ACTIVITIES</h2>
+
+<p>
+    This section is about some things you can’t do as a Yasha user.
+    In addition to the other restrictions outlined in these Terms, you agree that you will not:
+
+    <br><br>
+        Use the Services for any purpose that is illegal, beyond the scope of their intended use, or otherwise
+        prohibited in these Terms;
+
+    <br><br>
+        Use the Services in any manner that could interfere with, disrupt, negatively affect or inhibit other users
+        from fully enjoying the Services, or that could damage, disable, overburden or impair the functioning of
+        the Services in any manner;
+
+    <br><br>
+        Compromise the security of the Services;
+
+    <br><br>
+        Send any unsolicited or unauthorized advertising, spam, solicitations or promotional materials;
+
+    <br><br>
+        Use any robot, spider, crawler, scraper or other automated means or interface not provided by us to
+        access the Services or to extract data;
+
+    <br><br>
+        Reverse engineer any aspect of the Services or do anything that might discover source code or bypass or
+        circumvent measures employed to prevent or limit access to any area, content or code of the Services;
+
+    <br><br>
+        Use or attempt to use another user’s account without authorization;
+
+    <br><br>
+        Attempt to circumvent any content filtering techniques we employ, or attempt to access areas/features
+        of the Services that you are not authorized to access;
+
+    <br><br>
+        Attempt to indicate in any manner that you have a relationship with us or that we have endorsed you or
+        any products or services without our express written consent to do so;
+
+    <br><br>
+        Engage in any harassing, intimidating, predatory or stalking conduct;
+
+    <br><br>
+        Develop any third-party applications that interact with User Content or the Services without our prior
+        written consent;
+
+    <br><br>
+        Use the Services for any illegal or unauthorized purpose or engage in, encourage, or promote any
+        activity that violates these Terms.
+
+    <br><br>
+        You further agree to abide by any third-party terms that apply when posting reviews of Yasha, including
+        the iTunes App Store Terms of Service and/or the Android Market Terms of Service. Posting Yasha
+        usernames in app store reviews is strictly prohibited and may result in the deletion of your Yasha
+        account.
+</p>

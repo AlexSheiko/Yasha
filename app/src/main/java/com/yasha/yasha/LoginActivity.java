@@ -97,9 +97,23 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     public void startActivity(Intent intent) {
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        finish();
+        if (!intent.hasExtra("category")) {
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            finish();
+        }
         super.startActivity(intent);
+    }
+
+    public void onClickTerms(View view) {
+        Intent intent = new Intent(this, AgreementActivity.class);
+        intent.putExtra("category", "Terms");
+        startActivity(intent);
+    }
+
+    public void onClickPolicy(View view) {
+        Intent intent = new Intent(this, AgreementActivity.class);
+        intent.putExtra("category", "Privacy");
+        startActivity(intent);
     }
 }
