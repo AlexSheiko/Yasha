@@ -1,12 +1,13 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".SettingsActivity">
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".SettingsActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#F4F4F4"
         android:orientation="vertical"
         android:paddingBottom="8dp">
 
@@ -14,7 +15,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:background="#F4F4F4"
             android:orientation="vertical"
             android:paddingBottom="@dimen/activity_vertical_margin"
             android:paddingLeft="@dimen/activity_horizontal_margin"
@@ -26,10 +26,10 @@
                 android:layout_width="104dp"
                 android:layout_height="104dp"
                 android:layout_gravity="center_horizontal"
-                android:onClick="onAvatarClick"
                 android:clickable="true"
+                android:onClick="onAvatarClick"
                 android:scaleType="centerCrop"
-                tools:src="@drawable/avatar_placeholder" />
+                tools:src="@drawable/avatar_placeholder"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -48,13 +48,13 @@
                         style="@style/TextAppearance.AppCompat.Title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        tools:text="Frank" />
+                        tools:text="Frank"/>
 
                     <TextView
                         android:id="@+id/city_textview"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        tools:text="Paris, France" />
+                        tools:text="Paris, France"/>
 
                 </LinearLayout>
 
@@ -62,46 +62,69 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@android:color/white"
+                    android:onClick="onAvatarClick"
                     android:paddingLeft="16dp"
                     android:paddingRight="16dp"
-                    android:onClick="onAvatarClick"
                     android:text="Set Photo"
                     android:textAllCaps="false"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"/>
 
             </LinearLayout>
 
         </LinearLayout>
 
-        <Button
-            style="@style/SettingsButton"
-            android:onClick="onChangePasswordClick"
-            android:text="Change Your Password" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:orientation="vertical">
 
-        <Button
-            style="@style/SettingsButton"
-            android:onClick="onDeleteAccountPressed"
-            android:text="Delete Your Account" />
+            <Button
+                style="@style/SettingsButton"
+                android:onClick="onChangePasswordClick"
+                android:text="Change Your Password"/>
 
-        <Button
-            style="@style/SettingsButton"
-            android:onClick="onChangeUsernameClick"
-            android:text="Change Your Username" />
+            <View
+                style="@style/Divider"/>
 
-        <Button
-            style="@style/SettingsButton"
-            android:onClick="onChangeEmailClick"
-            android:text="Change Your Email Address" />
+            <Button
+                style="@style/SettingsButton"
+                android:onClick="onDeleteAccountPressed"
+                android:text="Delete Your Account"/>
 
-        <Button
-            style="@style/SettingsButton"
-            android:onClick="onInviteClick"
-            android:text="Invite Your Friends" />
+            <View
+                style="@style/Divider"/>
 
-        <Button
-            style="@style/SettingsButton"
-            android:onClick="onLogoutClick"
-            android:text="Sign Out" />
+            <Button
+                style="@style/SettingsButton"
+                android:onClick="onChangeUsernameClick"
+                android:text="Change Your Username"/>
+
+            <View
+                style="@style/Divider"/>
+
+            <Button
+                style="@style/SettingsButton"
+                android:onClick="onChangeEmailClick"
+                android:text="Change Your Email Address"/>
+
+            <View
+                style="@style/Divider"/>
+
+            <Button
+                style="@style/SettingsButton"
+                android:onClick="onInviteClick"
+                android:text="Invite Your Friends"/>
+
+            <View
+                style="@style/Divider"/>
+
+            <Button
+                style="@style/SettingsButton"
+                android:onClick="onLogoutClick"
+                android:text="Sign Out"/>
+
+        </LinearLayout>
 
     </LinearLayout>
 

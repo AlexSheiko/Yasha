@@ -94,6 +94,7 @@
         <activity
             android:name=".SettingsActivity"
             android:label="@string/title_activity_settings"
+            android:theme="@style/AppTheme.Settings"
             android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait" >
             <meta-data

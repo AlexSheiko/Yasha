@@ -6,4 +6,6 @@
     <color name="category_background">#b4500095</color>
     <color name="category_background_light">#50500095</color>
     <color name="window_background">#FAFAFA</color>
+    <color name="window_background_dark">#0C1417</color>
+    <color name="window_background_gray">#EDEDED</color>
 </resources>

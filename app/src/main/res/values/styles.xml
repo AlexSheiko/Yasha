@@ -16,6 +16,11 @@
         <item name="colorPrimary">#FFFFFF</item>
     </style>
 
+    <style name="AppTheme.Settings" parent="AppTheme.LightActionBar">
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="colorPrimary">#F4F4F4</item>
+    </style>
+
     <style name="AppTheme.NoActionBar" parent="AppTheme">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
@@ -55,6 +60,12 @@
         <item name="android:gravity">left|center_vertical</item>
     </style>
 
-    <color name="window_background_dark">#0C1417</color>
-    <color name="window_background_gray">#EDEDED</color>
+    <style name="Divider">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">#F4F4F4</item>
+        <item name="android:layout_marginLeft">16dp</item>
+        <item name="android:layout_marginRight">16dp</item>
+    </style>
+
 </resources>

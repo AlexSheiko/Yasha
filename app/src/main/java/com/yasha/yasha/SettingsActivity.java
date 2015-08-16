@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -47,6 +48,8 @@ public class SettingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
+        getSupportActionBar().setElevation(0);
+
         TextView nameView = (TextView) findViewById(R.id.name_textview);
         TextView cityView = (TextView) findViewById(R.id.city_textview);
         final ImageView avatarView = (ImageView) findViewById(R.id.avatar_picker);
@@ -54,26 +57,29 @@ public class SettingsActivity extends AppCompatActivity {
         ParseUser user = ParseUser.getCurrentUser();
         nameView.setText(user.getUsername());
         cityView.setText(user.getString("city"));
+        cityView.setTypeface(null, Typeface.ITALIC);
 
         ParseFile avatarFile = user.getParseFile("avatar");
         if (avatarFile != null) {
             avatarFile.getDataInBackground(new GetDataCallback() {
                 @Override
                 public void done(byte[] bytes, ParseException e) {
-                    File tempFile = null;
-                    try {
-                        tempFile = File.createTempFile("abc", "cba", null);
-                        FileOutputStream fos = new FileOutputStream(tempFile);
-                        fos.write(bytes);
-                    } catch (IOException e1) {
-                        e1.printStackTrace();
-                    }
+                    if (e == null) {
+                        File tempFile = null;
+                        try {
+                            tempFile = File.createTempFile("abc", "cba", null);
+                            FileOutputStream fos = new FileOutputStream(tempFile);
+                            fos.write(bytes);
+                        } catch (IOException e1) {
+                            e1.printStackTrace();
+                        }
 
-                    Picasso.with(SettingsActivity.this)
-                            .load(tempFile)
-                            .transform(new CircleTransform())
-                            .noFade()
-                            .into(avatarView);
+                        Picasso.with(SettingsActivity.this)
+                                .load(tempFile)
+                                .transform(new CircleTransform())
+                                .noFade()
+                                .into(avatarView);
+                    }
                 }
             });
         } else {
