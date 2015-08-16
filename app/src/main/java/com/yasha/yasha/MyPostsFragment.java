@@ -32,7 +32,7 @@ public class MyPostsFragment extends Fragment {
                              Bundle savedInstanceState) {
         mRootView = inflater.inflate(R.layout.fragment_posts, container, false);
 
-        mPostAdapter = new PostAdapter(getActivity());
+        mPostAdapter = new PostAdapter(getActivity(), true);
 
         ListView postList = (ListView) mRootView.findViewById(R.id.post_list);
         postList.setAdapter(mPostAdapter);

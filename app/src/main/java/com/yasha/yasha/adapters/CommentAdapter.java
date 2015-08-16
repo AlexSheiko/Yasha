@@ -36,7 +36,7 @@ public class CommentAdapter extends ArrayAdapter<ParseObject> {
         super(context, 0);
     }
 
-    public CommentAdapter(Context context, Boolean historySection) {
+    public CommentAdapter(Context context, boolean historySection) {
         super(context, 0);
         mHistorySection = historySection;
     }

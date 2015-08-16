@@ -45,8 +45,15 @@ import java.util.TimeZone;
 
 public class PostAdapter extends ArrayAdapter<ParseObject> {
 
+    private boolean mHistorySection = false;
+
     public PostAdapter(Context context) {
         super(context, 0);
+    }
+
+    public PostAdapter(Context context, boolean historySection) {
+        super(context, 0);
+        mHistorySection = historySection;
     }
 
     @Override
@@ -155,14 +162,16 @@ public class PostAdapter extends ArrayAdapter<ParseObject> {
             }
         });
 
-        avatarView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
-                prefs.edit().putString("user_id_history", post.getParseUser("author").getObjectId()).apply();
-                getContext().startActivity(new Intent(getContext(), HistoryActivity.class));
-            }
-        });
+        if (!mHistorySection) {
+            avatarView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+                    prefs.edit().putString("user_id_history", post.getParseUser("author").getObjectId()).apply();
+                    getContext().startActivity(new Intent(getContext(), HistoryActivity.class));
+                }
+            });
+        }
 
         return convertView;
     }
