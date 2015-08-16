@@ -61,6 +61,7 @@ public class HistoryActivity extends AppCompatActivity
         final ActionBar actionBar = getSupportActionBar();
         if (myHistory) {
             // Set up the action bar.
+            actionBar.setTitle(getString(R.string.title_activity_history));
             actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
             ActionBar.LayoutParams params = new ActionBar.LayoutParams(

@@ -103,8 +103,8 @@ public class PostActivity extends AppCompatActivity {
 
         if (category == null) {
             EditText errorView = (EditText) findViewById(R.id.no_category_label);
-            errorView.setError("Select category first");
-            Toast.makeText(this, "Select category first", Toast.LENGTH_LONG).show();
+            errorView.setError("Please select a tag from above");
+            Toast.makeText(this, "Please select a tag from above", Toast.LENGTH_LONG).show();
             return;
         }
         if (message.isEmpty()) {
