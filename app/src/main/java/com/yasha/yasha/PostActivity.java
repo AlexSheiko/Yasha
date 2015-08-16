@@ -23,7 +23,7 @@ public class PostActivity extends AppCompatActivity {
     private ToggleButton toggleW;
     private ToggleButton toggleT;
 
-    private String category = "F";
+    private String category;
 
     private CompoundButton.OnCheckedChangeListener categoryListener;
 
@@ -44,13 +44,15 @@ public class PostActivity extends AppCompatActivity {
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                         if (!isChecked) {
                             buttonView.setOnCheckedChangeListener(null);
-                            buttonView.setChecked(false);
+                            buttonView.setChecked(true);
                             buttonView.setOnCheckedChangeListener(categoryListener);
                             return;
                         }
 
-
                         category = buttonView.getText().toString();
+
+                        EditText errorView = (EditText) findViewById(R.id.no_category_label);
+                        errorView.setError(null);
 
                         if (category.equals("F")) {
                             toggleF.setChecked(true);
@@ -99,6 +101,12 @@ public class PostActivity extends AppCompatActivity {
         EditText messageField = (EditText) findViewById(R.id.message_field);
         String message = messageField.getText().toString().trim();
 
+        if (category == null) {
+            EditText errorView = (EditText) findViewById(R.id.no_category_label);
+            errorView.setError("Select category first");
+            Toast.makeText(this, "Select category first", Toast.LENGTH_LONG).show();
+            return;
+        }
         if (message.isEmpty()) {
             messageField.setError("Enter your message");
             return;

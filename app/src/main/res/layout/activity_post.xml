@@ -21,7 +21,6 @@
                 android:id="@+id/toggle_forgiveness"
                 style="@style/CategoryToggle"
                 android:layout_marginLeft="8dp"
-                android:checked="true"
                 android:contentDescription="@string/forgiveness"
                 android:textOff="F"
                 android:textOn="F"
@@ -50,6 +49,17 @@
                 android:contentDescription="@string/testimony"
                 android:textOff="T"
                 android:textOn="T" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:background="@android:color/transparent"
+                android:clickable="false"
+                android:paddingLeft="8dp"
+                android:id="@+id/no_category_label"/>
 
             <Space
                 android:layout_width="0dp"
