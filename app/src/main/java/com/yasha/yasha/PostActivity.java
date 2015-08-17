@@ -3,10 +3,12 @@ package com.yasha.yasha;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
@@ -18,10 +20,10 @@ import com.parse.SaveCallback;
 
 public class PostActivity extends AppCompatActivity {
 
-    private ToggleButton toggleF;
     private ToggleButton toggleC;
-    private ToggleButton toggleW;
     private ToggleButton toggleT;
+    private ToggleButton toggleE;
+    private ToggleButton toggleO;
 
     private String category;
 
@@ -33,10 +35,16 @@ public class PostActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post);
 
-        toggleF = (ToggleButton) findViewById(R.id.toggle_forgiveness);
+        final ActionBar actionBar = getSupportActionBar();
+        ActionBar.LayoutParams params = new ActionBar.LayoutParams(
+                ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.MATCH_PARENT);
+        actionBar.setCustomView(getLayoutInflater().inflate(R.layout.actionbar_post, null), params);
+        actionBar.setDisplayShowCustomEnabled(true);
+
         toggleC = (ToggleButton) findViewById(R.id.toggle_confession);
-        toggleW = (ToggleButton) findViewById(R.id.toggle_witness);
         toggleT = (ToggleButton) findViewById(R.id.toggle_testimony);
+        toggleE = (ToggleButton) findViewById(R.id.toggle_encouragement);
+        toggleO = (ToggleButton) findViewById(R.id.toggle_other);
 
         categoryListener =
                 new CompoundButton.OnCheckedChangeListener() {
@@ -51,44 +59,51 @@ public class PostActivity extends AppCompatActivity {
 
                         category = buttonView.getText().toString();
 
+                        View actionBarView = getSupportActionBar().getCustomView();
+                        TextView categoryView = (TextView) actionBarView.findViewById(R.id.current_category_hint);
+
                         EditText errorView = (EditText) findViewById(R.id.no_category_label);
                         errorView.setError(null);
 
-                        if (category.equals("F")) {
-                            toggleF.setChecked(true);
-                        } else {
-                            toggleF.setOnCheckedChangeListener(null);
-                            toggleF.setChecked(false);
-                            toggleF.setOnCheckedChangeListener(categoryListener);
-                        }
                         if (category.equals("C")) {
                             toggleC.setChecked(true);
+                            categoryView.setText("Confession");
                         } else {
                             toggleC.setOnCheckedChangeListener(null);
                             toggleC.setChecked(false);
                             toggleC.setOnCheckedChangeListener(categoryListener);
                         }
-                        if (category.equals("W")) {
-                            toggleW.setChecked(true);
-                        } else {
-                            toggleW.setOnCheckedChangeListener(null);
-                            toggleW.setChecked(false);
-                            toggleW.setOnCheckedChangeListener(categoryListener);
-                        }
                         if (category.equals("T")) {
                             toggleT.setChecked(true);
+                            categoryView.setText("Testimony");
                         } else {
                             toggleT.setOnCheckedChangeListener(null);
                             toggleT.setChecked(false);
                             toggleT.setOnCheckedChangeListener(categoryListener);
                         }
+                        if (category.equals("E")) {
+                            toggleE.setChecked(true);
+                            categoryView.setText("Encouragement");
+                        } else {
+                            toggleE.setOnCheckedChangeListener(null);
+                            toggleE.setChecked(false);
+                            toggleE.setOnCheckedChangeListener(categoryListener);
+                        }
+                        if (category.equals("O")) {
+                            toggleO.setChecked(true);
+                            categoryView.setText("Other");
+                        } else {
+                            toggleO.setOnCheckedChangeListener(null);
+                            toggleO.setChecked(false);
+                            toggleO.setOnCheckedChangeListener(categoryListener);
+                        }
                     }
                 };
 
-        toggleF.setOnCheckedChangeListener(categoryListener);
         toggleC.setOnCheckedChangeListener(categoryListener);
-        toggleW.setOnCheckedChangeListener(categoryListener);
         toggleT.setOnCheckedChangeListener(categoryListener);
+        toggleE.setOnCheckedChangeListener(categoryListener);
+        toggleO.setOnCheckedChangeListener(categoryListener);
     }
 
     public void onClickHistory(View view) {

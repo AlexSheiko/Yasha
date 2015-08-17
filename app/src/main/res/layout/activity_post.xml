@@ -18,15 +18,6 @@
             android:paddingTop="8dp">
 
             <ToggleButton
-                android:id="@+id/toggle_forgiveness"
-                style="@style/CategoryToggle"
-                android:layout_marginLeft="8dp"
-                android:contentDescription="@string/forgiveness"
-                android:textOff="F"
-                android:textOn="F"
-                android:textSize="16sp" />
-
-            <ToggleButton
                 android:id="@+id/toggle_confession"
                 style="@style/CategoryToggle"
                 android:layout_marginLeft="8dp"
@@ -35,20 +26,29 @@
                 android:textOn="C" />
 
             <ToggleButton
-                android:id="@+id/toggle_witness"
-                style="@style/CategoryToggle"
-                android:layout_marginLeft="8dp"
-                android:contentDescription="@string/witness"
-                android:textOff="W"
-                android:textOn="W" />
-
-            <ToggleButton
                 android:id="@+id/toggle_testimony"
                 style="@style/CategoryToggle"
                 android:layout_marginLeft="8dp"
                 android:contentDescription="@string/testimony"
                 android:textOff="T"
                 android:textOn="T" />
+
+            <ToggleButton
+                android:id="@+id/toggle_encouragement"
+                style="@style/CategoryToggle"
+                android:layout_marginLeft="8dp"
+                android:contentDescription="@string/encouragement"
+                android:textOff="E"
+                android:textOn="E"
+                android:textSize="16sp" />
+
+            <ToggleButton
+                android:id="@+id/toggle_other"
+                style="@style/CategoryToggle"
+                android:layout_marginLeft="8dp"
+                android:contentDescription="@string/other"
+                android:textOff="O"
+                android:textOn="O" />
 
             <EditText
                 android:layout_width="wrap_content"

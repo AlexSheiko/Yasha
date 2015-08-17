@@ -66,7 +66,7 @@ public class HistoryActivity extends AppCompatActivity
 
             ActionBar.LayoutParams params = new ActionBar.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-            mActionbarView = getLayoutInflater().inflate(R.layout.actionbar_unread_counter, null);
+            mActionbarView = getLayoutInflater().inflate(R.layout.actionbar_history, null);
             actionBar.setCustomView(mActionbarView, params);
             actionBar.setDisplayShowCustomEnabled(true);
         } else {

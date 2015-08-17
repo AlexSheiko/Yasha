@@ -1,9 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-          xmlns:tools="http://schemas.android.com/tools"
-          android:orientation="vertical"
-          android:layout_width="match_parent"
-          android:layout_height="match_parent"
-          android:gravity="right|center_vertical"
-          android:textColor="#ffffe6"
-          android:text="Confession"/>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:layout_height="56dp"
+    tools:background="@color/primary">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:text="@string/title_activity_post"
+        android:textColor="#f2ffffff"
+        android:textSize="20sp"
+        tools:paddingLeft="16dp"/>
+
+    <TextView
+        android:id="@+id/current_category_hint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right|center_vertical"
+        tools:paddingRight="16dp"
+        android:orientation="vertical"
+        android:textSize="16sp"
+        tools:text="Confession"
+        android:textColor="#ffffe6"/>
+
+</FrameLayout>

@@ -41,17 +41,22 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     private void searchUsers(final String username) {
+        findViewById(R.id.loading).setVisibility(View.VISIBLE);
+
         ParseQuery<ParseUser> query = ParseUser.getQuery();
         query.whereContains("username", username);
         query.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
         query.findInBackground(new FindCallback<ParseUser>() {
             @Override
             public void done(List<ParseUser> users, ParseException e) {
+                findViewById(R.id.loading).setVisibility(View.GONE);
+
                 if (users != null && users.size() > 0) {
                     findViewById(R.id.empty).setVisibility(View.GONE);
                     mUserAdapter.addAll(users);
                 } else {
                     TextView emptyView = (TextView) findViewById(R.id.empty);
+                    emptyView.setVisibility(View.VISIBLE);
                     emptyView.setText("No users matches “" + username + "”");
                     emptyView.setVisibility(View.VISIBLE);
                 }

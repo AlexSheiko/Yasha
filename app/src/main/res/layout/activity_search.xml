@@ -20,6 +20,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="112dp"
         android:text="No users matches “Ann”"
+        android:visibility="gone"
         android:textColor="#3b000000"
         android:textSize="20sp"/>
 

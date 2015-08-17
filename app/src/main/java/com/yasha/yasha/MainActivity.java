@@ -45,11 +45,7 @@ public class MainActivity extends AppCompatActivity {
 
         mPostAdapter = new PostAdapter(this);
 
-        TextView emptyView = new TextView(this);
-        emptyView.setText("There are currently no posts in " + ParseUser.getCurrentUser().getString("city") + ". Perhaps you want yo add new?");
-
         ListView postList = (ListView) findViewById(R.id.post_list);
-        postList.setEmptyView(emptyView);
         postList.setAdapter(mPostAdapter);
 
 
@@ -101,6 +97,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
+        findViewById(R.id.empty).setVisibility(View.GONE);
         findViewById(R.id.loading).setVisibility(View.VISIBLE);
 
         final ParseQuery<ParseObject> query = ParseQuery.getQuery("Post");
@@ -132,8 +129,12 @@ public class MainActivity extends AppCompatActivity {
                                     TextView emptyView = (TextView) findViewById(R.id.empty);
                                     emptyView.setVisibility(View.VISIBLE);
                                     String userCity = ParseUser.getCurrentUser().getString("city").split(",")[0];
-                                    emptyView.setText("Be the first to post anything in " + userCity + "!\n" +
-                                            "Tap pencil icon to create a message");
+                                    if (!userCity.equals("No city")) {
+                                        emptyView.setText("Be the first to post anything in " + userCity + "!\n" +
+                                                "Tap pencil icon to create a message");
+                                    } else {
+                                        emptyView.setText("No posts. Be first to add a new message!");
+                                    }
                                     return;
                                 }
                                 if (mPostAdapter.getCount() != posts.size()) {
