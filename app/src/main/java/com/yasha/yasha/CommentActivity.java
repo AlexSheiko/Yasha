@@ -47,7 +47,7 @@ public class CommentActivity extends AppCompatActivity {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Post");
         query.include("author");
         query.include("comments");
-        query.setCachePolicy(ParseQuery.CachePolicy.CACHE_ONLY);
+        query.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
         query.getInBackground(postId, new GetCallback<ParseObject>() {
             @Override
             public void done(ParseObject post, ParseException e) {

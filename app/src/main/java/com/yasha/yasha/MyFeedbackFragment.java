@@ -44,7 +44,6 @@ public class MyFeedbackFragment extends Fragment {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Post");
         query.whereEqualTo("author", ParseUser.getCurrentUser());
         query.orderByDescending("createdAt");
-        query.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> posts, ParseException e) {

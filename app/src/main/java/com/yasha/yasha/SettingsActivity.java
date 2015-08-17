@@ -17,12 +17,14 @@ import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.parse.DeleteCallback;
 import com.parse.FindCallback;
 import com.parse.GetDataCallback;
+import com.parse.LogInCallback;
 import com.parse.LogOutCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -268,40 +270,83 @@ public class SettingsActivity extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("New password");
 
-        final EditText passwordField = new EditText(this);
-        passwordField.setTransformationMethod(PasswordTransformationMethod.getInstance());
-        passwordField.setHint("Type here");
-        builder.setView(passwordField, convertToPixels(20), convertToPixels(12), convertToPixels(20), convertToPixels(4));
+        LinearLayout layout = new LinearLayout(this);
+        layout.setOrientation(LinearLayout.VERTICAL);
 
-        builder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
+        final EditText oldPasswordField = new EditText(this);
+        oldPasswordField.setTransformationMethod(PasswordTransformationMethod.getInstance());
+        oldPasswordField.setHint("Old password entry line");
+
+        final EditText newPasswordField = new EditText(this);
+        newPasswordField.setTransformationMethod(PasswordTransformationMethod.getInstance());
+        newPasswordField.setHint("New password entry line");
+
+        layout.addView(oldPasswordField);
+        layout.addView(newPasswordField);
+
+        builder.setView(layout, convertToPixels(20), convertToPixels(12), convertToPixels(20), convertToPixels(4));
+
+        builder.setPositiveButton("Save", null);
+
+        final AlertDialog dialog = builder.create();
+        dialog.show();
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(final DialogInterface dialog, int which) {
-                String password = passwordField.getText().toString();
+            public void onClick(View v) {
+                String oldPassword = oldPasswordField.getText().toString().trim();
+                final String newPassword = newPasswordField.getText().toString().trim();
 
-                ParseUser user = ParseUser.getCurrentUser();
-                user.setPassword(password);
-                user.saveInBackground(new SaveCallback() {
+                boolean hasEmptyFields = false;
+
+                if (newPassword.isEmpty()) {
+                    newPasswordField.setError("Cannot be empty");
+                    newPasswordField.requestFocus();
+                    hasEmptyFields = true;
+                }
+                if (oldPassword.isEmpty()) {
+                    oldPasswordField.setError("Cannot be empty");
+                    oldPasswordField.requestFocus();
+                    hasEmptyFields = true;
+                }
+                if (hasEmptyFields) return;
+
+
+                ParseUser.logInInBackground(ParseUser.getCurrentUser().getUsername(), oldPassword, new LogInCallback() {
                     @Override
-                    public void done(ParseException e) {
+                    public void done(ParseUser user, ParseException e) {
                         if (e == null) {
-                            ParseUser.logOutInBackground(new LogOutCallback() {
+
+                            user.setPassword(newPassword);
+                            user.saveInBackground(new SaveCallback() {
                                 @Override
                                 public void done(ParseException e) {
                                     if (e == null) {
-                                        dialog.cancel();
-                                        startActivity(new Intent(SettingsActivity.this, LoginActivity.class));
-                                        Toast.makeText(SettingsActivity.this, "Now you can login using your new password", Toast.LENGTH_LONG).show();
+                                        ParseUser.logOutInBackground(new LogOutCallback() {
+                                            @Override
+                                            public void done(ParseException e) {
+                                                if (e == null) {
+                                                    dialog.cancel();
+                                                    startActivity(new Intent(SettingsActivity.this, LoginActivity.class));
+                                                    Toast.makeText(SettingsActivity.this, "Now you can login using your new password", Toast.LENGTH_LONG).show();
+                                                }
+                                            }
+                                        });
+                                    } else {
+                                        Toast.makeText(SettingsActivity.this,
+                                                e.getMessage(), Toast.LENGTH_LONG).show();
                                     }
                                 }
                             });
+
+                        } else {
+                            oldPasswordField.setError("Old password entered incorrectly");
+                            oldPasswordField.selectAll();
+                            oldPasswordField.requestFocus();
                         }
                     }
                 });
             }
         });
-
-        AlertDialog dialog = builder.create();
-        dialog.show();
     }
 
     private int convertToPixels(int dp) {
