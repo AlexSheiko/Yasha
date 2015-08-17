@@ -212,58 +212,86 @@ public class SettingsActivity extends AppCompatActivity {
     public void onDeleteAccountPressed(View view) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("Are you sure you want to delete your account? There's no undo.");
-        builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                final ParseUser user = ParseUser.getCurrentUser();
 
-                ParseQuery<ParseObject> postsQuery = ParseQuery.getQuery("Post");
-                postsQuery.whereEqualTo("author", user);
-                postsQuery.findInBackground(new FindCallback<ParseObject>() {
-                    @Override
-                    public void done(List<ParseObject> posts, ParseException e) {
-                        if (e == null) {
-                            for (ParseObject post : posts) {
-                                post.deleteEventually();
-                            }
+        final EditText passwordField = new EditText(this);
+        passwordField.setTransformationMethod(PasswordTransformationMethod.getInstance());
+        passwordField.setHint("Your password");
+        builder.setView(passwordField, convertToPixels(20), convertToPixels(12), convertToPixels(20), convertToPixels(4));
 
-                            ParseQuery<ParseObject> commentQuery = ParseQuery.getQuery("Comment");
-                            commentQuery.whereEqualTo("author", user);
-                            commentQuery.findInBackground(new FindCallback<ParseObject>() {
-                                @Override
-                                public void done(List<ParseObject> comments, ParseException e) {
-                                    if (e == null) {
-                                        for (ParseObject comment : comments) {
-                                            comment.deleteEventually();
-                                        }
-
-                                        user.deleteInBackground(new DeleteCallback() {
-                                            @Override
-                                            public void done(ParseException e) {
-                                                if (e == null) {
-                                                    startActivity(new Intent(SettingsActivity.this, RegisterActivity.class));
-                                                } else {
-                                                    Toast.makeText(SettingsActivity.this,
-                                                            "Failed to delete account: " + e.getMessage(), Toast.LENGTH_LONG).show();
-                                                }
-                                            }
-                                        });
-                                    }
-                                }
-                            });
-                        }
-                    }
-                });
-            }
-        });
+        builder.setPositiveButton("Delete", null);
         builder.setNegativeButton("Return", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
             }
         });
+
         AlertDialog dialog = builder.create();
         dialog.show();
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String password = passwordField.getText().toString().trim();
+
+                if (password.isEmpty()) {
+                    passwordField.setError("Password is required");
+                    passwordField.requestFocus();
+                    return;
+                }
+
+                ParseUser.logInInBackground(ParseUser.getCurrentUser().getUsername(), password, new LogInCallback() {
+                    @Override
+                    public void done(final ParseUser user, ParseException e) {
+                        if (e == null) {
+
+                            ParseQuery<ParseObject> postsQuery = ParseQuery.getQuery("Post");
+                            postsQuery.whereEqualTo("author", user);
+                            postsQuery.findInBackground(new FindCallback<ParseObject>() {
+                                @Override
+                                public void done(List<ParseObject> posts, ParseException e) {
+                                    if (e == null) {
+                                        for (ParseObject post : posts) {
+                                            post.deleteEventually();
+                                        }
+
+                                        ParseQuery<ParseObject> commentQuery = ParseQuery.getQuery("Comment");
+                                        commentQuery.whereEqualTo("author", user);
+                                        commentQuery.findInBackground(new FindCallback<ParseObject>() {
+                                            @Override
+                                            public void done(List<ParseObject> comments, ParseException e) {
+                                                if (e == null) {
+                                                    for (ParseObject comment : comments) {
+                                                        comment.deleteEventually();
+                                                    }
+
+                                                    user.deleteInBackground(new DeleteCallback() {
+                                                        @Override
+                                                        public void done(ParseException e) {
+                                                            if (e == null) {
+                                                                Toast.makeText(SettingsActivity.this, "Account was removed", Toast.LENGTH_SHORT).show();
+                                                                startActivity(new Intent(SettingsActivity.this, RegisterActivity.class));
+                                                            } else {
+                                                                Toast.makeText(SettingsActivity.this,
+                                                                        "Failed to delete account: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                                                            }
+                                                        }
+                                                    });
+                                                }
+                                            }
+                                        });
+                                    }
+                                }
+                            });
+
+                        } else {
+                            passwordField.setError("Password entered incorrectly");
+                            passwordField.selectAll();
+                            passwordField.requestFocus();
+                        }
+                    }
+                });
+            }
+        });
     }
 
     public void onChangePasswordClick(View view) {
