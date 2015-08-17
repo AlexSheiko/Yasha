@@ -1,8 +1,11 @@
 package com.yasha.yasha;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.InputType;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -15,6 +18,7 @@ import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.RequestPasswordResetCallback;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -106,7 +110,32 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void onForgotPasswordClick(View view) {
-        Toast.makeText(this, "Coming soon", Toast.LENGTH_SHORT).show();
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Enter your email to get password restore instructions");
+
+        final EditText emailField = new EditText(this);
+        emailField.setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
+        builder.setView(emailField, convertToPixels(20), convertToPixels(12), convertToPixels(20), convertToPixels(4));
+
+        builder.setPositiveButton("Restore", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                final String email = emailField.getText().toString();
+
+                ParseUser.requestPasswordResetInBackground(email, new RequestPasswordResetCallback() {
+                    public void done(ParseException e) {
+                        if (e == null) {
+                            Toast.makeText(LoginActivity.this, "We've sent you an email. Check your inbox for further instructions", Toast.LENGTH_LONG).show();
+                        } else {
+                            Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     @Override
@@ -129,5 +158,10 @@ public class LoginActivity extends AppCompatActivity {
         Intent intent = new Intent(this, AgreementActivity.class);
         intent.putExtra("category", "Privacy");
         startActivity(intent);
+    }
+
+    private int convertToPixels(int dp) {
+        float density = getResources().getDisplayMetrics().density;
+        return (int) (dp * density);
     }
 }
