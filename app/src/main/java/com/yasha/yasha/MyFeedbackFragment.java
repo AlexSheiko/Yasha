@@ -19,6 +19,7 @@ import java.util.List;
 public class MyFeedbackFragment extends Fragment {
 
     private View mRootView;
+    private CommentAdapter mCommentAdapter;
 
     public MyFeedbackFragment() {
     }
@@ -28,10 +29,17 @@ public class MyFeedbackFragment extends Fragment {
                              Bundle savedInstanceState) {
         mRootView = inflater.inflate(R.layout.fragment_feedback, container, false);
 
-        final CommentAdapter commentAdapter = new CommentAdapter(getActivity(), true);
+        mCommentAdapter = new CommentAdapter(getActivity(), true);
 
         ListView commentList = (ListView) mRootView.findViewById(R.id.comment_list);
-        commentList.setAdapter(commentAdapter);
+        commentList.setAdapter(mCommentAdapter);
+
+        return mRootView;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
 
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Post");
         query.whereEqualTo("author", ParseUser.getCurrentUser());
@@ -41,7 +49,7 @@ public class MyFeedbackFragment extends Fragment {
             @Override
             public void done(List<ParseObject> posts, ParseException e) {
                 if (e == null) {
-                    commentAdapter.clear();
+                    mCommentAdapter.clear();
                     for (ParseObject post : posts) {
                         ParseQuery<ParseObject> commentQuery = new ParseQuery<>("Comment");
                         commentQuery.include("post");
@@ -53,10 +61,10 @@ public class MyFeedbackFragment extends Fragment {
                             @Override
                             public void done(List<ParseObject> comments, ParseException e) {
                                 if (e == null) {
-                                    commentAdapter.addAll(comments);
+                                    mCommentAdapter.addAll(comments);
                                 }
 
-                                if (commentAdapter.getCount() > 0) {
+                                if (comments != null && comments.size() > 0) {
                                     mRootView.findViewById(R.id.empty).setVisibility(View.GONE);
                                 } else {
                                     mRootView.findViewById(R.id.empty).setVisibility(View.VISIBLE);
@@ -64,10 +72,13 @@ public class MyFeedbackFragment extends Fragment {
                             }
                         });
                     }
+                    if (posts.size() == 0) {
+                        mRootView.findViewById(R.id.empty).setVisibility(View.VISIBLE);
+                    } else {
+                        mRootView.findViewById(R.id.empty).setVisibility(View.GONE);
+                    }
                 }
             }
         });
-
-        return mRootView;
     }
 }

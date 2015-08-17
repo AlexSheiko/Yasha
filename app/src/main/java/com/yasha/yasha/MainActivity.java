@@ -137,10 +137,8 @@ public class MainActivity extends AppCompatActivity {
                                     }
                                     return;
                                 }
-                                if (mPostAdapter.getCount() != posts.size()) {
                                     mPostAdapter.clear();
                                     mPostAdapter.addAll(posts);
-                                }
                             }
                         }
                     });

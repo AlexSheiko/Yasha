@@ -86,13 +86,17 @@ public class CommentActivity extends AppCompatActivity {
 
                     Picasso.with(CommentActivity.this)
                             .load(tempFile)
-                            .placeholder(R.drawable.avatar_placeholder)
                             .fit()
                             .transform(new CircleTransform())
-                            .noFade()
                             .into(avatarView);
                 }
             });
+        } else {
+            Picasso.with(this)
+                    .load(R.drawable.avatar_placeholder)
+                    .fit()
+                    .transform(new CircleTransform())
+                    .into(avatarView);
         }
     }
 
