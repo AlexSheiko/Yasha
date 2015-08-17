@@ -18,8 +18,8 @@
     <TextView
         android:id="@+id/unread_textview"
         android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:layout_marginLeft="2dp"
+        android:layout_height="34dp"
+        android:paddingBottom="2dp"
         android:clickable="true"
         android:background="@drawable/unread_background"
         android:elevation="2dp"

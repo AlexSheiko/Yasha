@@ -1,6 +1,9 @@
 package com.yasha.yasha.adapters;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +19,7 @@ import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.squareup.picasso.Picasso;
 import com.yasha.yasha.CircleTransform;
+import com.yasha.yasha.HistoryActivity;
 import com.yasha.yasha.R;
 
 import java.io.File;
@@ -101,6 +105,18 @@ public class CommentAdapter extends ArrayAdapter<ParseObject> {
             TextView dateView = (TextView) convertView.findViewById(R.id.date_textview);
             dateView.setVisibility(View.VISIBLE);
             dateView.setText(formatDate(comment.getCreatedAt()));
+        }
+
+        boolean myCommentsTab = comment.getParseUser("author").getObjectId().equals(ParseUser.getCurrentUser().getObjectId());
+        if (mHistorySection && !myCommentsTab) {
+            avatarView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+                    prefs.edit().putString("user_id_history", comment.getParseUser("author").getObjectId()).apply();
+                    getContext().startActivity(new Intent(getContext(), HistoryActivity.class));
+                }
+            });
         }
 
 

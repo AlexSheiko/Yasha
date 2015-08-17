@@ -53,6 +53,7 @@ public class SearchActivity extends AppCompatActivity {
 
                 if (users != null && users.size() > 0) {
                     findViewById(R.id.empty).setVisibility(View.GONE);
+                    mUserAdapter.clear();
                     mUserAdapter.addAll(users);
                 } else {
                     TextView emptyView = (TextView) findViewById(R.id.empty);

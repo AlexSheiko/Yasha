@@ -145,7 +145,17 @@ public class RegisterActivity extends AppCompatActivity
 
                 if (e == null) {
                     // connect to location services and get user location
-                    mGoogleApiClient.connect();
+                    if (GooglePlayServicesUtil.isGooglePlayServicesAvailable(RegisterActivity.this) == ConnectionResult.SUCCESS) {
+                        mGoogleApiClient.connect();
+                    } else {
+                        Log.w(TAG, "Play services not available");
+
+                        ParseUser user = ParseUser.getCurrentUser();
+                        user.put("city", "No city");
+                        user.saveEventually();
+
+                        startActivity(new Intent(RegisterActivity.this, MainActivity.class));
+                    }
                 } else {
                     String errorMessage = e.getMessage();
                     if (e.getMessage().contains(": ")) {
