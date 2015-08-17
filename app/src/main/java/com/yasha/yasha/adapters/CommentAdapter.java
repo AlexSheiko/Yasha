@@ -84,7 +84,6 @@ public class CommentAdapter extends ArrayAdapter<ParseObject> {
                                             .load(tempFile)
                                             .fit()
                                             .transform(new CircleTransform())
-                                            .noFade()
                                             .into(avatarView);
                                 }
                             });
@@ -107,7 +106,7 @@ public class CommentAdapter extends ArrayAdapter<ParseObject> {
         }
 
         boolean myCommentsTab = comment.getParseUser("author").getObjectId().equals(ParseUser.getCurrentUser().getObjectId());
-        if (mHistorySection && !myCommentsTab) {
+        if (!mHistorySection || !myCommentsTab) {
             avatarView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

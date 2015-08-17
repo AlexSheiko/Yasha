@@ -62,7 +62,6 @@ public class UserAdapter extends ArrayAdapter<ParseUser> {
                             .load(tempFile)
                             .fit()
                             .transform(new CircleTransform())
-                            .noFade()
                             .into(avatarView);
                 }
             });
@@ -71,7 +70,6 @@ public class UserAdapter extends ArrayAdapter<ParseUser> {
                     .load(R.drawable.avatar_placeholder)
                     .fit()
                     .transform(new CircleTransform())
-                    .noFade()
                     .into(avatarView);
         }
 

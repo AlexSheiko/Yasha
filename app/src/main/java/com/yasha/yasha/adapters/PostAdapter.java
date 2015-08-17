@@ -96,7 +96,6 @@ public class PostAdapter extends ArrayAdapter<ParseObject> {
                             .load(tempFile)
                             .fit()
                             .transform(new CircleTransform())
-                            .noFade()
                             .into(avatarView);
                 }
             });
@@ -105,7 +104,6 @@ public class PostAdapter extends ArrayAdapter<ParseObject> {
                     .load(R.drawable.avatar_placeholder)
                     .fit()
                     .transform(new CircleTransform())
-                    .noFade()
                     .into(avatarView);
         }
 

@@ -93,6 +93,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:layout_marginRight="2dp"
                 android:hint="@string/comment"
                 android:inputType="textCapSentences|textMultiLine"
                 android:paddingBottom="20dp"
@@ -105,6 +106,7 @@
                 android:background="@color/category_background"
                 android:onClick="onClickPost"
                 android:text="@string/post"
+                android:textSize="16sp"
                 android:textAllCaps="false"
                 android:textColor="#e6ffffff" />
 

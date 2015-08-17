@@ -78,7 +78,6 @@ public class RegisterActivity extends AppCompatActivity
         Picasso.with(this)
                 .load(R.drawable.avatar_placeholder)
                 .transform(new CircleTransform())
-                .noFade()
                 .into(avatarView);
 
         EditText passwordField = (EditText) findViewById(R.id.password_field);
@@ -361,7 +360,6 @@ public class RegisterActivity extends AppCompatActivity
             Picasso.with(this)
                     .load(imageUri)
                     .transform(new CircleTransform())
-                    .noFade()
                     .into(avatarView);
 
             Bitmap bitmap = null;

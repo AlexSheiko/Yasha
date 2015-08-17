@@ -77,7 +77,6 @@ public class SettingsActivity extends AppCompatActivity {
                         Picasso.with(SettingsActivity.this)
                                 .load(tempFile)
                                 .transform(new CircleTransform())
-                                .noFade()
                                 .into(avatarView);
                     }
                 }
@@ -86,7 +85,6 @@ public class SettingsActivity extends AppCompatActivity {
             Picasso.with(this)
                     .load(R.drawable.avatar_placeholder)
                     .transform(new CircleTransform())
-                    .noFade()
                     .into(avatarView);
         }
     }
@@ -161,7 +159,6 @@ public class SettingsActivity extends AppCompatActivity {
             Picasso.with(this)
                     .load(imageUri)
                     .transform(new CircleTransform())
-                    .noFade()
                     .into(avatarView);
 
 
