@@ -17,6 +17,7 @@ import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.yasha.yasha.CircleTransform;
 import com.yasha.yasha.HistoryActivity;
@@ -56,35 +57,46 @@ public class CommentAdapter extends ArrayAdapter<ParseObject> {
         final ImageView avatarView = (ImageView) convertView.findViewById(R.id.avatar_imageview);
 
         final ParseObject comment = getItem(position);
-        messageView.setText(comment.getString("message"));
 
         final ParseUser author = comment.getParseUser("author");
         if (author != null) {
             author.fetchInBackground(new GetCallback<ParseUser>() {
                 @Override
-                public void done(ParseUser author, ParseException e) {
+                public void done(final ParseUser author, ParseException e) {
                     if (e == null) {
-                        nameView.setText(author.getUsername());
 
                         ParseFile avatarFile = author.getParseFile("avatar");
                         if (avatarFile != null) {
                             avatarFile.getDataInBackground(new GetDataCallback() {
                                 @Override
                                 public void done(byte[] bytes, ParseException e) {
-                                    File tempFile = null;
-                                    try {
-                                        tempFile = File.createTempFile("abc", "cba", null);
-                                        FileOutputStream fos = new FileOutputStream(tempFile);
-                                        fos.write(bytes);
-                                    } catch (IOException e1) {
-                                        e1.printStackTrace();
-                                    }
+                                    if (e == null) {
+                                        File tempFile = null;
+                                        try {
+                                            tempFile = File.createTempFile("abc", "cba", null);
+                                            FileOutputStream fos = new FileOutputStream(tempFile);
+                                            fos.write(bytes);
+                                        } catch (IOException e1) {
+                                            e1.printStackTrace();
+                                        }
 
-                                    Picasso.with(getContext())
-                                            .load(tempFile)
-                                            .fit()
-                                            .transform(new CircleTransform())
-                                            .into(avatarView);
+                                        Picasso.with(getContext())
+                                                .load(tempFile)
+                                                .fit()
+                                                .transform(new CircleTransform())
+                                                .noFade()
+                                                .into(avatarView, new Callback() {
+                                                    @Override
+                                                    public void onSuccess() {
+                                                        nameView.setText(author.getUsername());
+                                                        messageView.setText(comment.getString("message"));
+                                                    }
+
+                                                    @Override
+                                                    public void onError() {
+                                                    }
+                                                });
+                                    }
                                 }
                             });
                         } else {
@@ -92,7 +104,18 @@ public class CommentAdapter extends ArrayAdapter<ParseObject> {
                                     .load(R.drawable.avatar_placeholder)
                                     .fit()
                                     .transform(new CircleTransform())
-                                    .into(avatarView);
+                                    .noFade()
+                                    .into(avatarView, new Callback() {
+                                        @Override
+                                        public void onSuccess() {
+                                            nameView.setText(author.getUsername());
+                                            messageView.setText(comment.getString("message"));
+                                        }
+
+                                        @Override
+                                        public void onError() {
+                                        }
+                                    });
                         }
                     }
                 }
