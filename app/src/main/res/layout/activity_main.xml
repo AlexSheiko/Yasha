@@ -87,4 +87,15 @@
 
     </FrameLayout>
 
+    <TextView
+        android:id="@+id/empty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textSize="16sp"
+        android:lineSpacingMultiplier="1.1"
+        tools:text="Be the first to post anything in London!\nTap pencil icon to create a message"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="112dp"
+        android:visibility="gone"/>
+
 </RelativeLayout>

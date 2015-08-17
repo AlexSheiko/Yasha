@@ -7,15 +7,15 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_vertical_margin">
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:paddingTop="@dimen/activity_vertical_margin"
             tools:context=".RegisterActivity">
 
             <ImageView
@@ -58,6 +58,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:hint="@string/password"
+                android:fontFamily="sans-serif"
                 android:imeOptions="actionGo"
                 android:inputType="textPassword"
                 android:paddingBottom="16dp"
@@ -67,14 +68,14 @@
 
             <Button
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
+                android:layout_height="52dp"
                 android:layout_marginBottom="8dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="12dp"
                 android:background="#1C6CCB"
                 android:onClick="onClickRegister"
+                android:textColor="#ffffdc"
                 android:text="@string/register"
                 android:textAllCaps="false"
-                android:textColor="@android:color/primary_text_dark"
                 android:textSize="16sp"/>
 
             <LinearLayout

@@ -109,6 +109,11 @@ public class MainActivity extends AppCompatActivity {
         query.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
 
         ParseUser user = ParseUser.getCurrentUser();
+        if (user == null) {
+            startActivity(new Intent(this, WelcomeActivity.class));
+            finish();
+            return;
+        }
         user.fetchInBackground(new GetCallback<ParseObject>() {
             @Override
             public void done(ParseObject user, ParseException e) {
@@ -123,6 +128,14 @@ public class MainActivity extends AppCompatActivity {
                         public void done(List<ParseObject> posts, ParseException e) {
                             findViewById(R.id.loading).setVisibility(View.GONE);
                             if (e == null) {
+                                if (posts.size() == 0) {
+                                    TextView emptyView = (TextView) findViewById(R.id.empty);
+                                    emptyView.setVisibility(View.VISIBLE);
+                                    String userCity = ParseUser.getCurrentUser().getString("city").split(",")[0];
+                                    emptyView.setText("Be the first to post anything in " + userCity + "!\n" +
+                                            "Tap pencil icon to create a message");
+                                    return;
+                                }
                                 if (mPostAdapter.getCount() != posts.size()) {
                                     mPostAdapter.clear();
                                     mPostAdapter.addAll(posts);

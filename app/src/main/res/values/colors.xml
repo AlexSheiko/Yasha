@@ -8,4 +8,6 @@
     <color name="window_background">#FAFAFA</color>
     <color name="window_background_dark">#0C1417</color>
     <color name="window_background_gray">#EDEDED</color>
+    <color name="login_button_pressed">#67892d</color>
+    <color name="login_button_normal">#89B73D</color>
 </resources>

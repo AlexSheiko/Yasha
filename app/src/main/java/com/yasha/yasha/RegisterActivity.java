@@ -16,9 +16,12 @@ import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -77,6 +80,17 @@ public class RegisterActivity extends AppCompatActivity
                 .transform(new CircleTransform())
                 .noFade()
                 .into(avatarView);
+
+        EditText passwordField = (EditText) findViewById(R.id.password_field);
+        passwordField.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView editText, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_GO || event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
+                    onClickRegister(editText);
+                }
+                return false;
+            }
+        });
     }
 
     @Override

@@ -72,8 +72,15 @@ public class FetchAddressIntentService extends IntentService {
             Address address = addresses.get(0);
             ArrayList<String> addressFragments = new ArrayList<>();
 
-            String city = address.getAddressLine(1);
-            String country = address.getAddressLine(3);
+            String city = address.getLocality();
+            String country = address.getCountryName();
+
+            if (country.equals("United Kingdom")) {
+                country = "UK";
+            } else if (country.equals("United States")) {
+                country = "US";
+            }
+
 
             // Fetch city and country lines using getAddressLine,
             // join them, and send them to the thread.
