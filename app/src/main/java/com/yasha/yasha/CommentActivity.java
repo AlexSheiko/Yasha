@@ -47,7 +47,7 @@ public class CommentActivity extends AppCompatActivity {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Post");
         query.include("author");
         query.include("comments");
-        query.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
+        query.setCachePolicy(ParseQuery.CachePolicy.CACHE_ONLY);
         query.getInBackground(postId, new GetCallback<ParseObject>() {
             @Override
             public void done(ParseObject post, ParseException e) {
@@ -86,7 +86,7 @@ public class CommentActivity extends AppCompatActivity {
 
                     Picasso.with(CommentActivity.this)
                             .load(tempFile)
-                            .fit()
+                            .fit().centerCrop()
                             .transform(new CircleTransform())
                             .into(avatarView);
                 }
@@ -94,7 +94,7 @@ public class CommentActivity extends AppCompatActivity {
         } else {
             Picasso.with(this)
                     .load(R.drawable.avatar_placeholder)
-                    .fit()
+                    .fit().centerCrop()
                     .transform(new CircleTransform())
                     .into(avatarView);
         }
@@ -109,7 +109,6 @@ public class CommentActivity extends AppCompatActivity {
         ParseQuery<ParseObject> query = new ParseQuery<>("Comment");
         query.whereEqualTo("post", mPost);
         query.include("author");
-        query.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> comments, ParseException e) {

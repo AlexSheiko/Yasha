@@ -82,7 +82,7 @@ public class CommentAdapter extends ArrayAdapter<ParseObject> {
 
                                         Picasso.with(getContext())
                                                 .load(tempFile)
-                                                .fit()
+                                                .fit().centerCrop()
                                                 .transform(new CircleTransform())
                                                 .noFade()
                                                 .into(avatarView, new Callback() {
@@ -102,7 +102,7 @@ public class CommentAdapter extends ArrayAdapter<ParseObject> {
                         } else {
                             Picasso.with(getContext())
                                     .load(R.drawable.avatar_placeholder)
-                                    .fit()
+                                    .fit().centerCrop()
                                     .transform(new CircleTransform())
                                     .noFade()
                                     .into(avatarView, new Callback() {

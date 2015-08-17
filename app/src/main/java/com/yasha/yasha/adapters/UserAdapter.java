@@ -60,7 +60,7 @@ public class UserAdapter extends ArrayAdapter<ParseUser> {
 
                     Picasso.with(getContext())
                             .load(tempFile)
-                            .fit()
+                            .fit().centerCrop()
                             .transform(new CircleTransform())
                             .into(avatarView);
                 }
@@ -68,7 +68,7 @@ public class UserAdapter extends ArrayAdapter<ParseUser> {
         } else {
             Picasso.with(getContext())
                     .load(R.drawable.avatar_placeholder)
-                    .fit()
+                    .fit().centerCrop()
                     .transform(new CircleTransform())
                     .into(avatarView);
         }

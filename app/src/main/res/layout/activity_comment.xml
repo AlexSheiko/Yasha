@@ -1,22 +1,24 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    style="@style/Container"
-    android:orientation="vertical"
-    android:layout_height="match_parent"
-    tools:context=".CommentActivity">
+<LinearLayout style="@style/Container"
+              xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              android:paddingBottom="8dp"
+              android:paddingTop="8dp"
+              tools:context=".CommentActivity">
 
     <include
         android:id="@+id/cite"
-        layout="@layout/post_list_item" />
+        layout="@layout/post_list_item"/>
 
     <ListView
         android:id="@+id/comment_list"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
-        tools:listitem="@layout/comment_list_item" />
+        android:layout_marginTop="8dp"
+        android:layout_weight="1"
+        tools:listitem="@layout/comment_list_item"/>
 
     <LinearLayout
         android:id="@+id/field_container"
@@ -30,25 +32,25 @@
             android:id="@+id/message_field"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginRight="2dp"
             android:layout_weight="1"
             android:hint="@string/comment"
             android:imeOptions="actionSend"
-            android:layout_marginRight="2dp"
             android:inputType="textCapSentences|textMultiLine"
             android:paddingBottom="20dp"
             android:paddingRight="8dp"
             android:paddingTop="16dp"
-            android:scrollHorizontally="false" />
+            android:scrollHorizontally="false"/>
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/category_background"
             android:onClick="onClickSend"
-            android:textSize="16sp"
             android:text="@string/send"
             android:textAllCaps="false"
-            android:textColor="#e6ffffff" />
+            android:textColor="#e6ffffff"
+            android:textSize="16sp"/>
 
     </LinearLayout>
 
