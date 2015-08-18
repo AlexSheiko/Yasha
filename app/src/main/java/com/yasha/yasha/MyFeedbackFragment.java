@@ -55,7 +55,6 @@ public class MyFeedbackFragment extends Fragment {
                         commentQuery.include("author");
                         commentQuery.whereEqualTo("post", post);
                         commentQuery.whereNotEqualTo("author", ParseUser.getCurrentUser());
-                        commentQuery.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
                         commentQuery.findInBackground(new FindCallback<ParseObject>() {
                             @Override
                             public void done(List<ParseObject> comments, ParseException e) {

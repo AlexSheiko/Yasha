@@ -451,6 +451,10 @@ public class SettingsActivity extends AppCompatActivity {
                                                         }
                                                     }
                                                 });
+                                            } else {
+                                                usernameField.setError("Username already taken");
+                                                usernameField.selectAll();
+                                                usernameField.requestFocus();
                                             }
                                         }
                                     });
