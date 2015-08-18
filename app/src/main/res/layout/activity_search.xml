@@ -1,17 +1,25 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout style="@style/Container"
+             xmlns:android="http://schemas.android.com/apk/res/android"
              xmlns:tools="http://schemas.android.com/tools"
-             style="@style/Container"
              android:layout_height="match_parent"
              tools:context=".SearchActivity">
 
-    <ListView
-        android:id="@+id/user_listview"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:clipToPadding="false"
-        android:paddingBottom="8dp"
-        android:paddingTop="8dp"
-        tools:listitem="@layout/user_list_item"/>
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:id="@+id/list_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:orientation="vertical"
+            android:paddingBottom="8dp"
+            android:paddingTop="8dp"
+            tools:listitem="@layout/user_list_item"/>
+
+    </ScrollView>
 
     <FrameLayout
         android:id="@+id/loading"
@@ -26,19 +34,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="112dp" />
+            android:layout_marginTop="112dp"/>
 
     </FrameLayout>
 
     <TextView
         android:id="@+id/empty"
         android:layout_width="match_parent"
-        android:gravity="center_horizontal"
         android:layout_height="wrap_content"
         android:layout_marginTop="112dp"
+        android:gravity="center_horizontal"
         android:text="No users matches “Ann”"
-        android:visibility="gone"
         android:textColor="#3b000000"
-        android:textSize="20sp"/>
+        android:textSize="20sp"
+        android:visibility="gone"/>
 
 </FrameLayout>
