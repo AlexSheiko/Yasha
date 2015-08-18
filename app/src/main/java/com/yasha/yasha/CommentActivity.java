@@ -68,6 +68,7 @@ public class CommentActivity extends AppCompatActivity {
         final ImageView avatarView = (ImageView) findViewById(R.id.avatar_imageview);
 
         messageView.setText(mPost.getString("message"));
+        messageView.setMaxLines(Integer.MAX_VALUE);
         authorView.setText(author.getUsername());
 
         ParseFile avatarFile = author.getParseFile("avatar");

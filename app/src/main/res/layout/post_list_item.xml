@@ -41,6 +41,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingBottom="14dp"
+                android:maxLines="3"
+                android:ellipsize="end"
                 android:textColor="#241A23"
                 android:textSize="14sp"
                 tools:text="Johnny, forgive me for my misbehaviour the other day. You are a dear friend that I would like to keep close."/>

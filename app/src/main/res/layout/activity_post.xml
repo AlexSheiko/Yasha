@@ -39,8 +39,7 @@
                 android:layout_marginLeft="8dp"
                 android:contentDescription="@string/encouragement"
                 android:textOff="E"
-                android:textOn="E"
-                android:textSize="16sp" />
+                android:textOn="E" />
 
             <ToggleButton
                 android:id="@+id/toggle_other"
