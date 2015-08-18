@@ -164,7 +164,6 @@ public class SettingsActivity extends AppCompatActivity {
                     .into(avatarView);
 
 
-
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
             bitmap.compress(Bitmap.CompressFormat.PNG, 51, stream);
             byte[] bitmapdata = stream.toByteArray();
@@ -268,8 +267,11 @@ public class SettingsActivity extends AppCompatActivity {
                                                         @Override
                                                         public void done(ParseException e) {
                                                             if (e == null) {
-                                                                Toast.makeText(SettingsActivity.this, "Account was removed", Toast.LENGTH_SHORT).show();
-                                                                startActivity(new Intent(SettingsActivity.this, RegisterActivity.class));
+                                                                Toast.makeText(SettingsActivity.this, "Account was removed. Perhaps you'd like to create a new one?", Toast.LENGTH_SHORT).show();
+                                                                Intent intent = new Intent(SettingsActivity.this, RegisterActivity.class);
+                                                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                                                startActivity(intent);
+                                                                finish();
                                                             } else {
                                                                 Toast.makeText(SettingsActivity.this,
                                                                         "Failed to delete account: " + e.getMessage(), Toast.LENGTH_LONG).show();
@@ -384,43 +386,68 @@ public class SettingsActivity extends AppCompatActivity {
 
     public void onChangeUsernameClick(View view) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("New username");
+        builder.setMessage("Change “" + ParseUser.getCurrentUser().getUsername() + "” to:");
+
+
+        LinearLayout layout = new LinearLayout(this);
+        layout.setOrientation(LinearLayout.VERTICAL);
 
         final EditText usernameField = new EditText(this);
         usernameField.setInputType(InputType.TYPE_TEXT_VARIATION_PERSON_NAME | InputType.TYPE_TEXT_FLAG_CAP_WORDS);
-        usernameField.setText(ParseUser.getCurrentUser().getUsername());
-        usernameField.selectAll();
-        builder.setView(usernameField, convertToPixels(20), convertToPixels(12), convertToPixels(20), convertToPixels(4));
+        usernameField.setHint("New username");
 
-        builder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
+        final EditText passwordField = new EditText(this);
+        passwordField.setTransformationMethod(PasswordTransformationMethod.getInstance());
+        passwordField.setHint("Current password");
+
+        layout.addView(usernameField);
+        layout.addView(passwordField);
+
+        builder.setView(layout, convertToPixels(20), convertToPixels(12), convertToPixels(20), convertToPixels(4));
+
+        builder.setPositiveButton("Save", null);
+
+        final AlertDialog dialog = builder.create();
+        dialog.show();
+
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(final DialogInterface dialog, int which) {
-                String username = usernameField.getText().toString();
+            public void onClick(View v) {
+                final String username = usernameField.getText().toString();
+                String password = passwordField.getText().toString();
 
-                ParseUser user = ParseUser.getCurrentUser();
-                user.setUsername(username);
-                user.saveInBackground(new SaveCallback() {
-                    @Override
-                    public void done(ParseException e) {
-                        if (e == null) {
-                            ParseUser.logOutInBackground(new LogOutCallback() {
-                                @Override
-                                public void done(ParseException e) {
-                                    if (e == null) {
-                                        dialog.cancel();
-                                        startActivity(new Intent(SettingsActivity.this, LoginActivity.class));
-                                        Toast.makeText(SettingsActivity.this, "Now you can login using your new username", Toast.LENGTH_LONG).show();
-                                    }
+                ParseUser.logInInBackground(ParseUser.getCurrentUser().getUsername(),
+                        password, new LogInCallback() {
+                            @Override
+                            public void done(ParseUser user, ParseException e) {
+                                if (e == null) {
+                                    user.setUsername(username);
+                                    user.saveInBackground(new SaveCallback() {
+                                        @Override
+                                        public void done(ParseException e) {
+                                            if (e == null) {
+                                                ParseUser.logOutInBackground(new LogOutCallback() {
+                                                    @Override
+                                                    public void done(ParseException e) {
+                                                        if (e == null) {
+                                                            dialog.cancel();
+                                                            startActivity(new Intent(SettingsActivity.this, LoginActivity.class));
+                                                            Toast.makeText(SettingsActivity.this, "Now you can login using your new username", Toast.LENGTH_LONG).show();
+                                                        }
+                                                    }
+                                                });
+                                            }
+                                        }
+                                    });
+                                } else {
+                                    passwordField.setError("Password entered incorrectly");
+                                    passwordField.selectAll();
+                                    passwordField.requestFocus();
                                 }
-                            });
-                        }
-                    }
-                });
+                            }
+                        });
             }
         });
-
-        AlertDialog dialog = builder.create();
-        dialog.show();
     }
 
     public void onChangeEmailClick(View view) {

@@ -98,7 +98,7 @@ public class LoginActivity extends AppCompatActivity {
                                     errorMessage = "Network lost. Check your connection and try again";
                                 } else if (e.getMessage().equals("invalid session token")
                                         || e.getMessage().equals("no results found for query")) {
-                                    errorMessage = "User not exists";
+                                    errorMessage = "User not exists or password is incorrect";
                                 }
                                 Toast.makeText(LoginActivity.this, errorMessage, Toast.LENGTH_LONG).show();
                             }
