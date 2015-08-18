@@ -55,6 +55,7 @@ public class CommentAdapter extends ArrayAdapter<ParseObject> {
         final TextView nameView = (TextView) convertView.findViewById(R.id.name_textview);
         final TextView messageView = (TextView) convertView.findViewById(R.id.message_textview);
         final ImageView avatarView = (ImageView) convertView.findViewById(R.id.avatar_imageview);
+        final TextView dateView = (TextView) convertView.findViewById(R.id.date_textview);
 
         final ParseObject comment = getItem(position);
 
@@ -90,6 +91,11 @@ public class CommentAdapter extends ArrayAdapter<ParseObject> {
                                                     public void onSuccess() {
                                                         nameView.setText(author.getUsername());
                                                         messageView.setText(comment.getString("message"));
+
+                                                        if (mHistorySection) {
+                                                            dateView.setVisibility(View.VISIBLE);
+                                                            dateView.setText(formatDate(comment.getCreatedAt()));
+                                                        }
                                                     }
 
                                                     @Override
@@ -110,6 +116,11 @@ public class CommentAdapter extends ArrayAdapter<ParseObject> {
                                         public void onSuccess() {
                                             nameView.setText(author.getUsername());
                                             messageView.setText(comment.getString("message"));
+
+                                            if (mHistorySection) {
+                                                dateView.setVisibility(View.VISIBLE);
+                                                dateView.setText(formatDate(comment.getCreatedAt()));
+                                            }
                                         }
 
                                         @Override
@@ -120,12 +131,6 @@ public class CommentAdapter extends ArrayAdapter<ParseObject> {
                     }
                 }
             });
-        }
-
-        if (mHistorySection) {
-            TextView dateView = (TextView) convertView.findViewById(R.id.date_textview);
-            dateView.setVisibility(View.VISIBLE);
-            dateView.setText(formatDate(comment.getCreatedAt()));
         }
 
         boolean myCommentsTab = comment.getParseUser("author").getObjectId().equals(ParseUser.getCurrentUser().getObjectId());

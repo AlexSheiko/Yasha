@@ -46,36 +46,38 @@ public class MyFeedbackFragment extends Fragment {
         query.orderByDescending("createdAt");
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
-            public void done(List<ParseObject> posts, ParseException e) {
-                if (e == null) {
+            public void done(final List<ParseObject> posts, ParseException e) {
+                if (posts != null && posts.size() > 0) {
                     mCommentAdapter.clear();
-                    for (ParseObject post : posts) {
+                    for (int i = 0; i < posts.size(); i++) {
+                        final ParseObject post = posts.get(i);
                         ParseQuery<ParseObject> commentQuery = new ParseQuery<>("Comment");
                         commentQuery.include("post");
                         commentQuery.include("author");
                         commentQuery.whereEqualTo("post", post);
                         commentQuery.whereNotEqualTo("author", ParseUser.getCurrentUser());
+                        final int finalI = i;
                         commentQuery.findInBackground(new FindCallback<ParseObject>() {
                             @Override
                             public void done(List<ParseObject> comments, ParseException e) {
                                 if (e == null) {
                                     mCommentAdapter.addAll(comments);
-                                }
 
-                                if (comments != null && comments.size() > 0) {
-                                    mRootView.findViewById(R.id.empty).setVisibility(View.GONE);
-                                } else {
-                                    mRootView.findViewById(R.id.empty).setVisibility(View.VISIBLE);
+                                    if (finalI == posts.size()-1) {
+                                        if (mCommentAdapter.getCount() > 0) {
+                                            mRootView.findViewById(R.id.empty).setVisibility(View.GONE);
+                                        } else {
+                                            mRootView.findViewById(R.id.empty).setVisibility(View.VISIBLE);
+                                        }
+                                    }
                                 }
                             }
                         });
                     }
-                    if (posts.size() == 0) {
-                        mRootView.findViewById(R.id.empty).setVisibility(View.VISIBLE);
-                    } else {
-                        mRootView.findViewById(R.id.empty).setVisibility(View.GONE);
-                    }
+                } else {
+                    mRootView.findViewById(R.id.empty).setVisibility(View.VISIBLE);
                 }
+
             }
         });
     }
