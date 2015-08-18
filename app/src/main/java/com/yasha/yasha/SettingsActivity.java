@@ -413,8 +413,23 @@ public class SettingsActivity extends AppCompatActivity {
         dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final String username = usernameField.getText().toString();
-                String password = passwordField.getText().toString();
+                final String username = usernameField.getText().toString().trim();
+                String password = passwordField.getText().toString().trim();
+
+                boolean hasEmptyFields = false;
+
+                if (password.isEmpty()) {
+                    passwordField.setError("Cannot be empty");
+                    passwordField.requestFocus();
+                    hasEmptyFields = true;
+                }
+                if (username.isEmpty()) {
+                    usernameField.setError("Cannot be empty");
+                    usernameField.requestFocus();
+                    hasEmptyFields = true;
+                }
+                if (hasEmptyFields) return;
+
 
                 ParseUser.logInInBackground(ParseUser.getCurrentUser().getUsername(),
                         password, new LogInCallback() {
@@ -452,45 +467,88 @@ public class SettingsActivity extends AppCompatActivity {
 
     public void onChangeEmailClick(View view) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("New email");
+        builder.setMessage("Change “" + ParseUser.getCurrentUser().getEmail() + "” to:");
+
+
+        LinearLayout layout = new LinearLayout(this);
+        layout.setOrientation(LinearLayout.VERTICAL);
 
         final EditText emailField = new EditText(this);
         emailField.setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
-        if (ParseUser.getCurrentUser() != null) {
-            emailField.setText(ParseUser.getCurrentUser().getEmail());
-        }
-        emailField.selectAll();
-        builder.setView(emailField, convertToPixels(20), convertToPixels(12), convertToPixels(20), convertToPixels(4));
+        emailField.setHint("New email");
 
-        builder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
+        final EditText passwordField = new EditText(this);
+        passwordField.setTransformationMethod(PasswordTransformationMethod.getInstance());
+        passwordField.setHint("Current password");
+
+        layout.addView(emailField);
+        layout.addView(passwordField);
+
+        builder.setView(layout, convertToPixels(20), convertToPixels(12), convertToPixels(20), convertToPixels(4));
+
+        builder.setPositiveButton("Save", null);
+
+        final AlertDialog dialog = builder.create();
+        dialog.show();
+
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(final DialogInterface dialog, int which) {
-                String email = emailField.getText().toString();
+            public void onClick(View v) {
+                final String email = emailField.getText().toString();
+                String password = passwordField.getText().toString();
 
-                ParseUser user = ParseUser.getCurrentUser();
-                user.setEmail(email);
-                user.saveInBackground(new SaveCallback() {
-                    @Override
-                    public void done(ParseException e) {
-                        if (e == null) {
-                            ParseUser.logOutInBackground(new LogOutCallback() {
-                                @Override
-                                public void done(ParseException e) {
-                                    if (e == null) {
-                                        dialog.cancel();
-                                        startActivity(new Intent(SettingsActivity.this, LoginActivity.class));
-                                        Toast.makeText(SettingsActivity.this, "Now you can login using your new email", Toast.LENGTH_LONG).show();
-                                    }
+                boolean hasEmptyFields = false;
+
+                if (password.isEmpty()) {
+                    passwordField.setError("Cannot be empty");
+                    passwordField.requestFocus();
+                    hasEmptyFields = true;
+                }
+                if (email.isEmpty()) {
+                    emailField.setError("Cannot be empty");
+                    emailField.requestFocus();
+                    hasEmptyFields = true;
+                }
+                if (hasEmptyFields) return;
+
+
+                ParseUser.logInInBackground(ParseUser.getCurrentUser().getUsername(),
+                        password, new LogInCallback() {
+                            @Override
+                            public void done(ParseUser user, ParseException e) {
+                                if (e == null) {
+                                    user.setEmail(email);
+                                    user.saveInBackground(new SaveCallback() {
+                                        @Override
+                                        public void done(ParseException e) {
+                                            if (e == null) {
+                                                ParseUser.logOutInBackground(new LogOutCallback() {
+                                                    @Override
+                                                    public void done(ParseException e) {
+                                                        if (e == null) {
+                                                            dialog.cancel();
+                                                            startActivity(new Intent(SettingsActivity.this, LoginActivity.class));
+                                                            Toast.makeText(SettingsActivity.this, "Now you can login using your new email", Toast.LENGTH_LONG).show();
+                                                        }
+                                                    }
+                                                });
+                                            } else {
+                                                emailField.setError("Invalid email address");
+                                                emailField.selectAll();
+                                                emailField.requestFocus();
+                                            }
+                                        }
+                                    });
+                                } else {
+                                    passwordField.setError("Password entered incorrectly");
+                                    passwordField.selectAll();
+                                    passwordField.requestFocus();
                                 }
-                            });
-                        }
-                    }
-                });
+                            }
+                        });
+
             }
         });
-
-        AlertDialog dialog = builder.create();
-        dialog.show();
     }
 
     public void onLogoutClick(View view) {
