@@ -3,6 +3,7 @@ package com.yasha.yasha;
 import android.app.SearchManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
@@ -39,6 +40,14 @@ public class SearchActivity extends AppCompatActivity {
             searchUsers(query);
 
             getSupportActionBar().setTitle(query);
+        } else if (Intent.ACTION_VIEW.equals(intent.getAction())) {
+            Uri detailUri = intent.getData();
+            String id = detailUri.getLastPathSegment();
+
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+            prefs.edit().putString("user_id_history", id).apply();
+            startActivity(new Intent(this, HistoryActivity.class));
+            finish();
         }
     }
 

@@ -137,8 +137,8 @@ public class MainActivity extends AppCompatActivity {
                                     }
                                     return;
                                 }
-                                    mPostAdapter.clear();
-                                    mPostAdapter.addAll(posts);
+                                mPostAdapter.clear();
+                                mPostAdapter.addAll(posts);
                             }
                         }
                     });
