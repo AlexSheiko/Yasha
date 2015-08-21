@@ -52,6 +52,7 @@ public class MyFeedbackFragment extends Fragment {
                     for (int i = 0; i < posts.size(); i++) {
                         final ParseObject post = posts.get(i);
                         ParseQuery<ParseObject> commentQuery = new ParseQuery<>("Comment");
+                        commentQuery.orderByDescending("createdAt");
                         commentQuery.include("post");
                         commentQuery.include("author");
                         commentQuery.whereEqualTo("post", post);

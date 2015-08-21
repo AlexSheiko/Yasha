@@ -147,14 +147,16 @@ public class HistoryActivity extends AppCompatActivity
                                 if (e == null) {
                                     mUnreadComments += count;
 
-                                    TextView unreadView = (TextView) mActionbarView.findViewById(R.id.unread_textview);
-                                    unreadView.setText(mUnreadComments + "");
-                                    unreadView.setOnClickListener(new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View v) {
-                                            startActivity(new Intent(HistoryActivity.this, MainActivity.class));
-                                        }
-                                    });
+                                    if (mActionbarView != null) {
+                                        TextView unreadView = (TextView) mActionbarView.findViewById(R.id.unread_textview);
+                                        unreadView.setText(mUnreadComments + "");
+                                        unreadView.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                startActivity(new Intent(HistoryActivity.this, MainActivity.class));
+                                            }
+                                        });
+                                    }
                                 }
                             }
                         });
@@ -242,9 +244,22 @@ public class HistoryActivity extends AppCompatActivity
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            super.onBackPressed();
+            onBackPressed();
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        String userId = prefs.getString("user_id_history", ParseUser.getCurrentUser().getObjectId());
+
+        if (!userId.equals(ParseUser.getCurrentUser().getObjectId())) {
+            prefs.edit().putString("user_id_history", ParseUser.getCurrentUser().getObjectId()).apply();
+        }
+
+        super.onBackPressed();
     }
 }

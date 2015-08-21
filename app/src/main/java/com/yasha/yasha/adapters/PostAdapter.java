@@ -26,6 +26,7 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.yasha.yasha.CircleTransform;
 import com.yasha.yasha.CommentActivity;
@@ -71,12 +72,7 @@ public class PostAdapter extends ArrayAdapter<ParseObject> {
         final View buttonMore = convertView.findViewById(R.id.button_more);
 
         final ParseObject post = getItem(position);
-        messageView.setText(post.getString("message"));
-        dateView.setText(formatDate(post.getCreatedAt()));
-        categoryView.setText(post.getString("category"));
-
         final ParseUser author = post.getParseUser("author");
-        authorView.setText(author.getUsername());
 
         ParseFile avatarFile = author.getParseFile("avatar");
         if (avatarFile != null) {
@@ -96,7 +92,25 @@ public class PostAdapter extends ArrayAdapter<ParseObject> {
                             .load(tempFile)
                             .fit().centerCrop()
                             .transform(new CircleTransform())
-                            .into(avatarView);
+                            .into(avatarView, new Callback() {
+                                @Override
+                                public void onSuccess() {
+                                    messageView.setText(post.getString("message"));
+                                    dateView.setText(formatDate(post.getCreatedAt()));
+                                    categoryView.setText(post.getString("category"));
+
+                                    final ParseUser author = post.getParseUser("author");
+                                    authorView.setText(author.getUsername());
+
+                                    categoryView.setVisibility(View.VISIBLE);
+                                    counterView.setVisibility(View.VISIBLE);
+                                    buttonMore.setVisibility(View.VISIBLE);
+                                }
+
+                                @Override
+                                public void onError() {
+                                }
+                            });
                 }
             });
         } else {
@@ -104,7 +118,21 @@ public class PostAdapter extends ArrayAdapter<ParseObject> {
                     .load(R.drawable.avatar_placeholder)
                     .fit().centerCrop()
                     .transform(new CircleTransform())
-                    .into(avatarView);
+                    .into(avatarView, new Callback() {
+                        @Override
+                        public void onSuccess() {
+                            messageView.setText(post.getString("message"));
+                            dateView.setText(formatDate(post.getCreatedAt()));
+                            categoryView.setText(post.getString("category"));
+
+                            final ParseUser author = post.getParseUser("author");
+                            authorView.setText(author.getUsername());
+                        }
+
+                        @Override
+                        public void onError() {
+                        }
+                    });
         }
 
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Comment");

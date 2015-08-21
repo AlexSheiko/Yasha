@@ -20,6 +20,7 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.yasha.yasha.adapters.CommentAdapter;
 
@@ -61,15 +62,11 @@ public class CommentActivity extends AppCompatActivity {
     }
 
     private void showPostContents() {
-        ParseUser author = mPost.getParseUser("author");
+        final ParseUser author = mPost.getParseUser("author");
 
-        TextView authorView = (TextView) findViewById(R.id.author_textview);
-        TextView messageView = (TextView) findViewById(R.id.message_textview);
+        final TextView authorView = (TextView) findViewById(R.id.author_textview);
+        final TextView messageView = (TextView) findViewById(R.id.message_textview);
         final ImageView avatarView = (ImageView) findViewById(R.id.avatar_imageview);
-
-        messageView.setText(mPost.getString("message"));
-        messageView.setMaxLines(Integer.MAX_VALUE);
-        authorView.setText(author.getUsername());
 
         ParseFile avatarFile = author.getParseFile("avatar");
         if (avatarFile != null) {
@@ -89,7 +86,18 @@ public class CommentActivity extends AppCompatActivity {
                             .load(tempFile)
                             .fit().centerCrop()
                             .transform(new CircleTransform())
-                            .into(avatarView);
+                            .into(avatarView, new Callback() {
+                                @Override
+                                public void onSuccess() {
+                                    messageView.setText(mPost.getString("message"));
+                                    messageView.setMaxLines(Integer.MAX_VALUE);
+                                    authorView.setText(author.getUsername());
+                                }
+
+                                @Override
+                                public void onError() {
+                                }
+                            });
                 }
             });
         } else {
@@ -97,7 +105,18 @@ public class CommentActivity extends AppCompatActivity {
                     .load(R.drawable.avatar_placeholder)
                     .fit().centerCrop()
                     .transform(new CircleTransform())
-                    .into(avatarView);
+                    .into(avatarView, new Callback() {
+                        @Override
+                        public void onSuccess() {
+                            messageView.setText(mPost.getString("message"));
+                            messageView.setMaxLines(Integer.MAX_VALUE);
+                            authorView.setText(author.getUsername());
+                        }
+
+                        @Override
+                        public void onError() {
+                        }
+                    });
         }
     }
 
@@ -109,6 +128,7 @@ public class CommentActivity extends AppCompatActivity {
 
         ParseQuery<ParseObject> query = new ParseQuery<>("Comment");
         query.whereEqualTo("post", mPost);
+        query.orderByAscending("createdAt");
         query.include("author");
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override

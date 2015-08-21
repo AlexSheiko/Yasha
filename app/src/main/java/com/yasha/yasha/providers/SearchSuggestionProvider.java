@@ -58,11 +58,9 @@ public class SearchSuggestionProvider extends ContentProvider {
         String[] columns = new String[]{
                 "_id",
                 SearchManager.SUGGEST_COLUMN_INTENT_DATA,
-                SearchManager.SUGGEST_COLUMN_TEXT_1,
-                SearchManager.SUGGEST_COLUMN_ICON_1};
+                SearchManager.SUGGEST_COLUMN_TEXT_1};
 
         MatrixCursor matrixCursor = new MatrixCursor(columns);
-//        ((Activity) getContext()).startManagingCursor(matrixCursor);
 
         for (int i = 0; i < users.size(); i++) {
             ParseUser user = users.get(i);
@@ -70,7 +68,6 @@ public class SearchSuggestionProvider extends ContentProvider {
                     i,
                     user.getObjectId(),
                     user.getUsername(),
-                    android.R.color.white,
             });
         }
 
