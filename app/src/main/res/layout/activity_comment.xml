@@ -11,6 +11,11 @@
         android:id="@+id/cite"
         layout="@layout/post_list_item"/>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#EEE"/>
+
     <ListView
         android:id="@+id/comment_list"
         android:layout_width="match_parent"
