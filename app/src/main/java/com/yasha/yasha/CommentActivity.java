@@ -179,6 +179,7 @@ public class CommentActivity extends AppCompatActivity {
                     Intent intent = getIntent();
                     finish();
                     startActivity(intent);
+                    overridePendingTransition(0, 0);
                 } else {
                     Toast.makeText(CommentActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
                 }

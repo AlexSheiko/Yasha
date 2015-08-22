@@ -5,7 +5,6 @@
     android:layout_height="wrap_content"
     android:descendantFocusability="blocksDescendants"
     android:paddingRight="32dp"
-    android:background="#F1F8E9"
     android:orientation="horizontal">
 
     <ImageView
