@@ -9,6 +9,7 @@
         android:layout_height="match_parent"
         android:divider="@color/divider_color"
         android:dividerHeight="1dp"
+        android:background="@color/card_background"
         android:clipToPadding="false"
         android:paddingBottom="8dp"
         android:paddingTop="8dp"
