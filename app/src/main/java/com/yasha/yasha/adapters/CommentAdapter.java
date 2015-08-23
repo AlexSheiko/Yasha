@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -110,7 +111,9 @@ public class CommentAdapter extends ArrayAdapter<ParseObject> {
                                                             dateView.setText(formatDate(comment.getCreatedAt()));
                                                         }
 
-                                                        mListView.setVisibility(View.VISIBLE);
+                                                        if (position == mListView.getLastVisiblePosition()) {
+                                                            mListView.setVisibility(View.VISIBLE);
+                                                        }
                                                     }
 
                                                     @Override
@@ -137,7 +140,9 @@ public class CommentAdapter extends ArrayAdapter<ParseObject> {
                                                 dateView.setText(formatDate(comment.getCreatedAt()));
                                             }
 
-                                            mListView.setVisibility(View.VISIBLE);
+                                            if (position == mListView.getLastVisiblePosition()) {
+                                                mListView.setVisibility(View.VISIBLE);
+                                            }
                                         }
 
                                         @Override

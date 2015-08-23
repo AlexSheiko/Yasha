@@ -10,6 +10,8 @@
         android:layout_height="match_parent"
         android:clipToPadding="false"
         android:paddingBottom="8dp"
+        android:dividerHeight="1dp"
+        android:divider="@color/divider_color"
         android:paddingTop="8dp"
         tools:listitem="@layout/comment_list_item" />
 

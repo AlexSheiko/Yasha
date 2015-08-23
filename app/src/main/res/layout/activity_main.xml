@@ -65,6 +65,8 @@
         style="@style/Container"
         android:layout_height="match_parent"
         android:layout_below="@+id/toolbar"
+        android:divider="@color/divider_color"
+        android:dividerHeight="1dp"
         android:layout_centerHorizontal="true"
         android:clipToPadding="false"
         android:paddingBottom="8dp"
@@ -78,7 +80,6 @@
         android:id="@+id/loading"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#15000000"
         android:visibility="gone">
 
         <ProgressBar

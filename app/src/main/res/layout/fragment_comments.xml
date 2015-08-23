@@ -7,7 +7,9 @@
         android:id="@+id/comment_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:dividerHeight="1dp"
         android:clipToPadding="false"
+        android:divider="@color/divider_color"
         android:paddingBottom="8dp"
         android:paddingTop="8dp"
         tools:listitem="@layout/comment_list_item" />

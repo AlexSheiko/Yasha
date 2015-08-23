@@ -117,7 +117,9 @@ public class PostAdapter extends ArrayAdapter<ParseObject> {
                                     counterView.setVisibility(View.VISIBLE);
                                     buttonMore.setVisibility(View.VISIBLE);
 
-                                    mListView.setVisibility(View.VISIBLE);
+                                    if (position == mListView.getLastVisiblePosition()) {
+                                        mListView.setVisibility(View.VISIBLE);
+                                    }
                                 }
 
                                 @Override
@@ -141,7 +143,9 @@ public class PostAdapter extends ArrayAdapter<ParseObject> {
                             final ParseUser author = post.getParseUser("author");
                             authorView.setText(author.getUsername());
 
-                            mListView.setVisibility(View.VISIBLE);
+                            if (position == mListView.getLastVisiblePosition()) {
+                                mListView.setVisibility(View.VISIBLE);
+                            }
                         }
 
                         @Override
@@ -152,7 +156,6 @@ public class PostAdapter extends ArrayAdapter<ParseObject> {
 
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Comment");
         query.whereEqualTo("post", post);
-        query.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
         query.countInBackground(new CountCallback() {
             @Override
             public void done(int count, ParseException e) {
@@ -165,7 +168,6 @@ public class PostAdapter extends ArrayAdapter<ParseObject> {
         ParseQuery<ParseObject> unreadQuery = ParseQuery.getQuery("Comment");
         unreadQuery.whereEqualTo("post", post);
         unreadQuery.whereNotEqualTo("author", ParseUser.getCurrentUser());
-        unreadQuery.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
         unreadQuery.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> comments, ParseException e) {

@@ -46,7 +46,6 @@ public class MyPostsFragment extends Fragment {
         final ParseQuery<ParseObject> query = ParseQuery.getQuery("Post");
         query.orderByDescending("createdAt");
         query.include("author");
-        query.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
         String userId = prefs.getString("user_id_history", ParseUser.getCurrentUser().getObjectId());
