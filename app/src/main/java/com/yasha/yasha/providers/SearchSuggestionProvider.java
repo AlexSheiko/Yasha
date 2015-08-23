@@ -7,7 +7,6 @@ import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.net.Uri;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -48,7 +47,6 @@ public class SearchSuggestionProvider extends ContentProvider {
         }
 
         if (matches != null) {
-            Log.d("SuggestionsProvider", matches.size() + " users found.");
             return createCursor(matches);
         }
         return null;

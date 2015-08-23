@@ -34,6 +34,7 @@ public class MyCommentsFragment extends Fragment {
 
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Comment");
         query.whereEqualTo("author", ParseUser.getCurrentUser());
+        query.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
         query.orderByDescending("createdAt");
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
