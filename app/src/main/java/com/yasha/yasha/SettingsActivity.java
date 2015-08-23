@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -32,7 +31,9 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
+import com.soundcloud.android.crop.Crop;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -139,47 +140,75 @@ public class SettingsActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        ImageView avatarView = (ImageView) findViewById(R.id.avatar_picker);
+        final ImageView avatarView = (ImageView) findViewById(R.id.avatar_picker);
 
         Bitmap bitmap = null;
         Drawable drawable;
 
         if (resultCode == RESULT_OK) {
+            Uri inputUri;
+
             if (requestCode == REQUEST_IMAGE_CAPTURE) {
-                Bundle extras = data.getExtras();
-                bitmap = (Bitmap) extras.get("data");
-
+                Bitmap photo = (Bitmap) data.getExtras().get("data");
+                inputUri = getImageUri(photo);
+                beginCrop(inputUri);
             } else if (requestCode == REQUEST_FROM_GALLERY) {
-                Uri imageUri = data.getData();
-                String imagePath = getPath(imageUri);
-                drawable = Drawable.createFromPath(imagePath);
+                inputUri = data.getData();
+                beginCrop(inputUri);
+            } else if (requestCode == Crop.REQUEST_CROP) {
 
-                bitmap = ((BitmapDrawable) drawable).getBitmap();
-            }
+                Uri imageUri = Crop.getOutput(data);
 
-            Uri imageUri = data.getData();
-            Picasso.with(this)
-                    .load(imageUri)
-                    .transform(new CircleTransform())
-                    .into(avatarView);
+                Target target = new Target() {
+                    @Override
+                    public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                        avatarView.setImageBitmap(bitmap);
 
+                        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                        bitmap.compress(Bitmap.CompressFormat.PNG, 51, stream);
+                        byte[] bitmapdata = stream.toByteArray();
 
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.PNG, 51, stream);
-            byte[] bitmapdata = stream.toByteArray();
-
-            final ParseFile avatarFile = new ParseFile(bitmapdata, "image/png");
-            avatarFile.saveInBackground(new SaveCallback() {
-                @Override
-                public void done(ParseException e) {
-                    if (e == null) {
-                        ParseUser user = ParseUser.getCurrentUser();
-                        user.put("avatar", avatarFile);
-                        user.saveInBackground();
+                        final ParseFile avatarFile = new ParseFile(bitmapdata, "image/png");
+                        avatarFile.saveInBackground(new SaveCallback() {
+                            @Override
+                            public void done(ParseException e) {
+                                if (e == null) {
+                                    ParseUser user = ParseUser.getCurrentUser();
+                                    user.put("avatar", avatarFile);
+                                    user.saveInBackground();
+                                }
+                            }
+                        });
                     }
-                }
-            });
+
+                    @Override
+                    public void onBitmapFailed(Drawable errorDrawable) {
+                    }
+
+                    @Override
+                    public void onPrepareLoad(Drawable placeHolderDrawable) {
+                    }
+                };
+
+                Picasso.with(this).invalidate(imageUri);
+                Picasso.with(this)
+                        .load(imageUri)
+                        .transform(new CircleTransform())
+                        .into(target);
+            }
         }
+    }
+
+    public Uri getImageUri(Bitmap inImage) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(getContentResolver(), inImage, "Title", null);
+        return Uri.parse(path);
+    }
+
+    private void beginCrop(Uri source) {
+        Uri destination = Uri.fromFile(new File(getCacheDir(), "cropped"));
+        Crop.of(source, destination).asSquare().start(this);
     }
 
     public String getPath(Uri uri) {

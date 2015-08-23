@@ -13,7 +13,7 @@
 
     <include
         android:id="@+id/cite"
-        layout="@layout/post_list_item" />
+        layout="@layout/post_list_item"/>
 
     <View
         android:layout_width="match_parent"
