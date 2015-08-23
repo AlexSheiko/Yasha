@@ -214,7 +214,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         final EditText passwordField = new EditText(this);
         passwordField.setTransformationMethod(PasswordTransformationMethod.getInstance());
-        passwordField.setHint("Your password");
+        passwordField.setHint("Current password");
         builder.setView(passwordField, convertToPixels(20), convertToPixels(12), convertToPixels(20), convertToPixels(4));
 
         builder.setPositiveButton("Delete", null);
@@ -298,18 +298,18 @@ public class SettingsActivity extends AppCompatActivity {
 
     public void onChangePasswordClick(View view) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("New password");
+        builder.setMessage("Change password:");
 
         LinearLayout layout = new LinearLayout(this);
         layout.setOrientation(LinearLayout.VERTICAL);
 
         final EditText oldPasswordField = new EditText(this);
         oldPasswordField.setTransformationMethod(PasswordTransformationMethod.getInstance());
-        oldPasswordField.setHint("Old password entry line");
+        oldPasswordField.setHint("Current password");
 
         final EditText newPasswordField = new EditText(this);
         newPasswordField.setTransformationMethod(PasswordTransformationMethod.getInstance());
-        newPasswordField.setHint("New password entry line");
+        newPasswordField.setHint("New password");
 
         layout.addView(oldPasswordField);
         layout.addView(newPasswordField);
