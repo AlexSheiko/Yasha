@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.parse.GetCallback;
@@ -29,33 +30,45 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 
 public class CommentAdapter extends ArrayAdapter<ParseObject> {
 
+    private ListView mListView;
     private boolean mHistorySection = false;
+    private View mRootView;
 
-    public CommentAdapter(Context context) {
+    public CommentAdapter(Context context, ListView listView) {
         super(context, 0);
+        mListView = listView;
     }
 
-    public CommentAdapter(Context context, boolean historySection) {
+    public CommentAdapter(Context context, boolean historySection, ListView listView) {
         super(context, 0);
         mHistorySection = historySection;
+        mListView = listView;
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public void addAll(Collection<? extends ParseObject> collection) {
+        mListView.setVisibility(View.INVISIBLE);
+        super.addAll(collection);
+    }
 
-        convertView = LayoutInflater.from(getContext())
+    @Override
+    public View getView(final int position, View rootView, ViewGroup parent) {
+
+        rootView = LayoutInflater.from(getContext())
                 .inflate(R.layout.comment_list_item, parent, false);
+        mRootView = rootView;
 
-        final TextView nameView = (TextView) convertView.findViewById(R.id.name_textview);
-        final TextView messageView = (TextView) convertView.findViewById(R.id.message_textview);
-        final ImageView avatarView = (ImageView) convertView.findViewById(R.id.avatar_imageview);
-        final TextView dateView = (TextView) convertView.findViewById(R.id.date_textview);
+        final TextView nameView = (TextView) mRootView.findViewById(R.id.name_textview);
+        final TextView messageView = (TextView) mRootView.findViewById(R.id.message_textview);
+        final ImageView avatarView = (ImageView) mRootView.findViewById(R.id.avatar_imageview);
+        final TextView dateView = (TextView) mRootView.findViewById(R.id.date_textview);
 
         final ParseObject comment = getItem(position);
 
@@ -96,6 +109,8 @@ public class CommentAdapter extends ArrayAdapter<ParseObject> {
                                                             dateView.setVisibility(View.VISIBLE);
                                                             dateView.setText(formatDate(comment.getCreatedAt()));
                                                         }
+
+                                                        mListView.setVisibility(View.VISIBLE);
                                                     }
 
                                                     @Override
@@ -121,6 +136,8 @@ public class CommentAdapter extends ArrayAdapter<ParseObject> {
                                                 dateView.setVisibility(View.VISIBLE);
                                                 dateView.setText(formatDate(comment.getCreatedAt()));
                                             }
+
+                                            mListView.setVisibility(View.VISIBLE);
                                         }
 
                                         @Override
@@ -146,7 +163,7 @@ public class CommentAdapter extends ArrayAdapter<ParseObject> {
         }
 
 
-        return convertView;
+        return mRootView;
     }
 
     private String formatDate(Date date) {

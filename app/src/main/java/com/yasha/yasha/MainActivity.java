@@ -43,9 +43,8 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
 
-        mPostAdapter = new PostAdapter(this);
-
         ListView postList = (ListView) findViewById(R.id.post_list);
+        mPostAdapter = new PostAdapter(this, postList);
         postList.setAdapter(mPostAdapter);
 
 

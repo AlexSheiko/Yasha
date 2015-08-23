@@ -69,6 +69,9 @@
         android:clipToPadding="false"
         android:paddingBottom="8dp"
         android:paddingTop="16dp"
+        android:visibility="invisible"
+        tools:visibility="visible"
+        android:background="@color/card_background"
         tools:listitem="@layout/post_list_item" />
 
     <FrameLayout

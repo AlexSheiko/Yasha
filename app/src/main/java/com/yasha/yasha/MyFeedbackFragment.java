@@ -29,9 +29,8 @@ public class MyFeedbackFragment extends Fragment {
                              Bundle savedInstanceState) {
         mRootView = inflater.inflate(R.layout.fragment_feedback, container, false);
 
-        mCommentAdapter = new CommentAdapter(getActivity(), true);
-
         ListView commentList = (ListView) mRootView.findViewById(R.id.comment_list);
+        mCommentAdapter = new CommentAdapter(getActivity(), true, commentList);
         commentList.setAdapter(mCommentAdapter);
 
         return mRootView;

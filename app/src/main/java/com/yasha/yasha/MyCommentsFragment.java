@@ -28,9 +28,8 @@ public class MyCommentsFragment extends Fragment {
                              Bundle savedInstanceState) {
         mRootView = inflater.inflate(R.layout.fragment_comments, container, false);
 
-        final CommentAdapter commentAdapter = new CommentAdapter(getActivity(), true);
-
         ListView commentList = (ListView) mRootView.findViewById(R.id.comment_list);
+        final CommentAdapter commentAdapter = new CommentAdapter(getActivity(), true, commentList);
         commentList.setAdapter(commentAdapter);
 
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Comment");

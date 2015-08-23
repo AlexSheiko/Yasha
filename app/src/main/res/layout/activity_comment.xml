@@ -1,34 +1,39 @@
-<LinearLayout style="@style/Container"
-              xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_height="match_parent"
-              android:orientation="vertical"
-              android:paddingBottom="8dp"
-              android:paddingTop="8dp"
-              tools:context=".CommentActivity">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/Container"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".CommentActivity">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="16dp"
+        android:background="@color/card_background"/>
 
     <include
         android:id="@+id/cite"
-        layout="@layout/post_list_item"/>
+        layout="@layout/post_list_item" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:background="#EEE"/>
+        android:background="@color/divider_color" />
 
     <ListView
         android:id="@+id/comment_list"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginTop="8dp"
         android:layout_weight="1"
-        tools:listitem="@layout/comment_list_item"/>
+        android:visibility="invisible"
+        tools:visibility="visible"
+        tools:listitem="@layout/comment_list_item" />
 
     <LinearLayout
         android:id="@+id/field_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/card_background"
         android:layout_alignParentBottom="true"
         android:orientation="horizontal"
         android:padding="8dp">
@@ -45,7 +50,7 @@
             android:paddingBottom="20dp"
             android:paddingRight="8dp"
             android:paddingTop="16dp"
-            android:scrollHorizontally="false"/>
+            android:scrollHorizontally="false" />
 
         <Button
             android:layout_width="wrap_content"
@@ -55,7 +60,7 @@
             android:text="@string/send"
             android:textAllCaps="false"
             android:textColor="#e6ffffff"
-            android:textSize="16sp"/>
+            android:textSize="16sp" />
 
     </LinearLayout>
 

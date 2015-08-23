@@ -121,9 +121,8 @@ public class CommentActivity extends AppCompatActivity {
     }
 
     private void showCommentList() {
-        final CommentAdapter adapter = new CommentAdapter(this);
-
         ListView commentList = (ListView) findViewById(R.id.comment_list);
+        final CommentAdapter adapter = new CommentAdapter(this, commentList);
         commentList.setAdapter(adapter);
 
         ParseQuery<ParseObject> query = new ParseQuery<>("Comment");

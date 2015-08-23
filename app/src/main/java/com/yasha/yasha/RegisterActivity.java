@@ -34,12 +34,13 @@ import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
+import com.soundcloud.android.crop.Crop;
 import com.squareup.picasso.Picasso;
 import com.yasha.yasha.services.Constants;
 import com.yasha.yasha.services.FetchAddressIntentService;
 
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
+import java.io.File;
 
 public class RegisterActivity extends AppCompatActivity
         implements ConnectionCallbacks, OnConnectionFailedListener {
@@ -346,36 +347,45 @@ public class RegisterActivity extends AppCompatActivity
         }
 
         if (resultCode == RESULT_OK) {
-            Uri imageUri = null;
+            Uri inputUri = null;
 
             if (requestCode == REQUEST_IMAGE_CAPTURE) {
                 Bitmap photo = (Bitmap) data.getExtras().get("data");
-                imageUri = getImageUri(photo);
+                inputUri = getImageUri(photo);
+                beginCrop(inputUri);
             } else if (requestCode == REQUEST_FROM_GALLERY) {
-                imageUri = data.getData();
+                inputUri = data.getData();
+                beginCrop(inputUri);
+            } else if (requestCode == Crop.REQUEST_CROP) {
+
+                Uri imageUri = Crop.getOutput(data);
+
+                ImageView avatarView = (ImageView) findViewById(R.id.avatar_picker);
+
+                Picasso.with(this)
+                        .load(imageUri)
+                        .transform(new CircleTransform())
+                        .into(avatarView);
+
+//                try {
+//                    bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//
+//                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+//                bitmap.compress(Bitmap.CompressFormat.PNG, 51, stream);
+//                byte[] bitmapdata = stream.toByteArray();
+//
+//                mAvatarFile = new ParseFile(bitmapdata, "image/png");
+//                mAvatarFile.saveInBackground();
             }
-
-            ImageView avatarView = (ImageView) findViewById(R.id.avatar_picker);
-
-            Picasso.with(this)
-                    .load(imageUri)
-                    .transform(new CircleTransform())
-                    .into(avatarView);
-
-            Bitmap bitmap = null;
-            try {
-                bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(),imageUri);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.PNG, 51, stream);
-            byte[] bitmapdata = stream.toByteArray();
-
-            mAvatarFile = new ParseFile(bitmapdata, "image/png");
-            mAvatarFile.saveInBackground();
         }
+    }
+
+    private void beginCrop(Uri source) {
+        Uri destination = Uri.fromFile(new File(getCacheDir(), "cropped"));
+        Crop.of(source, destination).asSquare().start(this);
     }
 
     public Uri getImageUri(Bitmap inImage) {

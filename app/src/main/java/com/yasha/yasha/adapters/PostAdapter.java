@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.parse.CountCallback;
@@ -39,6 +40,7 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -46,19 +48,28 @@ import java.util.TimeZone;
 
 public class PostAdapter extends ArrayAdapter<ParseObject> {
 
+    private ListView mListView;
     private boolean mHistorySection = false;
 
-    public PostAdapter(Context context) {
+    public PostAdapter(Context context, ListView listView) {
         super(context, 0);
+        mListView = listView;
     }
 
-    public PostAdapter(Context context, boolean historySection) {
+    public PostAdapter(Context context, boolean historySection, ListView listView) {
         super(context, 0);
         mHistorySection = historySection;
+        mListView = listView;
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public void addAll(Collection<? extends ParseObject> collection) {
+        mListView.setVisibility(View.INVISIBLE);
+        super.addAll(collection);
+    }
+
+    @Override
+    public View getView(final int position, View convertView, ViewGroup parent) {
 
         convertView = LayoutInflater.from(getContext())
                 .inflate(R.layout.post_list_item, parent, false);
@@ -105,6 +116,8 @@ public class PostAdapter extends ArrayAdapter<ParseObject> {
                                     categoryView.setVisibility(View.VISIBLE);
                                     counterView.setVisibility(View.VISIBLE);
                                     buttonMore.setVisibility(View.VISIBLE);
+
+                                    mListView.setVisibility(View.VISIBLE);
                                 }
 
                                 @Override
@@ -127,6 +140,8 @@ public class PostAdapter extends ArrayAdapter<ParseObject> {
 
                             final ParseUser author = post.getParseUser("author");
                             authorView.setText(author.getUsername());
+
+                            mListView.setVisibility(View.VISIBLE);
                         }
 
                         @Override
