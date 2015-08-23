@@ -293,12 +293,12 @@ public class PostAdapter extends ArrayAdapter<ParseObject> {
 
     private String formatDate(Date date) {
         if (isToday(date)) {
-            DateFormat dateFormat = new SimpleDateFormat("hh:mm a", Locale.getDefault());
+            DateFormat dateFormat = new SimpleDateFormat("hh:mm a", Locale.US);
             return dateFormat.format(date);
         } else if (isYesterday(date)) {
             return "Yesterday";
         } else {
-            DateFormat dateFormat = new SimpleDateFormat("MMMM d", Locale.getDefault());
+            DateFormat dateFormat = new SimpleDateFormat("MMMM d", Locale.US);
             return dateFormat.format(date);
         }
     }

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -106,10 +105,8 @@ public class CommentAdapter extends ArrayAdapter<ParseObject> {
                                                         nameView.setText(author.getUsername());
                                                         messageView.setText(comment.getString("message"));
 
-                                                        if (mHistorySection) {
-                                                            dateView.setVisibility(View.VISIBLE);
-                                                            dateView.setText(formatDate(comment.getCreatedAt()));
-                                                        }
+                                                        dateView.setVisibility(View.VISIBLE);
+                                                        dateView.setText(formatDate(comment.getCreatedAt()));
 
                                                         if (position == mListView.getLastVisiblePosition()) {
                                                             mListView.setVisibility(View.VISIBLE);
@@ -135,10 +132,8 @@ public class CommentAdapter extends ArrayAdapter<ParseObject> {
                                             nameView.setText(author.getUsername());
                                             messageView.setText(comment.getString("message"));
 
-                                            if (mHistorySection) {
-                                                dateView.setVisibility(View.VISIBLE);
-                                                dateView.setText(formatDate(comment.getCreatedAt()));
-                                            }
+                                            dateView.setVisibility(View.VISIBLE);
+                                            dateView.setText(formatDate(comment.getCreatedAt()));
 
                                             if (position == mListView.getLastVisiblePosition()) {
                                                 mListView.setVisibility(View.VISIBLE);
@@ -173,12 +168,12 @@ public class CommentAdapter extends ArrayAdapter<ParseObject> {
 
     private String formatDate(Date date) {
         if (isToday(date)) {
-            DateFormat dateFormat = new SimpleDateFormat("hh:mm a", Locale.getDefault());
+            DateFormat dateFormat = new SimpleDateFormat("hh:mm a", Locale.US);
             return dateFormat.format(date);
         } else if (isYesterday(date)) {
             return "Yesterday";
         } else {
-            DateFormat dateFormat = new SimpleDateFormat("MMMM d", Locale.getDefault());
+            DateFormat dateFormat = new SimpleDateFormat("MMMM d", Locale.US);
             return dateFormat.format(date);
         }
     }
