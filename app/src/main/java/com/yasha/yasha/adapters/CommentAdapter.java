@@ -3,6 +3,7 @@ package com.yasha.yasha.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -162,6 +163,9 @@ public class CommentAdapter extends ArrayAdapter<ParseObject> {
             });
         }
 
+        if (!mHistorySection) {
+            mRootView.setBackgroundColor(Color.parseColor("#F1F8E9"));
+        }
 
         return mRootView;
     }

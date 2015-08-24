@@ -4,6 +4,7 @@
     style="@style/Container"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/card_background"
     tools:context=".CommentActivity">
 
     <View
@@ -17,7 +18,7 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="2dp"
+        android:layout_height="1dp"
         android:background="@color/divider_color" />
 
     <ListView
@@ -35,7 +36,6 @@
         android:id="@+id/field_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/card_background"
         android:layout_alignParentBottom="true"
         android:orientation="horizontal"
         android:padding="8dp">

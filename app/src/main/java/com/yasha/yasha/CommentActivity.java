@@ -139,7 +139,7 @@ public class CommentActivity extends AppCompatActivity {
 
         ParseQuery<ParseObject> query = new ParseQuery<>("Comment");
         query.whereEqualTo("post", mPost);
-        query.orderByAscending("createdAt");
+        query.orderByDescending("createdAt");
         query.include("author");
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
