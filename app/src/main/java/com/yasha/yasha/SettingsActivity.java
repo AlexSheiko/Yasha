@@ -2,9 +2,7 @@ package com.yasha.yasha;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -33,10 +31,10 @@ import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.soundcloud.android.crop.Crop;
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
 
-import java.io.ByteArrayOutputStream;
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -48,6 +46,7 @@ public class SettingsActivity extends AppCompatActivity {
     private static final int REQUEST_IMAGE_CAPTURE = 101;
     private static final int REQUEST_FROM_GALLERY = 102;
     String mCurrentPhotoPath;
+    private Uri destination;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -154,7 +153,6 @@ public class SettingsActivity extends AppCompatActivity {
 
         // Save a file: path for use with ACTION_VIEW intents
         mCurrentPhotoPath = "file:" + image.getAbsolutePath();
-
         return image;
     }
 
@@ -175,65 +173,50 @@ public class SettingsActivity extends AppCompatActivity {
         final ImageView avatarView = (ImageView) findViewById(R.id.avatar_picker);
 
         if (resultCode == RESULT_OK) {
-            Uri inputUri;
 
             if (requestCode == REQUEST_IMAGE_CAPTURE) {
-                beginCrop(mCurrentPhotoPath);
+                beginCrop(Uri.parse(mCurrentPhotoPath));
             } else if (requestCode == REQUEST_FROM_GALLERY) {
-                inputUri = data.getData();
-                beginCrop(inputUri);
+                beginCrop(data.getData());
             } else if (requestCode == Crop.REQUEST_CROP) {
 
-                Uri imageUri = Crop.getOutput(data);
-
-                Target target = new Target() {
-                    @Override
-                    public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                        avatarView.setImageBitmap(bitmap);
-
-                        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                        bitmap.compress(Bitmap.CompressFormat.PNG, 51, stream);
-                        byte[] bitmapdata = stream.toByteArray();
-
-                        final ParseFile avatarFile = new ParseFile(bitmapdata, "image/png");
-                        avatarFile.saveInBackground(new SaveCallback() {
-                            @Override
-                            public void done(ParseException e) {
-                                if (e == null) {
-                                    ParseUser user = ParseUser.getCurrentUser();
-                                    user.put("avatar", avatarFile);
-                                    user.saveInBackground();
-                                }
-                            }
-                        });
-                    }
-
-                    @Override
-                    public void onBitmapFailed(Drawable errorDrawable) {
-                    }
-
-                    @Override
-                    public void onPrepareLoad(Drawable placeHolderDrawable) {
-                    }
-                };
-
-                Picasso.with(this).invalidate(imageUri);
+                Picasso.with(this).invalidate(destination);
                 Picasso.with(this)
-                        .load(imageUri)
+                        .load(destination)
+                        .fit().centerCrop()
                         .transform(new CircleTransform())
-                        .into(target);
+                        .into(avatarView);
+
+
+                File imageFile = new File(destination.getPath());
+                int size = (int) imageFile.length();
+                byte[] bytes = new byte[size];
+                try {
+                    BufferedInputStream buf = new BufferedInputStream(new FileInputStream(imageFile));
+                    buf.read(bytes, 0, bytes.length);
+                    buf.close();
+
+                    final ParseFile avatarFile = new ParseFile("avatar.jpg", bytes, "image/jpg");
+                    avatarFile.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            if (e == null) {
+                                ParseUser user = ParseUser.getCurrentUser();
+                                user.put("avatar", avatarFile);
+                                user.saveInBackground();
+                            }
+                        }
+                    });
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
 
     private void beginCrop(Uri uri) {
-        Uri destination = Uri.fromFile(new File(getCacheDir(), "cropped"));
-        Crop.of(uri, destination).start(this);
-    }
-
-    private void beginCrop(String uriString) {
-        Uri destination = Uri.fromFile(new File(getCacheDir(), "cropped"));
-        Crop.of(Uri.parse(uriString), destination).start(this);
+        destination = Uri.fromFile(new File(getCacheDir(), "cropped"));
+        Crop.of(uri, destination).asSquare().start(this);
     }
 
     public void onInviteClick(View view) {

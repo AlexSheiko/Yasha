@@ -164,12 +164,12 @@ public class MainActivity extends AppCompatActivity {
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         searchView.setInputType(InputType.TYPE_TEXT_VARIATION_PERSON_NAME | InputType.TYPE_TEXT_FLAG_CAP_WORDS);
         searchView.setPadding(dpTpPixels(12), searchView.getPaddingTop(), searchView.getPaddingRight(), searchView.getPaddingBottom());
-        searchView.setMaxWidth(400);
         searchView.setOnSearchClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                findViewById(R.id.title_textview).setVisibility(View.GONE);
+                findViewById(R.id.title_textview).setVisibility(View.INVISIBLE);
                 findViewById(R.id.post_button).setVisibility(View.GONE);
+                findViewById(R.id.unread_textview).setVisibility(View.GONE);
             }
         });
         searchView.setOnCloseListener(new SearchView.OnCloseListener() {
@@ -177,6 +177,7 @@ public class MainActivity extends AppCompatActivity {
             public boolean onClose() {
                 findViewById(R.id.title_textview).setVisibility(View.VISIBLE);
                 findViewById(R.id.post_button).setVisibility(View.VISIBLE);
+                findViewById(R.id.unread_textview).setVisibility(View.VISIBLE);
                 return false;
             }
         });
