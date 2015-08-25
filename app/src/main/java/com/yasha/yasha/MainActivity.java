@@ -177,7 +177,7 @@ public class MainActivity extends AppCompatActivity {
             public boolean onClose() {
                 findViewById(R.id.title_textview).setVisibility(View.VISIBLE);
                 findViewById(R.id.post_button).setVisibility(View.VISIBLE);
-                findViewById(R.id.unread_textview).setVisibility(View.VISIBLE);
+                showUnreadComments();
                 return false;
             }
         });

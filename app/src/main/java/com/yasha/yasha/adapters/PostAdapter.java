@@ -18,6 +18,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.parse.CountCallback;
 import com.parse.DeleteCallback;
@@ -268,19 +269,10 @@ public class PostAdapter extends ArrayAdapter<ParseObject> {
                         });
                         return true;
                     case R.id.action_report:
-                        new SendEmailTask().execute(post.getString("message"), post.getParseUser("author").getUsername());
+                        report(post);
                         return true;
                     case R.id.action_block:
-                        ParseUser user = ParseUser.getCurrentUser();
-                        user.add("blackList", post.getParseUser("author"));
-                        user.saveInBackground(new SaveCallback() {
-                            @Override
-                            public void done(ParseException e) {
-                                if (e == null) {
-                                    refreshScreen();
-                                }
-                            }
-                        });
+                        block(post.getParseUser("author"));
                         return true;
                     default:
                         return false;
@@ -289,6 +281,24 @@ public class PostAdapter extends ArrayAdapter<ParseObject> {
         });
 
         popup.show();
+    }
+
+    private void block(final ParseUser author) {
+        ParseUser user = ParseUser.getCurrentUser();
+        user.addUnique("blackList", author.getUsername());
+        user.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e == null) {
+                    Toast.makeText(getContext(), "You won't see posts from " + author.getUsername() + " anymore", Toast.LENGTH_SHORT).show();
+                    refreshScreen();
+                }
+            }
+        });
+    }
+
+    private void report(ParseObject post) {
+        new SendEmailTask().execute(post.getString("message"), post.getParseUser("author").getUsername());
     }
 
     private class SendEmailTask extends AsyncTask<String, Void, Void> {
@@ -325,6 +335,7 @@ public class PostAdapter extends ArrayAdapter<ParseObject> {
         @Override
         protected void onPostExecute(Void v) {
             super.onPostExecute(v);
+            Toast.makeText(getContext(), "Your report has been sent", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -334,6 +345,8 @@ public class PostAdapter extends ArrayAdapter<ParseObject> {
         Intent intent = activity.getIntent();
         activity.finish();
         activity.startActivity(intent);
+
+        ((Activity)getContext()).overridePendingTransition(0, 0);
     }
 
     private String formatDate(Date date) {
