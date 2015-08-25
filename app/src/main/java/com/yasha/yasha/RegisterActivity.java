@@ -17,6 +17,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
@@ -438,5 +439,23 @@ public class RegisterActivity extends AppCompatActivity
         Intent intent = new Intent(this, AgreementActivity.class);
         intent.putExtra("category", "Privacy");
         startActivity(intent);
+    }
+
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(this, WelcomeActivity.class));
+        finish();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            startActivity(new Intent(this, WelcomeActivity.class));
+            finish();
+
+            return true;
+        }
+
+        return false;
     }
 }

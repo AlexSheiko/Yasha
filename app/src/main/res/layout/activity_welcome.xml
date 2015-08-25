@@ -95,12 +95,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="You shall never "
+                android:textStyle="bold"
                 android:textColor="#A944A3"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="walk alone again"
+                android:textStyle="bold"
                 android:textColor="#FFF"/>
 
         </LinearLayout>
