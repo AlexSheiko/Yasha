@@ -28,4 +28,7 @@ dependencies {
     compile 'com.google.android.gms:play-services-location:6.5.87'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.soundcloud.android:android-crop:1.0.0@aar'
+    compile files('libs/activation.jar')
+    compile files('libs/additionnal.jar')
+    compile files('libs/mail.jar')
 }

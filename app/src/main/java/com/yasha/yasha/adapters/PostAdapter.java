@@ -5,8 +5,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.support.v7.widget.PopupMenu;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -31,6 +33,7 @@ import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.yasha.yasha.CircleTransform;
 import com.yasha.yasha.CommentActivity;
+import com.yasha.yasha.EmailClient;
 import com.yasha.yasha.HistoryActivity;
 import com.yasha.yasha.R;
 
@@ -142,6 +145,10 @@ public class PostAdapter extends ArrayAdapter<ParseObject> {
 
                             final ParseUser author = post.getParseUser("author");
                             authorView.setText(author.getUsername());
+
+                            categoryView.setVisibility(View.VISIBLE);
+                            counterView.setVisibility(View.VISIBLE);
+                            buttonMore.setVisibility(View.VISIBLE);
 
                             if (position == mListView.getLastVisiblePosition()) {
                                 mListView.setVisibility(View.VISIBLE);
@@ -261,6 +268,7 @@ public class PostAdapter extends ArrayAdapter<ParseObject> {
                         });
                         return true;
                     case R.id.action_report:
+                        new SendEmailTask().execute(post.getString("message"), post.getParseUser("author").getUsername());
                         return true;
                     case R.id.action_block:
                         ParseUser user = ParseUser.getCurrentUser();
@@ -281,6 +289,43 @@ public class PostAdapter extends ArrayAdapter<ParseObject> {
         });
 
         popup.show();
+    }
+
+    private class SendEmailTask extends AsyncTask<String, Void, Void> {
+
+        @Override
+        protected Void doInBackground(String... strings) {
+
+            String contents = strings[0];
+            String author = strings[1];
+
+            String message = ParseUser.getCurrentUser().getUsername() + " complains about this:\n\n"
+                    + "“" + contents + "”\n"
+                    + "-- by " + author + "\n\n"
+                    + "Manage posts:\n"
+                    + "https://www.parse.com/apps/yasha/collections#class/Post";
+
+            EmailClient m = new EmailClient("yasha.android.app@gmail.com", "yashaapp");
+
+            String[] toArr = {"report@yasha.me"};
+            m.setTo(toArr);
+            m.setFrom("yasha.user@gmail.com");
+            m.setSubject("Explicit post");
+            m.setBody(message);
+
+            try {
+                m.send();
+            } catch(Exception e) {
+                Log.e("PostAdapter", "Could not send email", e);
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void v) {
+            super.onPostExecute(v);
+        }
     }
 
     private void refreshScreen() {

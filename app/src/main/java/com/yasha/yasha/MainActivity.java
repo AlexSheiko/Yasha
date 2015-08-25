@@ -164,6 +164,7 @@ public class MainActivity extends AppCompatActivity {
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         searchView.setInputType(InputType.TYPE_TEXT_VARIATION_PERSON_NAME | InputType.TYPE_TEXT_FLAG_CAP_WORDS);
         searchView.setPadding(dpTpPixels(12), searchView.getPaddingTop(), searchView.getPaddingRight(), searchView.getPaddingBottom());
+        searchView.setMaxWidth(400);
         searchView.setOnSearchClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

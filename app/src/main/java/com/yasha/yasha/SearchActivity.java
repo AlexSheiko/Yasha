@@ -32,22 +32,35 @@ public class SearchActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
 
         // Get the intent, verify the action and get the query
         Intent intent = getIntent();
-        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            String query = intent.getStringExtra(SearchManager.QUERY);
-            searchUsers(query);
+        if (intent != null) {
+            if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+                String query = intent.getStringExtra(SearchManager.QUERY);
+                searchUsers(query);
 
-            getSupportActionBar().setTitle(query);
-        } else if (Intent.ACTION_VIEW.equals(intent.getAction())) {
-            Uri detailUri = intent.getData();
-            String id = detailUri.getLastPathSegment();
+                getSupportActionBar().setTitle(query);
+            } else if (Intent.ACTION_VIEW.equals(intent.getAction())) {
+                Uri detailUri = intent.getData();
+                String id = detailUri.getLastPathSegment();
 
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-            prefs.edit().putString("user_id_history", id).apply();
-            startActivity(new Intent(this, HistoryActivity.class));
-            finish();
+                if (!id.equals(ParseUser.getCurrentUser().getObjectId())) {
+                    ParseUser currentUser = ParseUser.getCurrentUser();
+                    currentUser.addUnique("watchList", id);
+                    currentUser.saveEventually();
+                }
+
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+                prefs.edit().putString("user_id_history", id).apply();
+                startActivity(new Intent(this, HistoryActivity.class));
+                finish();
+            }
         }
     }
 
@@ -78,6 +91,7 @@ public class SearchActivity extends AppCompatActivity {
 
     private void populateUsersLayout(final List<ParseUser> users) {
         final LinearLayout container = (LinearLayout) findViewById(R.id.list_container);
+        container.removeAllViews();
 
         bindUserInfo(users, container);
 

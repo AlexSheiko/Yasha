@@ -2,12 +2,12 @@ package com.yasha.yasha;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -39,12 +39,15 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class SettingsActivity extends AppCompatActivity {
 
     private static final int REQUEST_IMAGE_CAPTURE = 101;
     private static final int REQUEST_FROM_GALLERY = 102;
+    String mCurrentPhotoPath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,10 +123,39 @@ public class SettingsActivity extends AppCompatActivity {
     private void dispatchTakePictureIntent() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (intent.resolveActivity(getPackageManager()) != null) {
-            startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
+            // Create the File where the photo should go
+            File photoFile = null;
+            try {
+                photoFile = createImageFile();
+            } catch (IOException ignored) {
+            }
+            // Continue only if the File was successfully created
+            if (photoFile != null) {
+                intent.putExtra(MediaStore.EXTRA_OUTPUT,
+                        Uri.fromFile(photoFile));
+                startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
+            }
         } else {
             Toast.makeText(this, "Install camera app to take a picture", Toast.LENGTH_LONG).show();
         }
+    }
+
+    private File createImageFile() throws IOException {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        File storageDir = Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                storageDir      /* directory */
+        );
+
+        // Save a file: path for use with ACTION_VIEW intents
+        mCurrentPhotoPath = "file:" + image.getAbsolutePath();
+
+        return image;
     }
 
     private void dispatchGalleryPickerIntent() {
@@ -142,16 +174,11 @@ public class SettingsActivity extends AppCompatActivity {
 
         final ImageView avatarView = (ImageView) findViewById(R.id.avatar_picker);
 
-        Bitmap bitmap = null;
-        Drawable drawable;
-
         if (resultCode == RESULT_OK) {
             Uri inputUri;
 
             if (requestCode == REQUEST_IMAGE_CAPTURE) {
-                Bitmap photo = (Bitmap) data.getExtras().get("data");
-                inputUri = getImageUri(photo);
-                beginCrop(inputUri);
+                beginCrop(mCurrentPhotoPath);
             } else if (requestCode == REQUEST_FROM_GALLERY) {
                 inputUri = data.getData();
                 beginCrop(inputUri);
@@ -199,31 +226,14 @@ public class SettingsActivity extends AppCompatActivity {
         }
     }
 
-    public Uri getImageUri(Bitmap inImage) {
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-        String path = MediaStore.Images.Media.insertImage(getContentResolver(), inImage, "Title", null);
-        return Uri.parse(path);
-    }
-
-    private void beginCrop(Uri source) {
+    private void beginCrop(Uri uri) {
         Uri destination = Uri.fromFile(new File(getCacheDir(), "cropped"));
-        Crop.of(source, destination).asSquare().start(this);
+        Crop.of(uri, destination).start(this);
     }
 
-    public String getPath(Uri uri) {
-        if (uri == null) {
-            return null;
-        }
-        String[] projection = {MediaStore.Images.Media.DATA};
-        Cursor cursor = managedQuery(uri, projection, null, null, null);
-        if (cursor != null) {
-            int column_index = cursor
-                    .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-            cursor.moveToFirst();
-            return cursor.getString(column_index);
-        }
-        return uri.getPath();
+    private void beginCrop(String uriString) {
+        Uri destination = Uri.fromFile(new File(getCacheDir(), "cropped"));
+        Crop.of(Uri.parse(uriString), destination).start(this);
     }
 
     public void onInviteClick(View view) {

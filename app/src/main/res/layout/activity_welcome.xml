@@ -3,17 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
+    android:background="#B3E422"
     tools:context=".WelcomeActivity">
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="centerCrop"
-        android:src="@drawable/welcome_background"/>
-
     <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
         style="@style/Container"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -48,7 +41,7 @@
                 android:paddingBottom="40dp"
                 android:paddingTop="48dp"
                 android:text="ha "
-                android:textColor="#B3E422"
+                android:textColor="#e6ffffff"
                 android:textStyle="bold"/>
 
         </LinearLayout>
@@ -65,7 +58,7 @@
             android:layout_height="52dp"
             android:layout_marginBottom="8dp"
             android:layout_marginTop="8dp"
-            android:background="#1C6CCB"
+            android:background="#A643A0"
             android:onClick="onClickRegister"
             android:text="Register"
             android:textAllCaps="false"
@@ -108,7 +101,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="walk alone again"
-                android:textColor="#B3E422"/>
+                android:textColor="#FFF"/>
 
         </LinearLayout>
 
