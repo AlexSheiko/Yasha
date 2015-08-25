@@ -422,7 +422,6 @@ public class RegisterActivity extends AppCompatActivity
     @Override
     public void startActivity(Intent intent) {
         if (!intent.hasExtra("category")) {
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             finish();
         }

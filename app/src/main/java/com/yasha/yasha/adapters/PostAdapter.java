@@ -180,15 +180,17 @@ public class PostAdapter extends ArrayAdapter<ParseObject> {
             @Override
             public void done(List<ParseObject> comments, ParseException e) {
                 if (e == null) {
-                    boolean isAuthor = post.getParseUser("author").getUsername().equals(ParseUser.getCurrentUser().getUsername());
-                    if (hasUnread(comments) && isAuthor) {
-                        counterView.setTextColor(Color.parseColor("#1aad44"));
-                        counterView.setCompoundDrawablesWithIntrinsicBounds(null, null,
-                                getContext().getResources().getDrawable(R.drawable.ic_message_unread), null);
-                    } else {
-                        counterView.setTextColor(Color.parseColor("#90000000"));
-                        counterView.setCompoundDrawablesWithIntrinsicBounds(null, null,
-                                getContext().getResources().getDrawable(R.drawable.ic_message), null);
+                    if (post.getParseUser("author") != null && ParseUser.getCurrentUser() != null) {
+                        boolean isAuthor = post.getParseUser("author").getUsername().equals(ParseUser.getCurrentUser().getUsername());
+                        if (hasUnread(comments) && isAuthor) {
+                            counterView.setTextColor(Color.parseColor("#1aad44"));
+                            counterView.setCompoundDrawablesWithIntrinsicBounds(null, null,
+                                    getContext().getResources().getDrawable(R.drawable.ic_message_unread), null);
+                        } else {
+                            counterView.setTextColor(Color.parseColor("#90000000"));
+                            counterView.setCompoundDrawablesWithIntrinsicBounds(null, null,
+                                    getContext().getResources().getDrawable(R.drawable.ic_message), null);
+                        }
                     }
                 }
             }
@@ -285,7 +287,7 @@ public class PostAdapter extends ArrayAdapter<ParseObject> {
 
     private void block(final ParseUser author) {
         ParseUser user = ParseUser.getCurrentUser();
-        user.addUnique("blackList", author.getUsername());
+        user.addUnique("blackList", author.getObjectId());
         user.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {

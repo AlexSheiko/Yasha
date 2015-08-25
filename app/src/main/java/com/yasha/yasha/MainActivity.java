@@ -123,7 +123,22 @@ public class MainActivity extends AppCompatActivity {
                         public void done(List<ParseObject> posts, ParseException e) {
                             findViewById(R.id.loading).setVisibility(View.GONE);
                             if (e == null) {
-                                if (posts.size() == 0) {
+                                if (posts.size() > 0) {
+                                    mPostAdapter.clear();
+
+                                    List<String> blockedUsersIds = ParseUser.getCurrentUser().getList("blackList");
+                                    if (blockedUsersIds == null) {
+                                        mPostAdapter.addAll(posts);
+                                    } else {
+                                        for (ParseObject post : posts) {
+                                            for (String blockedId : blockedUsersIds) {
+                                                if (!post.getParseUser("author").getObjectId().equals(blockedId)) {
+                                                    mPostAdapter.add(post);
+                                                }
+                                            }
+                                        }
+                                    }
+                                } else {
                                     TextView emptyView = (TextView) findViewById(R.id.empty);
                                     emptyView.setVisibility(View.VISIBLE);
                                     String userCity = ParseUser.getCurrentUser().getString("city").split(",")[0];
@@ -133,10 +148,7 @@ public class MainActivity extends AppCompatActivity {
                                     } else {
                                         emptyView.setText("No posts. Be first to add a new message!");
                                     }
-                                    return;
                                 }
-                                mPostAdapter.clear();
-                                mPostAdapter.addAll(posts);
                             }
                         }
                     });
