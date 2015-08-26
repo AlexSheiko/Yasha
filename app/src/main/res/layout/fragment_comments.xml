@@ -18,8 +18,9 @@
     <TextView
         android:id="@+id/empty"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="112dp"
+        android:layout_height="match_parent"
+        android:paddingTop="112dp"
+        android:background="@color/card_background"
         android:gravity="center_horizontal"
         android:text="No comments yet"
         android:textColor="#3b000000"

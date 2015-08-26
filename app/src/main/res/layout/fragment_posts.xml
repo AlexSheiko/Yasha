@@ -19,10 +19,11 @@
         android:id="@+id/empty"
         android:layout_width="match_parent"
         android:gravity="center_horizontal"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="112dp"
+        android:layout_height="match_parent"
+        android:paddingTop="112dp"
         android:text="No posts yet"
         android:textColor="#3b000000"
+        android:background="@color/card_background"
         android:textSize="20sp"
         android:visibility="gone"/>
 
