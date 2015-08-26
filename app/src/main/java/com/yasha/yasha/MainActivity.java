@@ -125,19 +125,20 @@ public class MainActivity extends AppCompatActivity {
                             if (e == null) {
                                 if (posts.size() > 0) {
                                     mPostAdapter.clear();
+                                    mPostAdapter.addAll(posts);
 
-                                    List<String> blockedUsersIds = ParseUser.getCurrentUser().getList("blackList");
-                                    if (blockedUsersIds == null) {
-                                        mPostAdapter.addAll(posts);
-                                    } else {
-                                        for (ParseObject post : posts) {
-                                            for (String blockedId : blockedUsersIds) {
-                                                if (!post.getParseUser("author").getObjectId().equals(blockedId)) {
-                                                    mPostAdapter.add(post);
-                                                }
-                                            }
-                                        }
-                                    }
+//                                    final List<String> blockedUsersIds = ParseUser.getCurrentUser().getList("blackList");
+//                                    if (blockedUsersIds == null) {
+//                                        mPostAdapter.addAll(posts);
+//                                    } else {
+//                                        for (ParseObject post : posts) {
+//                                            for (String blockedId : blockedUsersIds) {
+//                                                if (!post.getParseUser("author").getObjectId().equals(blockedId)) {
+//                                                    mPostAdapter.add(post);
+//                                                }
+//                                            }
+//                                        }
+//                                    }
                                 } else {
                                     TextView emptyView = (TextView) findViewById(R.id.empty);
                                     emptyView.setVisibility(View.VISIBLE);

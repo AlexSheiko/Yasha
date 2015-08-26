@@ -51,17 +51,6 @@
 
     </android.support.v7.widget.Toolbar>
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/post_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/toolbar"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="-18dp"
-        android:src="@drawable/ic_menu_create"
-        app:elevation="6dp"
-        app:fabSize="mini" />
-
     <ListView
         android:id="@+id/post_list"
         style="@style/Container"
@@ -77,6 +66,17 @@
         tools:visibility="visible"
         android:background="@color/card_background"
         tools:listitem="@layout/post_list_item" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/post_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/toolbar"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="-18dp"
+        android:src="@drawable/ic_menu_create"
+        app:elevation="6dp"
+        app:fabSize="mini" />
 
     <FrameLayout
         android:id="@+id/loading"

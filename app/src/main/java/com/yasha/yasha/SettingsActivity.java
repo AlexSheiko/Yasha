@@ -291,7 +291,8 @@ public class SettingsActivity extends AppCompatActivity {
                                                             if (e == null) {
                                                                 Toast.makeText(SettingsActivity.this, "Account was removed. Perhaps you'd like to create a new one?", Toast.LENGTH_SHORT).show();
                                                                 Intent intent = new Intent(SettingsActivity.this, RegisterActivity.class);
-                                                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                                                 startActivity(intent);
                                                                 finish();
                                                             } else {

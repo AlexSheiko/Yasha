@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
-    android:background="#B3E422"
+    android:background="@drawable/welcome_background"
     tools:context=".WelcomeActivity">
 
     <LinearLayout
@@ -26,10 +26,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
-                android:paddingBottom="40dp"
-                android:paddingTop="48dp"
+                android:paddingBottom="44dp"
+                android:paddingTop="44dp"
                 android:text="yas"
-                android:textColor="#A944A3"
+                android:textColor="#b467b7"
                 android:textStyle="bold"/>
 
             <TextView
@@ -38,10 +38,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
-                android:paddingBottom="40dp"
-                android:paddingTop="48dp"
+                android:paddingBottom="44dp"
+                android:paddingTop="44dp"
                 android:text="ha "
-                android:textColor="#e6ffffff"
+                android:textColor="#d7ffffff"
                 android:textStyle="bold"/>
 
         </LinearLayout>
@@ -50,7 +50,9 @@
             style="@style/TextAppearance.AppCompat.Subhead"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="4dp"
+            android:textStyle="bold"
+            android:textColor="@android:color/white"
+            android:paddingLeft="2dp"
             android:text="New user?"/>
 
         <Button
@@ -58,19 +60,22 @@
             android:layout_height="52dp"
             android:layout_marginBottom="8dp"
             android:layout_marginTop="8dp"
-            android:background="#A643A0"
             android:onClick="onClickRegister"
             android:text="Register"
+            android:textStyle="bold"
             android:textAllCaps="false"
-            android:textColor="@android:color/white"
+            android:background="#af6cad"
+            android:textColor="#c8ffffff"
             android:textSize="16sp"/>
 
         <TextView
             style="@style/TextAppearance.AppCompat.Subhead"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:paddingLeft="4dp"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+            android:layout_marginTop="18dp"
+            android:paddingLeft="2dp"
             android:text="Already have an account?"/>
 
         <Button
@@ -78,11 +83,12 @@
             android:layout_height="52dp"
             android:layout_marginBottom="8dp"
             android:layout_marginTop="8dp"
+            android:textStyle="bold"
             android:background="#FFFFFF"
             android:onClick="onClickLogin"
             android:text="Log In"
             android:textAllCaps="false"
-            android:textColor="@android:color/primary_text_light"
+            android:textColor="#8c000000"
             android:textSize="16sp"/>
 
         <LinearLayout
@@ -96,14 +102,17 @@
                 android:layout_height="wrap_content"
                 android:text="You shall never "
                 android:textStyle="bold"
-                android:textColor="#A944A3"/>
+                android:textSize="15sp"
+                android:textColor="#81407f"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="walk alone again"
+                android:layout_marginLeft="1dp"
                 android:textStyle="bold"
-                android:textColor="#FFF"/>
+                android:textSize="15sp"
+                android:textColor="#dcffffff"/>
 
         </LinearLayout>
 

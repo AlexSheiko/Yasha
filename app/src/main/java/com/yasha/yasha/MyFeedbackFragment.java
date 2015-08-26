@@ -20,6 +20,8 @@ public class MyFeedbackFragment extends Fragment {
 
     private View mRootView;
     private CommentAdapter mCommentAdapter;
+    private List<ParseObject> mPosts;
+    private int mIndex;
 
     public MyFeedbackFragment() {
     }
@@ -45,10 +47,14 @@ public class MyFeedbackFragment extends Fragment {
         query.orderByDescending("createdAt");
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
-            public void done(final List<ParseObject> posts, ParseException e) {
+            public void done(List<ParseObject> posts, ParseException e) {
+                mPosts = posts;
                 if (posts != null && posts.size() > 0) {
+                    mRootView.findViewById(R.id.empty).setVisibility(View.GONE);
+
                     mCommentAdapter.clear();
                     for (int i = 0; i < posts.size(); i++) {
+                        mIndex = i;
                         final ParseObject post = posts.get(i);
                         ParseQuery<ParseObject> commentQuery = new ParseQuery<>("Comment");
                         commentQuery.orderByDescending("createdAt");
@@ -56,14 +62,13 @@ public class MyFeedbackFragment extends Fragment {
                         commentQuery.include("author");
                         commentQuery.whereEqualTo("post", post);
                         commentQuery.whereNotEqualTo("author", ParseUser.getCurrentUser());
-                        final int finalI = i;
                         commentQuery.findInBackground(new FindCallback<ParseObject>() {
                             @Override
                             public void done(List<ParseObject> comments, ParseException e) {
                                 if (e == null) {
                                     mCommentAdapter.addAll(comments);
 
-                                    if (finalI == posts.size()-1) {
+                                    if (mIndex == (mPosts.size() - 1)) {
                                         if (mCommentAdapter.getCount() > 0) {
                                             mRootView.findViewById(R.id.empty).setVisibility(View.GONE);
                                         } else {
