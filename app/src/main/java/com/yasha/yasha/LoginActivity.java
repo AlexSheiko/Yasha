@@ -7,6 +7,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.view.KeyEvent;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
@@ -163,5 +164,21 @@ public class LoginActivity extends AppCompatActivity {
     private int convertToPixels(int dp) {
         float density = getResources().getDisplayMetrics().density;
         return (int) (dp * density);
+    }
+
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(this, WelcomeActivity.class));
+        finish();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            startActivity(new Intent(this, WelcomeActivity.class));
+            finish();
+            return true;
+        }
+        return false;
     }
 }

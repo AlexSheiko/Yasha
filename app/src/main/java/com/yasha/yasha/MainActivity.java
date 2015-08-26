@@ -55,6 +55,18 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, PostActivity.class));
             }
         });
+
+        if (ParseUser.getCurrentUser() != null) {
+            ParseUser.getCurrentUser().fetchInBackground(new GetCallback<ParseObject>() {
+                @Override
+                public void done(ParseObject parseObject, ParseException e) {
+                    if (ParseUser.getCurrentUser() == null) {
+                        startActivity(new Intent(MainActivity.this, WelcomeActivity.class));
+                        finish();
+                    }
+                }
+            });
+        }
     }
 
     private void showUnreadComments() {
@@ -211,6 +223,7 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.action_settings:
                 startActivity(new Intent(this, SettingsActivity.class));
+                finish();
                 return true;
         }
 

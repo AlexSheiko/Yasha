@@ -11,6 +11,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.text.method.PasswordTransformationMethod;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -289,10 +290,11 @@ public class SettingsActivity extends AppCompatActivity {
                                                         @Override
                                                         public void done(ParseException e) {
                                                             if (e == null) {
+                                                                ParseUser.logOutInBackground();
+
                                                                 Toast.makeText(SettingsActivity.this, "Account was removed. Perhaps you'd like to create a new one?", Toast.LENGTH_SHORT).show();
                                                                 Intent intent = new Intent(SettingsActivity.this, RegisterActivity.class);
-                                                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                                                                 startActivity(intent);
                                                                 finish();
                                                             } else {
@@ -591,5 +593,21 @@ public class SettingsActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(this, MainActivity.class));
+        finish();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            startActivity(new Intent(this, MainActivity.class));
+            finish();
+            return true;
+        }
+        return false;
     }
 }

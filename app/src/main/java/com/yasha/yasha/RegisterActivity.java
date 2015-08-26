@@ -452,10 +452,8 @@ public class RegisterActivity extends AppCompatActivity
         if (item.getItemId() == android.R.id.home) {
             startActivity(new Intent(this, WelcomeActivity.class));
             finish();
-
             return true;
         }
-
         return false;
     }
 }
