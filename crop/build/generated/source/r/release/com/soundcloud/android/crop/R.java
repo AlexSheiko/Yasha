@@ -62,8 +62,7 @@ containing a value of this type.
         public static int crop__ic_cancel=0x7f020001;
         public static int crop__ic_done=0x7f020002;
         public static int crop__selectable_background=0x7f020003;
-        public static int crop__texture=0x7f020004;
-        public static int crop__tile=0x7f020005;
+        public static int crop__tile=0x7f020004;
     }
     public static final class id {
         public static int always=0x7f080000;

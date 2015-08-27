@@ -28,6 +28,7 @@
             android:label="@string/login"
             android:parentActivityName=".WelcomeActivity"
             android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"
             android:theme="@style/AppTheme.LightActionBar" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -68,6 +69,7 @@
             android:name=".RegisterActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/title_activity_register"
+            android:windowSoftInputMode="stateHidden"
             android:parentActivityName=".WelcomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.LightActionBar" >

@@ -12,8 +12,7 @@ int drawable crop__divider 0x7f020000
 int drawable crop__ic_cancel 0x7f020001
 int drawable crop__ic_done 0x7f020002
 int drawable crop__selectable_background 0x7f020003
-int drawable crop__texture 0x7f020004
-int drawable crop__tile 0x7f020005
+int drawable crop__tile 0x7f020004
 int id always 0x7f080000
 int id btn_cancel 0x7f080005
 int id btn_done 0x7f080006

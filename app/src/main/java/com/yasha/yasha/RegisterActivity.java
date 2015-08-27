@@ -34,6 +34,7 @@ import com.google.android.gms.location.LocationServices;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 import com.parse.SignUpCallback;
 import com.soundcloud.android.crop.Crop;
 import com.squareup.picasso.Picasso;
@@ -64,6 +65,7 @@ public class RegisterActivity extends AppCompatActivity
     private ParseFile mAvatarFile;
     String mCurrentPhotoPath;
     private Uri destination;
+    private boolean mPhotoSaved = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -134,6 +136,18 @@ public class RegisterActivity extends AppCompatActivity
         }
         if (hasEmptyFields) return;
         findViewById(R.id.loading).setVisibility(View.VISIBLE);
+
+        if (!mPhotoSaved) {
+            mAvatarFile.cancel();
+            mAvatarFile.saveInBackground(new SaveCallback() {
+                @Override
+                public void done(ParseException e) {
+                    mPhotoSaved = true;
+                    onClickRegister(null);
+                }
+            });
+            return;
+        }
 
         ParseUser user = new ParseUser();
 
@@ -407,7 +421,12 @@ public class RegisterActivity extends AppCompatActivity
                     buf.close();
 
                     mAvatarFile = new ParseFile(bytes, "image/png");
-                    mAvatarFile.saveInBackground();
+                    mAvatarFile.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            mPhotoSaved = true;
+                        }
+                    });
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
