@@ -137,16 +137,18 @@ public class RegisterActivity extends AppCompatActivity
         if (hasEmptyFields) return;
         findViewById(R.id.loading).setVisibility(View.VISIBLE);
 
-        if (!mPhotoSaved) {
-            mAvatarFile.cancel();
-            mAvatarFile.saveInBackground(new SaveCallback() {
-                @Override
-                public void done(ParseException e) {
-                    mPhotoSaved = true;
-                    onClickRegister(null);
-                }
-            });
-            return;
+        if (mAvatarFile != null) {
+            if (!mPhotoSaved) {
+                mAvatarFile.cancel();
+                mAvatarFile.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        mPhotoSaved = true;
+                        onClickRegister(null);
+                    }
+                });
+                return;
+            }
         }
 
         ParseUser user = new ParseUser();
