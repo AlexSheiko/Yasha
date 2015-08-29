@@ -165,7 +165,7 @@ public class MainActivity extends AppCompatActivity {
                                         emptyView.setText("Be the first to post anything in " + userCity + "!\n" +
                                                 "Tap pencil icon to create a message");
                                     } else {
-                                        emptyView.setText("No posts. Be first to add a new message!");
+                                        emptyView.setText("No posts.\nBe first to add a new message!");
                                     }
                                 }
                             }

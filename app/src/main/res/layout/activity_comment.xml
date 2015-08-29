@@ -1,69 +1,85 @@
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/Container"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/card_background"
+    android:orientation="vertical"
     tools:context=".CommentActivity">
 
     <View
         android:layout_width="match_parent"
         android:layout_height="16dp"
-        android:background="@color/card_background"/>
+        android:background="@color/card_background" />
 
     <include
         android:id="@+id/cite"
-        layout="@layout/post_list_item"/>
+        layout="@layout/post_list_item" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/divider_color" />
 
-    <ListView
-        android:id="@+id/comment_list"
-        android:layout_width="match_parent"
+    <RelativeLayout
+        android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:dividerHeight="1dp"
-        android:divider="@color/divider_color"
-        android:visibility="invisible"
-        tools:visibility="visible"
-        tools:listitem="@layout/comment_list_item" />
+        android:layout_weight="1">
 
-    <LinearLayout
-        android:id="@+id/field_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:orientation="horizontal"
-        android:padding="8dp">
+        <ListView
+            android:id="@+id/comment_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@color/divider_color"
+            android:dividerHeight="1dp"
+            android:visibility="invisible"
+            tools:listitem="@layout/comment_list_item"
+            tools:visibility="visible" />
 
-        <EditText
-            android:id="@+id/message_field"
-            android:layout_width="0dp"
+
+        <LinearLayout
+            android:id="@+id/field_container"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginRight="2dp"
-            android:layout_weight="1"
-            android:hint="@string/comment"
-            android:imeOptions="actionSend"
-            android:inputType="textCapSentences|textMultiLine"
-            android:paddingBottom="20dp"
-            android:paddingRight="8dp"
-            android:paddingTop="16dp"
-            android:scrollHorizontally="false" />
+            android:layout_alignParentBottom="true"
+            android:gravity="bottom"
+            android:layout_alignParentTop="true"
+            android:orientation="horizontal"
+            android:padding="8dp">
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/category_background"
-            android:onClick="onClickSend"
-            android:text="@string/send"
-            android:textAllCaps="false"
-            android:textColor="#e6ffffff"
-            android:textSize="16sp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@color/card_background">
 
-    </LinearLayout>
+            <EditText
+                android:id="@+id/message_field"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="2dp"
+                android:layout_weight="1"
+                android:hint="@string/comment"
+                android:imeOptions="actionSend"
+                android:inputType="textCapSentences|textMultiLine"
+                android:paddingBottom="20dp"
+                android:paddingRight="8dp"
+                android:paddingTop="16dp"
+                android:scrollHorizontally="false"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/category_background"
+                android:onClick="onClickSend"
+                android:text="@string/send"
+                android:textAllCaps="false"
+                android:textColor="#e6ffffff"
+                android:textSize="16sp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </RelativeLayout>
 
 </LinearLayout>
