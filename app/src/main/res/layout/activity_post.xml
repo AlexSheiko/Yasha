@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="match_parent"
     style="@style/Container"
-    tools:context=".PostActivity">
+    tools:context="com.yasha.PostActivity">
 
     <LinearLayout
         android:layout_width="match_parent"

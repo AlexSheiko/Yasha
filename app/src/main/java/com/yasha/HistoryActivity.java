@@ -1,4 +1,4 @@
-package com.yasha.yasha;
+package com.yasha;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -25,6 +25,7 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.yasha.yasha.R;
 
 import java.util.List;
 import java.util.Locale;

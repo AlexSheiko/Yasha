@@ -1,4 +1,4 @@
-package com.yasha.yasha;
+package com.yasha;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -15,7 +15,8 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
-import com.yasha.yasha.adapters.PostAdapter;
+import com.yasha.yasha.R;
+import com.yasha.adapters.PostAdapter;
 
 import java.util.List;
 

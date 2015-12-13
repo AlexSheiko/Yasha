@@ -1,4 +1,4 @@
-package com.yasha.yasha;
+package com.yasha;
 
 import android.app.SearchManager;
 import android.content.Intent;
@@ -20,6 +20,7 @@ import com.parse.ParseFile;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.squareup.picasso.Picasso;
+import com.yasha.yasha.R;
 
 import java.io.File;
 import java.io.FileOutputStream;

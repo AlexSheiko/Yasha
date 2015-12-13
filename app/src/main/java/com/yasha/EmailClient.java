@@ -1,4 +1,4 @@
-package com.yasha.yasha;
+package com.yasha;
 
 import java.util.Date;
 import java.util.Properties;

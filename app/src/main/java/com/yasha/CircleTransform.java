@@ -1,4 +1,4 @@
-package com.yasha.yasha;
+package com.yasha;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapShader;

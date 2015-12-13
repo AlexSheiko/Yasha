@@ -1,4 +1,4 @@
-package com.yasha.yasha;
+package com.yasha;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,7 +22,8 @@ import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
-import com.yasha.yasha.adapters.CommentAdapter;
+import com.yasha.yasha.R;
+import com.yasha.adapters.CommentAdapter;
 
 import java.io.File;
 import java.io.FileOutputStream;

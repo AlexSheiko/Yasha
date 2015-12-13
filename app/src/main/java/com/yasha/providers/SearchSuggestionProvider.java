@@ -1,4 +1,4 @@
-package com.yasha.yasha.providers;
+package com.yasha.providers;
 
 import android.app.SearchManager;
 import android.content.ContentProvider;

@@ -1,4 +1,4 @@
-package com.yasha.yasha;
+package com.yasha;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -38,8 +38,9 @@ import com.parse.SaveCallback;
 import com.parse.SignUpCallback;
 import com.soundcloud.android.crop.Crop;
 import com.squareup.picasso.Picasso;
-import com.yasha.yasha.services.Constants;
-import com.yasha.yasha.services.FetchAddressIntentService;
+import com.yasha.services.Constants;
+import com.yasha.yasha.R;
+import com.yasha.services.FetchAddressIntentService;
 
 import java.io.BufferedInputStream;
 import java.io.File;

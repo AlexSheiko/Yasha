@@ -1,10 +1,12 @@
-package com.yasha.yasha;
+package com.yasha;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.view.MenuItem;
 import android.widget.TextView;
+
+import com.yasha.yasha.R;
 
 import java.io.BufferedReader;
 import java.io.IOException;

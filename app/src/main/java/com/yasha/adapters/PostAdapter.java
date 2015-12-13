@@ -1,4 +1,4 @@
-package com.yasha.yasha.adapters;
+package com.yasha.adapters;
 
 import android.app.Activity;
 import android.content.Context;
@@ -32,10 +32,10 @@ import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
-import com.yasha.yasha.CircleTransform;
-import com.yasha.yasha.CommentActivity;
-import com.yasha.yasha.EmailClient;
-import com.yasha.yasha.HistoryActivity;
+import com.yasha.CircleTransform;
+import com.yasha.CommentActivity;
+import com.yasha.HistoryActivity;
+import com.yasha.EmailClient;
 import com.yasha.yasha.R;
 
 import java.io.File;

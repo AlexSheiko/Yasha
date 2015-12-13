@@ -1,4 +1,4 @@
-package com.yasha.yasha.services;
+package com.yasha.services;
 
 public final class Constants {
     public static final int SUCCESS_RESULT = 0;

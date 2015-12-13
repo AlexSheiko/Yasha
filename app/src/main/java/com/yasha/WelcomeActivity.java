@@ -1,4 +1,4 @@
-package com.yasha.yasha;
+package com.yasha;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.parse.ParseUser;
+import com.yasha.yasha.R;
 
 public class WelcomeActivity extends AppCompatActivity {
 

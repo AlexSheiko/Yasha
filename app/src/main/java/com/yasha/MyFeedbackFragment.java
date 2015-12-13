@@ -1,4 +1,4 @@
-package com.yasha.yasha;
+package com.yasha;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,7 +12,8 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
-import com.yasha.yasha.adapters.CommentAdapter;
+import com.yasha.adapters.CommentAdapter;
+import com.yasha.yasha.R;
 
 import java.util.List;
 

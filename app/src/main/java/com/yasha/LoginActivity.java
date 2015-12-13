@@ -1,4 +1,4 @@
-package com.yasha.yasha;
+package com.yasha;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -20,6 +20,7 @@ import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.RequestPasswordResetCallback;
+import com.yasha.yasha.R;
 
 public class LoginActivity extends AppCompatActivity {
 
