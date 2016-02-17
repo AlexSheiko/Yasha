@@ -111,6 +111,16 @@ public class RegisterActivity extends AppCompatActivity
     }
 
     public void onClickRegister(View view) {
+        if (GooglePlayServicesUtil.isGooglePlayServicesAvailable(RegisterActivity.this) == ConnectionResult.SUCCESS) {
+            mGoogleApiClient.connect();
+        } else {
+            Toast.makeText(RegisterActivity.this,
+                    "Please install the Google Play Services to register",
+                    Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private void register() {
         EditText usernameField = (EditText) findViewById(R.id.username_field);
         EditText emailField = (EditText) findViewById(R.id.email_field);
         EditText passwordField = (EditText) findViewById(R.id.password_field);
@@ -170,17 +180,7 @@ public class RegisterActivity extends AppCompatActivity
 
                 if (e == null) {
                     // connect to location services and get user location
-                    if (GooglePlayServicesUtil.isGooglePlayServicesAvailable(RegisterActivity.this) == ConnectionResult.SUCCESS) {
-                        mGoogleApiClient.connect();
-                    } else {
-                        Log.w(TAG, "Play services not available");
-
-                        ParseUser user = ParseUser.getCurrentUser();
-                        user.put("city", "No city");
-                        user.saveEventually();
-
-                        startActivityAndCloseMyself(new Intent(RegisterActivity.this, MainActivity.class));
-                    }
+                    startActivityAndCloseMyself(new Intent(RegisterActivity.this, MainActivity.class));
                 } else {
                     String errorMessage = e.getMessage();
                     if (e.getMessage().contains(": ")) {
@@ -202,11 +202,14 @@ public class RegisterActivity extends AppCompatActivity
             // Determine whether a Geocoder is available.
             if (!Geocoder.isPresent()) {
                 Log.w(TAG, getString(R.string.no_geocoder_available));
-                startActivityAndCloseMyself(new Intent(RegisterActivity.this, MainActivity.class));
-                return;
+                Toast.makeText(this, "Unable to convert your coordinates to a corresponding city. " +
+                        "Please try to reboot your device and check your network connection", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Unable to convert your coordinates to a corresponding city. " +
+                        "Please try to reboot your device and check your network connection", Toast.LENGTH_LONG).show();
+            } else {
+                register();
+                startIntentService(lastLocation);
             }
-
-            startIntentService(lastLocation);
         } else {
             Log.w(TAG, "Last location is null");
             requestGPS();
