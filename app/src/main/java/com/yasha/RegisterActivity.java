@@ -12,7 +12,6 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.ResultReceiver;
 import android.provider.MediaStore;
-import android.provider.Settings;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -40,8 +39,8 @@ import com.parse.SignUpCallback;
 import com.soundcloud.android.crop.Crop;
 import com.squareup.picasso.Picasso;
 import com.yasha.services.Constants;
-import com.yasha.services.FetchAddressIntentService;
 import com.yasha.yasha.R;
+import com.yasha.services.FetchAddressIntentService;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -111,16 +110,6 @@ public class RegisterActivity extends AppCompatActivity
     }
 
     public void onClickRegister(View view) {
-        if (GooglePlayServicesUtil.isGooglePlayServicesAvailable(RegisterActivity.this) == ConnectionResult.SUCCESS) {
-            mGoogleApiClient.connect();
-        } else {
-            Toast.makeText(RegisterActivity.this,
-                    "Please install the Google Play Services to register",
-                    Toast.LENGTH_LONG).show();
-        }
-    }
-
-    private void register() {
         EditText usernameField = (EditText) findViewById(R.id.username_field);
         EditText emailField = (EditText) findViewById(R.id.email_field);
         EditText passwordField = (EditText) findViewById(R.id.password_field);
@@ -180,7 +169,17 @@ public class RegisterActivity extends AppCompatActivity
 
                 if (e == null) {
                     // connect to location services and get user location
-                    startActivityAndCloseMyself(new Intent(RegisterActivity.this, MainActivity.class));
+                    if (GooglePlayServicesUtil.isGooglePlayServicesAvailable(RegisterActivity.this) == ConnectionResult.SUCCESS) {
+                        mGoogleApiClient.connect();
+                    } else {
+                        Log.w(TAG, "Play services not available");
+
+                        ParseUser user = ParseUser.getCurrentUser();
+                        user.put("city", "No city");
+                        user.saveEventually();
+
+                        startActivity(new Intent(RegisterActivity.this, MainActivity.class));
+                    }
                 } else {
                     String errorMessage = e.getMessage();
                     if (e.getMessage().contains(": ")) {
@@ -202,25 +201,20 @@ public class RegisterActivity extends AppCompatActivity
             // Determine whether a Geocoder is available.
             if (!Geocoder.isPresent()) {
                 Log.w(TAG, getString(R.string.no_geocoder_available));
-                Toast.makeText(this, "Unable to convert your coordinates to a corresponding city. " +
-                        "Please try to reboot your device and check your network connection", Toast.LENGTH_LONG).show();
-                Toast.makeText(this, "Unable to convert your coordinates to a corresponding city. " +
-                        "Please try to reboot your device and check your network connection", Toast.LENGTH_LONG).show();
-                mGoogleApiClient.disconnect();
-            } else {
-                register();
-                startIntentService(lastLocation);
+                startActivity(new Intent(RegisterActivity.this, MainActivity.class));
+                return;
             }
+
+            startIntentService(lastLocation);
         } else {
             Log.w(TAG, "Last location is null");
-            mGoogleApiClient.disconnect();
-            requestGPS();
-        }
-    }
 
-    private void requestGPS() {
-        Toast.makeText(this, "Please enable GPS to register your city", Toast.LENGTH_SHORT).show();
-        startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+            ParseUser user = ParseUser.getCurrentUser();
+            user.put("city", "No city");
+            user.saveEventually();
+
+            startActivity(new Intent(RegisterActivity.this, MainActivity.class));
+        }
     }
 
     protected void startIntentService(Location location) {
@@ -314,7 +308,7 @@ public class RegisterActivity extends AppCompatActivity
                 user.put("city", addressOutput);
                 user.saveEventually();
 
-                startActivityAndCloseMyself(new Intent(RegisterActivity.this, MainActivity.class));
+                startActivity(new Intent(RegisterActivity.this, MainActivity.class));
             }
         }
     }
@@ -448,7 +442,8 @@ public class RegisterActivity extends AppCompatActivity
         Crop.of(uri, destination).asSquare().start(this);
     }
 
-    public void startActivityAndCloseMyself(Intent intent) {
+    @Override
+    public void startActivity(Intent intent) {
         if (!intent.hasExtra("category")) {
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             finish();
@@ -459,25 +454,25 @@ public class RegisterActivity extends AppCompatActivity
     public void onClickTerms(View view) {
         Intent intent = new Intent(this, AgreementActivity.class);
         intent.putExtra("category", "Terms");
-        startActivityAndCloseMyself(intent);
+        startActivity(intent);
     }
 
     public void onClickPolicy(View view) {
         Intent intent = new Intent(this, AgreementActivity.class);
         intent.putExtra("category", "Privacy");
-        startActivityAndCloseMyself(intent);
+        startActivity(intent);
     }
 
     @Override
     public void onBackPressed() {
-        startActivityAndCloseMyself(new Intent(this, WelcomeActivity.class));
+        startActivity(new Intent(this, WelcomeActivity.class));
         finish();
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            startActivityAndCloseMyself(new Intent(this, WelcomeActivity.class));
+            startActivity(new Intent(this, WelcomeActivity.class));
             finish();
             return true;
         }
