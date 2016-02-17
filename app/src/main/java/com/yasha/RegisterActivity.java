@@ -206,12 +206,14 @@ public class RegisterActivity extends AppCompatActivity
                         "Please try to reboot your device and check your network connection", Toast.LENGTH_LONG).show();
                 Toast.makeText(this, "Unable to convert your coordinates to a corresponding city. " +
                         "Please try to reboot your device and check your network connection", Toast.LENGTH_LONG).show();
+                mGoogleApiClient.disconnect();
             } else {
                 register();
                 startIntentService(lastLocation);
             }
         } else {
             Log.w(TAG, "Last location is null");
+            mGoogleApiClient.disconnect();
             requestGPS();
         }
     }
