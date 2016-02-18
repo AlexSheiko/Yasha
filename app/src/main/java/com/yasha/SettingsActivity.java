@@ -63,7 +63,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         ParseUser user = ParseUser.getCurrentUser();
         nameView.setText(user.getUsername());
-        cityView.setText(user.getString("city"));
+        cityView.setText(user.getString("city").replace("No city", "Unable to retrieve city via GPS"));
         cityView.setTypeface(null, Typeface.ITALIC);
 
         ParseFile avatarFile = user.getParseFile("avatar");
