@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.yasha.yasha" >
+    package="com.yashaapp.yasha" >
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -9,83 +9,83 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
-        android:name="com.yasha.YashaApplication"
+        android:name=".YashaApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:largeHeap="true"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="com.yasha.MainActivity"
+            android:name=".MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.yasha.WelcomeActivity"
+            android:name=".WelcomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar.Dark" />
         <activity
-            android:name="com.yasha.LoginActivity"
+            android:name=".LoginActivity"
             android:label="@string/login"
-            android:parentActivityName="com.yasha.WelcomeActivity"
+            android:parentActivityName=".WelcomeActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden"
             android:theme="@style/AppTheme.LightActionBar" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.yasha.WelcomeActivity" />
+                android:value=".WelcomeActivity" />
         </activity>
         <activity
-            android:name="com.yasha.CommentActivity"
+            android:name=".CommentActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/title_activity_comment"
-            android:parentActivityName="com.yasha.MainActivity"
+            android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.yasha.MainActivity" />
+                android:value=".MainActivity" />
         </activity>
         <activity
-            android:name="com.yasha.PostActivity"
+            android:name=".PostActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/title_activity_post"
-            android:parentActivityName="com.yasha.MainActivity"
+            android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysVisible|adjustResize" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.yasha.MainActivity" />
+                android:value=".MainActivity" />
         </activity>
         <activity
-            android:name="com.yasha.HistoryActivity"
+            android:name=".HistoryActivity"
             android:label=""
-            android:parentActivityName="com.yasha.PostActivity"
+            android:parentActivityName=".PostActivity"
             android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.yasha.PostActivity" />
+                android:value=".PostActivity" />
         </activity>
         <activity
-            android:name="com.yasha.RegisterActivity"
+            android:name=".RegisterActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/title_activity_register"
             android:windowSoftInputMode="stateHidden"
-            android:parentActivityName="com.yasha.WelcomeActivity"
+            android:parentActivityName=".WelcomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.LightActionBar" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.yasha.WelcomeActivity" />
+                android:value=".WelcomeActivity" />
         </activity>
         <activity
-            android:name="com.yasha.SearchActivity"
+            android:name=".SearchActivity"
             android:label="@string/title_activity_search"
             android:launchMode="singleTop"
-            android:parentActivityName="com.yasha.MainActivity"
+            android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.yasha.MainActivity" />
+                android:value=".MainActivity" />
 
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
@@ -96,17 +96,17 @@
                 android:resource="@xml/searchable" />
         </activity>
         <activity
-            android:name="com.yasha.SettingsActivity"
+            android:name=".SettingsActivity"
             android:label="@string/title_activity_settings"
             android:theme="@style/AppTheme.Settings"
-            android:parentActivityName="com.yasha.MainActivity"
+            android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.yasha.MainActivity" />
+                android:value=".MainActivity" />
         </activity>
         <activity
-            android:name="com.yasha.DispatchActivity"
+            android:name=".DispatchActivity"
             android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" >
@@ -119,22 +119,22 @@
         <activity android:name="com.soundcloud.android.crop.CropImageActivity" />
 
         <service
-            android:name="com.yasha.services.FetchAddressIntentService"
+            android:name=".services.FetchAddressIntentService"
             android:exported="false" />
 
         <activity
-            android:name="com.yasha.AgreementActivity"
-            android:parentActivityName="com.yasha.WelcomeActivity"
+            android:name=".AgreementActivity"
+            android:parentActivityName=".WelcomeActivity"
             android:theme="@style/AppTheme.LightActionBar"
             android:launchMode="singleTop">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.yasha.WelcomeActivity" />
+                android:value=".WelcomeActivity" />
         </activity>
 
         <!-- Provides search suggestions for words and their definitions. -->
-        <provider android:name="com.yasha.providers.SearchSuggestionProvider"
-                  android:authorities="com.yasha.providers.SearchSuggestionProvider" />
+        <provider android:name=".providers.SearchSuggestionProvider"
+                  android:authorities="com.yashaapp.yasha.providers.SearchSuggestionProvider" />
 
         <meta-data
             android:name="android.app.default_searchable"
